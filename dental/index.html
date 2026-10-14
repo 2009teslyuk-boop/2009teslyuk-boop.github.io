@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smile Lab — стоматологія</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f8f8;--white:#fff;--ink:#0d2a2f;--muted:#5d7478;--teal:#0f8b8d;--teal2:#14b8a6;--mint:#d7f3ee;--sky:#e3eefb;--blush:#fde8e4;--line:#dde8e8;
+  --ease:cubic-bezier(.2,.8,.2,1);--r:28px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+.it{font-family:"Instrument Serif",serif;font-style:italic;font-weight:400;color:var(--teal)}
+.ph{overflow:hidden;position:relative;background:#d8e4e4}
+.ph img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .9s var(--ease),transform 1.3s var(--ease)}
+.ph img.ld{opacity:1}
+
+.top{background:var(--ink);color:#b8d4d6;font-size:13px}
+.top .wrap{display:flex;justify-content:space-between;height:38px;align-items:center;gap:20px}
+.top b{color:#fff;font-weight:600}
+.nav{position:sticky;top:0;z-index:50;background:rgba(244,248,248,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:box-shadow .3s}
+.nav.sh{box-shadow:0 6px 30px rgba(13,42,47,.06)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:24px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:21px;letter-spacing:-.03em}
+.logo .m{width:38px;height:38px;border-radius:12px;background:var(--teal);display:grid;place-items:center}
+.nl{display:flex;gap:30px;font-size:15px;font-weight:500;color:var(--muted)}
+.nl a{transition:color .2s}.nl a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;font-weight:600;font-size:15px;transition:all .35s var(--ease);white-space:nowrap}
+.btn.t{background:var(--teal);color:#fff}
+.btn.t:hover{background:#0b7476;transform:translateY(-2px);box-shadow:0 14px 30px rgba(15,139,141,.3)}
+.btn.o{background:var(--white);border:1.5px solid var(--line)}
+.btn.o:hover{border-color:var(--teal);color:var(--teal)}
+.btn .ar{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;transition:transform .35s var(--ease)}
+.btn:hover .ar{transform:rotate(-45deg)}
+
+/* hero */
+.hero{padding:40px 0 70px}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:10px;background:var(--white);padding:8px 16px 8px 8px;border-radius:999px;font-size:14px;font-weight:600;box-shadow:0 4px 20px rgba(13,42,47,.05)}
+.pill i{background:var(--mint);color:var(--teal);padding:4px 10px;border-radius:999px;font-style:normal;font-size:12px}
+.hero h1{font-size:clamp(46px,6.2vw,88px);line-height:.98;letter-spacing:-.045em;font-weight:800;margin:24px 0}
+.hero h1 .it{font-size:1.08em;letter-spacing:-.02em}
+.hero p{font-size:19px;line-height:1.6;color:var(--muted);max-width:520px}
+.hcta{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.trust{display:flex;align-items:center;gap:16px;margin-top:44px}
+.avs{display:flex}.avs .ph{width:46px;height:46px;border-radius:50%;border:3px solid var(--bg);margin-left:-12px}
+.avs .ph:first-child{margin-left:0}
+.trust small{color:var(--muted);font-size:14px;line-height:1.4}
+.trust b{display:block;color:var(--ink);font-size:16px}
+.hvis{position:relative;height:640px}
+.hvis .main{position:absolute;right:0;top:0;width:86%;height:100%;border-radius:300px 300px 36px 36px;box-shadow:0 40px 80px rgba(13,42,47,.18)}
+.hvis .sub{position:absolute;left:0;bottom:40px;width:42%;aspect-ratio:1;border-radius:28px;border:8px solid var(--bg);box-shadow:0 30px 60px rgba(13,42,47,.18)}
+.fcard{position:absolute;background:var(--white);border-radius:20px;padding:14px 18px;box-shadow:0 20px 50px rgba(13,42,47,.14);display:flex;gap:12px;align-items:center;font-size:14px;animation:float 6s ease-in-out infinite;z-index:2}
+@keyframes float{50%{transform:translateY(-12px)}}
+.fcard .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px}
+.fcard b{display:block;font-size:15px}
+.fcard small{color:var(--muted)}
+.f1{left:4%;top:12%;animation-delay:-2s}
+.f2{right:-2%;bottom:18%;animation-delay:-4s}
+
+.strip{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;padding:30px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:#8aa2a5;font-weight:700;font-size:18px;letter-spacing:-.01em}
+
+section{padding:110px 0}
+.kick{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);background:var(--mint);padding:7px 14px;border-radius:999px;margin-bottom:20px}
+.h2{font-size:clamp(36px,5vw,64px);font-weight:800;letter-spacing:-.04em;line-height:1.02}
+.lead{color:var(--muted);font-size:18px;line-height:1.6;max-width:540px;margin-top:16px}
+.shead{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
+.rv{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+
+/* services */
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.sc{background:var(--white);border-radius:var(--r);overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s;display:flex;flex-direction:column}
+.sc:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(13,42,47,.12)}
+.sc .ph{aspect-ratio:1.5}
+.sc:hover .ph img{transform:scale(1.07)}
+.sc .bd{padding:26px 28px 28px;display:flex;flex-direction:column;flex:1;position:relative}
+.sc .ic{position:absolute;top:-28px;right:24px;width:56px;height:56px;border-radius:18px;display:grid;place-items:center;box-shadow:0 10px 24px rgba(13,42,47,.12);transition:transform .5s var(--ease)}
+.sc:hover .ic{transform:rotate(-10deg) scale(1.06)}
+.sc h3{font-size:22px;letter-spacing:-.02em}
+.sc p{color:var(--muted);margin-top:8px;line-height:1.55;font-size:15px}
+.sc .go{margin-top:auto;padding-top:20px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:15px}
+.sc .go small{color:var(--muted);font-weight:500}
+.sc .go span:last-child{width:40px;height:40px;border-radius:50%;background:var(--bg);display:grid;place-items:center;transition:all .4s var(--ease)}
+.sc:hover .go span:last-child{background:var(--teal);color:#fff;transform:rotate(-45deg)}
+
+/* before/after */
+.ba{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
+.compare{position:relative;border-radius:36px;overflow:hidden;aspect-ratio:1.3;user-select:none;touch-action:none;cursor:ew-resize;background:#ddd}
+.compare img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.compare .before{filter:sepia(.55) saturate(1.35) hue-rotate(-12deg) brightness(.9) contrast(.95)}
+.compare .after{clip-path:inset(0 0 0 50%)}
+.handle{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 20px rgba(0,0,0,.2)}
+.handle::after{content:"‹ ›";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:700;color:var(--teal);box-shadow:0 10px 30px rgba(0,0,0,.25);letter-spacing:4px}
+.tagl{position:absolute;top:20px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.88);font-size:13px;font-weight:700;backdrop-filter:blur(6px);z-index:2}
+.ba ul{list-style:none;margin-top:30px;display:grid;gap:14px}
+.ba li{display:flex;gap:14px;align-items:flex-start;font-size:16px;line-height:1.5}
+.ba li i{flex:none;width:28px;height:28px;border-radius:50%;background:var(--mint);color:var(--teal);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:13px}
+
+/* stats band */
+.band{background:var(--ink);color:#fff;border-radius:40px;padding:60px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;position:relative;overflow:hidden}
+.band::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(closest-side,rgba(20,184,166,.45),transparent);right:-100px;top:-180px}
+.band div{position:relative}
+.band b{font-size:clamp(42px,5vw,64px);font-weight:800;letter-spacing:-.04em;display:block}
+.band b sup{font-size:.45em;color:var(--teal2)}
+.band span{color:#9fbcbe;font-size:15px}
+
+/* clinic gallery */
+.clinic{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:260px 260px;gap:18px;margin-top:56px}
+.clinic .ph{border-radius:26px}
+.clinic .ph:first-child{grid-row:span 2}
+.clinic .ph:hover img{transform:scale(1.05)}
+.clinic .cap{position:absolute;left:16px;bottom:16px;background:rgba(255,255,255,.9);padding:7px 13px;border-radius:999px;font-size:13px;font-weight:600;z-index:2}
+
+/* prices */
+.pwrap{display:grid;grid-template-columns:280px 1fr;gap:30px;margin-top:56px;align-items:start}
+.pcats{display:flex;flex-direction:column;gap:6px;position:sticky;top:100px}
+.pcat{text-align:left;padding:16px 20px;border-radius:18px;font-weight:600;color:var(--muted);transition:all .35s var(--ease);display:flex;justify-content:space-between}
+.pcat:hover{background:var(--white)}
+.pcat.on{background:var(--white);color:var(--ink);box-shadow:0 6px 24px rgba(13,42,47,.06)}
+.pcat.on::after{content:"→";color:var(--teal)}
+.plist{background:var(--white);border-radius:var(--r);padding:12px 32px}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);animation:slide .5s var(--ease) both}
+.prow:last-child{border:0}
+@keyframes slide{from{opacity:0;transform:translateX(20px)}}
+.prow b{font-size:17px}
+.prow small{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+.prow .pp{font-weight:800;font-size:19px;white-space:nowrap}
+.prow .pp s{color:#a0b3b5;font-weight:500;font-size:14px;margin-right:6px}
+
+/* doctors */
+.dgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:56px}
+.doc{border-radius:var(--r);overflow:hidden;background:var(--white);transition:transform .5s var(--ease)}
+.doc:hover{transform:translateY(-8px)}
+.doc .ph{aspect-ratio:.85}
+.doc:hover .ph img{transform:scale(1.05)}
+.doc .xp{position:absolute;top:16px;left:16px;background:rgba(255,255,255,.92);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;z-index:2}
+.doc .in{padding:22px}
+.doc b{font-size:19px;display:block}
+.doc span{color:var(--muted);font-size:14px}
+.doc .rt{margin-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:600}
+.doc .rt button{color:var(--teal);font-weight:700}
+
+/* booking */
+.book{display:grid;grid-template-columns:1fr 1.15fr;gap:24px;align-items:stretch}
+.binfo{color:#fff;border-radius:36px;padding:48px;position:relative;overflow:hidden;display:flex;flex-direction:column;isolation:isolate;min-height:560px}
+.binfo .ph{position:absolute;inset:0;z-index:-2}
+.binfo::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(160deg,rgba(15,139,141,.92),rgba(11,80,82,.82))}
+.binfo .h2{color:#fff}
+.binfo .lead{color:#d1f1ee}
+.binfo .ct{margin-top:auto;display:grid;gap:16px;padding-top:40px}
+.binfo .ct div{display:flex;gap:14px;align-items:center}
+.binfo .ct i{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.16);display:grid;place-items:center;font-style:normal;font-size:18px}
+.binfo .ct small{display:block;color:#b5e6e2;font-size:13px}
+.bform{background:var(--white);border-radius:36px;padding:40px}
+.prog{display:flex;gap:6px;margin-bottom:30px}
+.prog i{flex:1;height:5px;border-radius:5px;background:var(--line);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;inset:0;background:var(--teal2);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+.prog i.on::after{transform:none}
+.bs{display:none}.bs.on{display:block;animation:fadeIn .5s var(--ease)}
+@keyframes fadeIn{from{opacity:0;transform:translateX(30px)}}
+.bs h3{font-size:24px;letter-spacing:-.02em;margin-bottom:20px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.op{border:1.5px solid var(--line);border-radius:18px;padding:12px;text-align:left;transition:all .3s;display:flex;gap:12px;align-items:center}
+.op:hover{border-color:#a6cfcd}
+.op.on{border-color:var(--teal);background:#f0fbf9}
+.op .ph{width:48px;height:48px;border-radius:12px;flex:none}
+.op .e{width:48px;height:48px;border-radius:12px;flex:none;background:var(--mint);display:grid;place-items:center;font-size:22px}
+.op b{display:block;font-size:15px}.op small{color:var(--muted);font-size:13px}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.day{flex:none;width:68px;padding:12px 0;border-radius:16px;border:1.5px solid var(--line);text-align:center;transition:all .3s}
+.day small{display:block;font-size:12px;color:var(--muted)}
+.day b{font-size:20px}
+.day.on{background:var(--ink);color:#fff;border-color:var(--ink)}.day.on small{color:#9fbcbe}
+.day:disabled{opacity:.35;cursor:not-allowed}
+.times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:18px}
+.tm{padding:12px;border-radius:12px;border:1.5px solid var(--line);font-weight:600;font-size:14px;transition:all .3s}
+.tm.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.tm:disabled{text-decoration:line-through;opacity:.4;cursor:not-allowed}
+.fld{display:grid;gap:12px}
+.fld input{font:inherit;padding:15px 18px;border-radius:14px;border:1.5px solid var(--line);outline:0;font-size:15px;transition:border .2s,box-shadow .2s}
+.fld input:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(15,139,141,.12)}
+.sum{background:var(--bg);border-radius:18px;padding:18px;margin-top:16px;font-size:14px;display:grid;gap:8px}
+.sum div{display:flex;justify-content:space-between;gap:10px}
+.sum span{color:var(--muted)}
+.bnav{display:flex;justify-content:space-between;margin-top:28px}
+.done{text-align:center;padding:30px 0}
+.done .ck{width:90px;height:90px;border-radius:50%;background:var(--mint);margin:0 auto 20px;display:grid;place-items:center}
+.done .ck svg path{stroke-dasharray:50;stroke-dashoffset:50;animation:draw .8s .2s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* reviews */
+.rev{position:relative;margin-top:56px;overflow:hidden}
+.rtrack{display:flex;gap:20px;transition:transform .8s var(--ease)}
+.rc{flex:0 0 calc((100% - 40px)/3);background:var(--white);border-radius:var(--r);padding:32px}
+.rc .st{color:#f5a524;letter-spacing:3px}
+.rc p{font-size:17px;line-height:1.6;margin:16px 0 24px}
+.rc .who{display:flex;gap:12px;align-items:center;font-size:14px}
+.rc .who i{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-weight:700}
+.rc .who small{color:var(--muted);display:block}
+.arrows{display:flex;gap:10px}
+.arrows button{width:52px;height:52px;border-radius:50%;background:var(--white);border:1.5px solid var(--line);font-size:18px;transition:all .3s}
+.arrows button:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* faq */
+.faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:60px;align-items:start}
+.qa{background:var(--white);border-radius:22px;margin-bottom:12px;overflow:hidden;transition:box-shadow .3s}
+.qa.open{box-shadow:0 10px 30px rgba(13,42,47,.06)}
+.qa button{width:100%;text-align:left;padding:24px 26px;font-size:17px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.qa button i{flex:none;width:32px;height:32px;border-radius:50%;background:var(--mint);color:var(--teal);display:grid;place-items:center;font-style:normal;transition:transform .45s var(--ease),background .3s}
+.qa.open button i{transform:rotate(45deg);background:var(--teal);color:#fff}
+.qa .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.qa.open .a{grid-template-rows:1fr}
+.qa .a>div{overflow:hidden}
+.qa .a p{padding:0 26px 24px;color:var(--muted);line-height:1.65}
+.map{border-radius:28px;overflow:hidden;height:320px;margin-top:28px;position:relative}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.7) hue-rotate(-10deg)}
+
+footer{background:var(--ink);color:#9fbcbe;padding:80px 0 40px;margin-top:60px;border-radius:40px 40px 0 0}
+.fg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
+footer h4{color:#fff;margin-bottom:16px;font-size:15px}
+footer a{display:block;padding:5px 0;font-size:14px;transition:color .2s}footer a:hover{color:#fff}
+.fb{margin-top:60px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.fb a{display:inline;text-decoration:underline;padding:0}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,150%);background:var(--ink);color:#fff;padding:14px 22px;border-radius:16px;z-index:100;transition:transform .5s var(--ease);font-weight:600;font-size:14px}
+.toast.show{transform:translate(-50%,0)}
+.fab{position:fixed;right:22px;bottom:22px;z-index:60;width:62px;height:62px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;box-shadow:0 14px 34px rgba(15,139,141,.4);font-size:24px;transition:transform .35s var(--ease)}
+.fab:hover{transform:scale(1.1)}
+.fab::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--teal);animation:ring 2s ease-out infinite}
+@keyframes ring{to{transform:scale(1.6);opacity:0}}
+
+@media(max-width:1000px){
+  .nl{display:none}
+  .hgrid,.ba,.book,.faq,.pwrap{grid-template-columns:1fr}
+  .hvis{height:520px;max-width:560px;margin:0 auto;width:100%}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .dgrid{grid-template-columns:1fr 1fr}
+  .band{grid-template-columns:1fr 1fr;padding:40px}
+  .rc{flex-basis:calc((100% - 20px)/2)}
+  .pcats{position:static;flex-direction:row;overflow-x:auto}.pcat{white-space:nowrap}.pcat.on::after{content:""}
+  .fg{grid-template-columns:1fr 1fr}
+  .top .hide-m{display:none}
+  .clinic{grid-template-columns:1fr 1fr;grid-template-rows:240px 200px 200px}.clinic .ph:first-child{grid-column:span 2;grid-row:auto}
+}
+@media(max-width:600px){
+  .sgrid,.dgrid{grid-template-columns:1fr}
+  .rc{flex-basis:100%}
+  .opts{grid-template-columns:1fr}.times{grid-template-columns:repeat(3,1fr)}
+  .bform,.binfo{padding:28px}
+  .band{border-radius:28px}
+  .nav .btn{padding:11px 16px;font-size:14px}
+  .hvis{height:440px}
+  .f1{left:0}.f2{right:0}
+  section{padding:80px 0}
+  .top .wrap>span:first-child{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+.smap{position:absolute;inset:0;overflow:hidden;background:#e8e4dc}
+.smap-in{position:absolute;display:grid;grid-template-columns:repeat(5,256px);line-height:0}
+.smap-in img{width:256px;height:256px;max-width:none;display:block}
+.smap-pin{position:absolute;left:50%;top:50%;width:44px;height:56px;transform:translate(-50%,-100%);filter:drop-shadow(0 6px 10px rgba(0,0,0,.3));animation:smapb 2.2s ease-in-out infinite}
+@keyframes smapb{50%{transform:translate(-50%,-112%)}}
+.smap-link{position:absolute;right:14px;top:14px;background:#fff;color:#111;padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.smap-attr{position:absolute;right:8px;bottom:6px;font-size:10px;background:rgba(255,255,255,.8);color:#333;padding:2px 6px;border-radius:4px}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap"><span>🕘 Пн–Сб <b>8:00–21:00</b> · Нд <b>10:00–18:00</b></span><span class="hide-m">📍 Київ, вул. Лесі Українки, 14</span><span>📞 <b>+380 44 555 12 12</b></span></div></div>
+
+<nav class="nav" id="nav"><div class="wrap">
+  <a href="#" class="logo"><span class="m"><svg width="22" height="22" viewBox="0 0 64 64" fill="#fff"><path d="M32 10c-6-4-14-6-20-2s-6 16-2 24c3 7 4 22 9 22s5-14 9-14 7 14 10 14 6-15 9-22c4-8 4-20-2-24s-13-2-13 2z"/></svg></span>Smile Lab</a>
+  <div class="nl"><a href="#services">Послуги</a><a href="#clinic">Клініка</a><a href="#prices">Ціни</a><a href="#doctors">Лікарі</a><a href="#faq">FAQ</a></div>
+  <a href="#book" class="btn t">Записатися <span class="ar">↗</span></a>
+</div></nav>
+
+<header class="hero"><div class="wrap hgrid">
+  <div>
+    <span class="pill rv"><i>−20%</i>Перша консультація + 3D‑знімок</span>
+    <h1 class="rv">Посмішка, якою<br>хочеться <span class="it">ділитися</span></h1>
+    <p class="rv">Сучасна стоматологія без болю та страху. Цифрове планування, мікроскоп і лікарі, які пояснюють кожен крок.</p>
+    <div class="hcta rv"><a href="#book" class="btn t">Онлайн‑запис <span class="ar">↗</span></a><a href="#prices" class="btn o">Переглянути ціни</a></div>
+    <div class="trust rv">
+      <div class="avs"><div class="ph" data-img="1562337404-3044c84ac061" data-w="120"></div><div class="ph" data-img="1567516364473-233c4b6fcfbe" data-w="120"></div><div class="ph" data-img="1729162128021-f37dca3ff30d" data-w="120"></div><div class="ph" data-img="1603654983938-a3ac86145bd2" data-w="120"></div></div>
+      <small><b>12 000+ пацієнтів</b>довіряють нам свої посмішки · ★ 4.9</small>
+    </div>
+  </div>
+  <div class="hvis rv">
+    <div class="ph main" data-img="1548382131-e0ebb1f0cdea" data-w="1100"></div>
+    <div class="ph sub" data-img="1629909613654-28e377c37b09" data-w="500"></div>
+    <div class="fcard f1"><div class="ic" style="background:var(--mint)">😌</div><div><b>Без болю</b><small>Комп'ютерна анестезія</small></div></div>
+    <div class="fcard f2"><div class="ic" style="background:var(--blush)">⭐</div><div><b>4.9 / 5</b><small>1 240 відгуків Google</small></div></div>
+  </div>
+</div></header>
+
+<div class="wrap"><div class="strip rv"><span>Straumann</span><span>Invisalign</span><span>Ivoclar</span><span>Carl Zeiss</span><span>Planmeca</span><span>3Shape</span></div></div>
+
+<section id="services"><div class="wrap">
+  <div class="shead"><div><span class="kick rv">Послуги</span><h2 class="h2 rv">Все для здорової<br>посмішки — <span class="it">в одному місці</span></h2></div><p class="lead rv">Від професійної гігієни до повної реконструкції — плануємо лікування цифрово і показуємо результат ще до початку.</p></div>
+  <div class="sgrid" id="sgrid"></div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap ba">
+  <div>
+    <span class="kick rv">До / Після</span>
+    <h2 class="h2 rv">Результат, який <span class="it">видно</span></h2>
+    <p class="lead rv">Потягніть повзунок, щоб побачити різницю після професійної гігієни та відбілювання. Результат — за 1 візит.</p>
+    <ul class="rv"><li><i>✓</i>Відбілювання до 8 тонів за 90 хвилин</li><li><i>✓</i>Безпечно для емалі — система Philips Zoom</li><li><i>✓</i>Ефект зберігається до 3 років</li></ul>
+  </div>
+  <div class="compare rv" id="cmp">
+    <img class="before" src="img/1654373535457-383a0a4d00f9.jpg" alt="До відбілювання">
+    <img class="after" id="aft" src="img/1654373535457-383a0a4d00f9.jpg" alt="Після відбілювання">
+    <span class="tagl" style="left:20px">До</span><span class="tagl" style="right:20px">Після</span>
+    <div class="handle" id="hd"></div>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="band rv" id="band">
+  <div><b data-n="15">0</b><span>років досвіду</span></div>
+  <div><b data-n="12000" data-s="+">0</b><span>щасливих пацієнтів</span></div>
+  <div><b data-n="4800">0</b><span>встановлених імплантів</span></div>
+  <div><b data-n="98" data-s="%">0</b><span>рекомендують друзям</span></div>
+</div></div>
+
+<section id="clinic"><div class="wrap">
+  <div class="shead"><div><span class="kick rv">Клініка</span><h2 class="h2 rv">Простір, де <span class="it">спокійно</span></h2></div><p class="lead rv">Шість кабінетів з обладнанням Planmeca, власна 3D‑діагностика та зона очікування з кавою й дитячим куточком.</p></div>
+  <div class="clinic">
+    <div class="ph rv" data-img="1629909613654-28e377c37b09" data-w="1000"><span class="cap">Кабінет терапії</span></div>
+    <div class="ph rv" data-img="1777331903190-341a3dd0441b" data-w="700"><span class="cap">Консультація</span></div>
+    <div class="ph rv" data-img="1598256989800-fe5f95da9787" data-w="700"><span class="cap">Хірургія</span></div>
+    <div class="ph rv" data-img="1629909614456-6b1c5c94cecc" data-w="700"><span class="cap">Зона очікування</span></div>
+    <div class="ph rv" data-img="1606811841689-23dfddce3e95" data-w="700"><span class="cap">3D‑діагностика</span></div>
+  </div>
+</div></section>
+
+<section id="prices" style="padding-top:0"><div class="wrap">
+  <div class="shead"><div><span class="kick rv">Ціни</span><h2 class="h2 rv">Прозорі ціни.<br><span class="it">Без сюрпризів.</span></h2></div><p class="lead rv">Фіксуємо вартість у плані лікування до початку робіт. Розстрочка 0% до 12 місяців.</p></div>
+  <div class="pwrap">
+    <div class="pcats rv" id="pcats"></div>
+    <div class="plist rv" id="plist"></div>
+  </div>
+</div></section>
+
+<section id="doctors" style="padding-top:0"><div class="wrap">
+  <div class="shead"><div><span class="kick rv">Команда</span><h2 class="h2 rv">Лікарі, яким<br><span class="it">довіряють</span></h2></div><p class="lead rv">Кожен лікар щороку проходить навчання в Європі та має понад 8 років практики.</p></div>
+  <div class="dgrid" id="dgrid"></div>
+</div></section>
+
+<section id="book" style="padding-top:0"><div class="wrap book">
+  <div class="binfo rv">
+    <div class="ph" data-img="1663755489920-5e09f66d011a" data-w="1000"></div>
+    <span class="kick" style="background:rgba(255,255,255,.18);color:#fff;align-self:flex-start">Онлайн‑запис</span>
+    <h2 class="h2">Запишіться<br>за <span class="it" style="color:#a7f3e4">60 секунд</span></h2>
+    <p class="lead">Оберіть послугу, лікаря та зручний час. Нагадування надішлемо в Telegram за день до візиту.</p>
+    <div class="ct">
+      <div><i>📞</i><div><small>Телефон</small>+380 44 555 12 12</div></div>
+      <div><i>📍</i><div><small>Адреса</small>Київ, вул. Лесі Українки, 14</div></div>
+      <div><i>🚨</i><div><small>Невідкладна допомога</small>Цілодобово: +380 67 555 12 12</div></div>
+    </div>
+  </div>
+  <div class="bform rv">
+    <div class="prog" id="prog"><i class="on"></i><i></i><i></i><i></i></div>
+    <div class="bs on" data-s="0"><h3>Яка послуга вас цікавить?</h3><div class="opts" id="bSvc"></div></div>
+    <div class="bs" data-s="1"><h3>Оберіть лікаря</h3><div class="opts" id="bDoc"></div></div>
+    <div class="bs" data-s="2"><h3>Дата та час</h3><div class="days" id="bDays"></div><div class="times" id="bTimes"></div></div>
+    <div class="bs" data-s="3"><h3>Ваші контакти</h3>
+      <form class="fld" id="bForm"><input required placeholder="Ім'я та прізвище" aria-label="Ім'я та прізвище"><input required type="tel" placeholder="+380 __ ___ __ __" aria-label="Телефон"><input type="email" placeholder="Email (необов'язково)" aria-label="Email"></form>
+      <div class="sum" id="bSum"></div>
+    </div>
+    <div class="bs" data-s="4"><div class="done"><div class="ck"><svg width="44" height="44" viewBox="0 0 44 44"><path d="M10 23l8 8 16-17" stroke="#0f8b8d" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Ви записані! 🎉</h3><p style="color:var(--muted);line-height:1.6" id="bDone"></p><button class="btn o" style="margin-top:24px" id="bAgain">Новий запис</button></div></div>
+    <div class="bnav" id="bnav"><button class="btn o" id="bBack">← Назад</button><button class="btn t" id="bNext">Далі <span class="ar">→</span></button></div>
+  </div>
+</div></section>
+
+<section id="reviews" style="padding-top:0"><div class="wrap">
+  <div class="shead"><div><span class="kick rv">Відгуки</span><h2 class="h2 rv">Що кажуть <span class="it">пацієнти</span></h2></div><div class="arrows rv"><button id="rp" aria-label="Назад">←</button><button id="rn" aria-label="Далі">→</button></div></div>
+  <div class="rev rv"><div class="rtrack" id="rtrack"></div></div>
+</div></section>
+
+<section id="faq" style="padding-top:0"><div class="wrap faq">
+  <div><span class="kick rv">FAQ</span><h2 class="h2 rv">Часті<br><span class="it">питання</span></h2><p class="lead rv">Не знайшли відповідь? Напишіть нам у Telegram — відповідаємо за 5 хвилин.</p>
+    <div class="map rv"><div class="smap"><div class="smap-in" style="left:calc(50% - 535px);top:calc(50% - 733px);filter:saturate(.7) hue-rotate(-10deg)"><img src="img/map/16_38325_22102.png" alt=""><img src="img/map/16_38326_22102.png" alt=""><img src="img/map/16_38327_22102.png" alt=""><img src="img/map/16_38328_22102.png" alt=""><img src="img/map/16_38329_22102.png" alt=""><img src="img/map/16_38325_22103.png" alt=""><img src="img/map/16_38326_22103.png" alt=""><img src="img/map/16_38327_22103.png" alt=""><img src="img/map/16_38328_22103.png" alt=""><img src="img/map/16_38329_22103.png" alt=""><img src="img/map/16_38325_22104.png" alt=""><img src="img/map/16_38326_22104.png" alt=""><img src="img/map/16_38327_22104.png" alt=""><img src="img/map/16_38328_22104.png" alt=""><img src="img/map/16_38329_22104.png" alt=""><img src="img/map/16_38325_22105.png" alt=""><img src="img/map/16_38326_22105.png" alt=""><img src="img/map/16_38327_22105.png" alt=""><img src="img/map/16_38328_22105.png" alt=""><img src="img/map/16_38329_22105.png" alt=""></div><svg class="smap-pin" viewBox="0 0 44 56" aria-hidden="true"><path d="M22 54S4 34 4 21a18 18 0 0 1 36 0c0 13-18 33-18 33z" fill="#0f8b8d"/><circle cx="22" cy="21" r="7" fill="#fff"/></svg><a class="smap-link" href="https://www.openstreetmap.org/?mlat=50.4265&amp;mlon=30.537#map=16/50.4265/30.537" target="_blank" rel="noopener">Відкрити мапу ↗</a><span class="smap-attr">© OpenStreetMap</span></div></div>
+  </div>
+  <div id="faqList"></div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fg">
+    <div><a href="#" class="logo" style="color:#fff"><span class="m"><svg width="22" height="22" viewBox="0 0 64 64" fill="#fff"><path d="M32 10c-6-4-14-6-20-2s-6 16-2 24c3 7 4 22 9 22s5-14 9-14 7 14 10 14 6-15 9-22c4-8 4-20-2-24s-13-2-13 2z"/></svg></span>Smile Lab</a><p style="margin-top:18px;line-height:1.6;max-width:300px">Стоматологічна клініка повного циклу в центрі Києва.</p></div>
+    <div><h4>Послуги</h4><a href="#services">Терапія</a><a href="#services">Імплантація</a><a href="#services">Ортодонтія</a><a href="#services">Естетика</a></div>
+    <div><h4>Клініка</h4><a href="#doctors">Лікарі</a><a href="#prices">Ціни</a><a href="#reviews">Відгуки</a><a href="#faq">FAQ</a></div>
+    <div><h4>Контакти</h4><a href="tel:+380445551212">+380 44 555 12 12</a><a href="#">hello@smilelab.ua</a><a href="#">Telegram</a><a href="#">Instagram</a></div>
+  </div>
+  <div class="fb"><span>© 2026 Smile Lab · Демонстраційний проєкт для портфоліо</span><span>Фото: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · Мапа: © OpenStreetMap</span></div>
+</div></footer>
+
+<a href="#book" class="fab" aria-label="Записатися">📅</a>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const U=(id,w)=>`img/${id}.jpg`;
+const ph=(id,w,cls='')=>`<div class="ph ${cls}"><img src="${U(id,w)}" alt="" loading="lazy" onload="this.classList.add('ld')"></div>`;
+function hydrate(){$$('.ph[data-img]').forEach(d=>{if(d.querySelector('img'))return;const i=new Image();i.alt='';i.loading='lazy';i.onload=()=>i.classList.add('ld');i.src=U(d.dataset.img,d.dataset.w||900);d.prepend(i)})}
+
+/* services */
+const S=[
+ ['Терапія','Лікування карієсу та каналів під мікроскопом. Пломби, що не відрізнити від емалі.','#d7f3ee','#0f8b8d','1606811971618-4486d14f3f99','від 1 800 ₴','<path d="M32 12c-5-3-12-5-17-1s-5 14-1 21c2 6 4 19 8 19s4-12 8-12 6 12 9 12 6-13 8-19c4-7 4-17-1-21s-11-2-14 1z" fill="none" stroke="currentColor" stroke-width="3.5"/>'],
+ ['Імплантація','Імпланти Straumann з довічною гарантією. Зуб за 1 день по протоколу All‑on‑4.','#e3eefb','#3b82f6','1593022356769-11f762e25ed9','від 16 500 ₴','<path d="M22 10h20v14H22z" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M26 30h12M25 36h14M27 42h10M29 48h6" stroke="currentColor" stroke-width="3.5"/>'],
+ ['Ортодонтія','Елайнери Invisalign та керамічні брекети. Рівні зуби без дискомфорту.','#fde8e4','#ef6f6c','1609840114035-3c981b782dfe','від 28 000 ₴','<path d="M10 30c6-8 38-8 44 0" fill="none" stroke="currentColor" stroke-width="3.5"/><rect x="14" y="26" width="8" height="8" rx="2" fill="currentColor"/><rect x="28" y="24" width="8" height="8" rx="2" fill="currentColor"/><rect x="42" y="26" width="8" height="8" rx="2" fill="currentColor"/>'],
+ ['Відбілювання','Philips Zoom WhiteSpeed — до 8 тонів світліше за 1 візит.','#fef3c7','#d97706','1654373535457-383a0a4d00f9','7 600 ₴','<circle cx="32" cy="32" r="9" fill="none" stroke="currentColor" stroke-width="3.5"/><path d="M32 10v7M32 47v7M10 32h7M47 32h7M17 17l5 5M42 42l5 5M17 47l5-5M42 22l5-5" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>'],
+ ['Вініри','Керамічні вініри E‑max. Голлівудська посмішка з цифровим примірюванням.','#ede9fe','#7c3aed','1489278353717-f64c6ee8a4d2','від 18 000 ₴','<path d="M16 14h32l-4 36H20z" fill="none" stroke="currentColor" stroke-width="3.5"/>'],
+ ['Дитяча','Лікування в ігровій формі, мультики на стелі та подарунки за сміливість.','#dcfce7','#16a34a','1611690061822-b707a67bfebb','від 800 ₴','<circle cx="32" cy="30" r="16" fill="none" stroke="currentColor" stroke-width="3.5"/><circle cx="26" cy="27" r="2.5" fill="currentColor"/><circle cx="38" cy="27" r="2.5" fill="currentColor"/><path d="M25 35c4 4 10 4 14 0" stroke="currentColor" stroke-width="3.5" fill="none" stroke-linecap="round"/>'],
+];
+$('#sgrid').innerHTML=S.map((s,i)=>`<a href="#book" class="sc rv" data-svc="${i}" style="transition-delay:${(i%3)*.08}s">${ph(s[4],700)}<div class="bd"><div class="ic" style="background:${s[2]};color:${s[3]}"><svg width="30" height="30" viewBox="0 0 64 64">${s[6]}</svg></div><h3>${s[0]}</h3><p>${s[1]}</p><div class="go"><span>${s[5]}</span><span>↗</span></div></div></a>`).join('');
+$('#sgrid').addEventListener('click',e=>{const c=e.target.closest('[data-svc]');if(c){bk.svc=+c.dataset.svc;renderOpts();go(1)}});
+
+/* before / after */
+const cmp=$('#cmp');let drag=false;
+function setCmp(x){const r=cmp.getBoundingClientRect();let p=Math.max(2,Math.min(98,(x-r.left)/r.width*100));$('#aft').style.clipPath=`inset(0 0 0 ${p}%)`;$('#hd').style.left=p+'%'}
+cmp.addEventListener('pointerdown',e=>{drag=true;cmp.setPointerCapture(e.pointerId);setCmp(e.clientX)});
+cmp.addEventListener('pointermove',e=>drag&&setCmp(e.clientX));
+cmp.addEventListener('pointerup',()=>drag=false);
+new IntersectionObserver((es,o)=>{if(es[0].isIntersecting){o.disconnect();let t0=performance.now();(function f(t){const k=(t-t0)/2000;if(k>1||drag)return;const r=cmp.getBoundingClientRect();setCmp(r.left+r.width*(50+Math.sin(k*Math.PI*2)*28)/100);requestAnimationFrame(f)})(t0)}},{threshold:.6}).observe(cmp);
+
+/* stats */
+new IntersectionObserver((es,o)=>{if(!es[0].isIntersecting)return;o.disconnect();$$('#band b').forEach(b=>{const to=+b.dataset.n,s=b.dataset.s||'',t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1800),e=1-Math.pow(1-k,4);b.innerHTML=Math.round(to*e).toLocaleString('uk-UA')+(s?`<sup>${s}</sup>`:'');if(k<1)requestAnimationFrame(f)})(t0)})},{threshold:.4}).observe($('#band'));
+
+/* prices */
+const PR={
+ 'Діагностика':[['Консультація лікаря','План лікування + рекомендації','500 ₴','0 ₴'],['3D‑знімок КТ','Обидві щелепи, опис','1 400 ₴','1 120 ₴'],['Прицільний знімок','Один зуб','200 ₴']],
+ 'Гігієна':[['Професійна гігієна','Ультразвук + AirFlow + полірування','2 200 ₴'],['Гігієна для дітей','До 12 років','1 200 ₴'],['Фторування','Ремінералізація емалі','600 ₴']],
+ 'Терапія':[['Лікування карієсу','Пломба зі світлового композиту','від 1 800 ₴'],['Лікування каналів','Під мікроскопом, 1 канал','від 2 900 ₴'],['Естетична реставрація','Передні зуби','від 3 200 ₴']],
+ 'Імплантація':[['Імплант Straumann','Швейцарія, довічна гарантія','від 32 000 ₴'],['Імплант Osstem','Корея, гарантія 10 років','від 16 500 ₴'],['All‑on‑4','Повна щелепа за 1 день','від 145 000 ₴'],['Синус‑ліфтинг','Нарощування кістки','від 14 000 ₴']],
+ 'Естетика':[['Відбілювання Zoom','До 8 тонів, 90 хв','9 500 ₴','7 600 ₴'],['Вінір E‑max','Кераміка, 1 одиниця','від 18 000 ₴'],['Цифровий дизайн посмішки','3D‑моделювання + примірка','4 000 ₴']],
+ 'Ортодонтія':[['Елайнери Invisalign','Повний курс','від 95 000 ₴'],['Керамічні брекети','Одна щелепа','від 28 000 ₴'],['Ретейнер','Після лікування','3 500 ₴']],
+};
+const pk=Object.keys(PR);let pc=pk[0];
+$('#pcats').innerHTML=pk.map((k,i)=>`<button class="pcat ${i?'':'on'}" data-k="${k}">${k}</button>`).join('');
+$('#pcats').onclick=e=>{const b=e.target.closest('.pcat');if(!b)return;pc=b.dataset.k;$$('.pcat').forEach(x=>x.classList.toggle('on',x===b));drawP()};
+function drawP(){$('#plist').innerHTML=PR[pc].map((r,i)=>`<div class="prow" style="animation-delay:${i*70}ms"><div><b>${r[0]}</b><small>${r[1]}</small></div><div class="pp">${r[3]?`<s>${r[2]}</s>${r[3]}`:r[2]}</div></div>`).join('')}
+drawP();
+
+/* doctors */
+const DOCS=[['Олена Коваль','Головний лікар, естетика','15 років','1659353888906-adb3e0041693'],['Дмитро Шевчук','Хірург‑імплантолог','12 років','1667133295308-9ef24f71952e'],['Марія Бойко','Ортодонт, Invisalign Diamond','9 років','1673865641073-4479f93a7776'],['Андрій Мельник','Ендодонтист, мікроскоп','10 років','1758691463582-11aea602cd4a']];
+$('#dgrid').innerHTML=DOCS.map((d,i)=>`<div class="doc rv" style="transition-delay:${i*.08}s"><div class="ph"><span class="xp">Досвід ${d[2]}</span><img src="${U(d[3],600)}" alt="${d[0]}" loading="lazy" onload="this.classList.add('ld')" style="object-position:center 20%"></div><div class="in"><b>${d[0]}</b><span>${d[1]}</span><div class="rt"><span>★ ${(4.8+i%2*.1).toFixed(1)}</span><button data-doc="${i}">Записатися →</button></div></div></div>`).join('');
+$('#dgrid').onclick=e=>{const b=e.target.closest('[data-doc]');if(!b)return;bk.doc=+b.dataset.doc+1;renderOpts();go(bk.svc==null?0:2);$('#book').scrollIntoView({behavior:'smooth'})};
+
+/* booking wizard */
+const bk={s:0,svc:null,doc:null,day:null,time:null};
+function renderOpts(){
+  $('#bSvc').innerHTML=S.map((s,i)=>`<button class="op ${bk.svc===i?'on':''}" data-v="${i}">${ph(s[4],120)}<div><b>${s[0]}</b><small>${s[5]}</small></div></button>`).join('');
+  $('#bDoc').innerHTML=`<button class="op ${bk.doc===0?'on':''}" data-v="0"><span class="e">⚡</span><div><b>Будь‑який лікар</b><small>Найближчий вільний час</small></div></button>`+DOCS.map((d,i)=>`<button class="op ${bk.doc===i+1?'on':''}" data-v="${i+1}"><div class="ph"><img src="${U(d[3],120)}" alt="" onload="this.classList.add('ld')" style="object-position:center 20%"></div><div><b>${d[0]}</b><small>${d[1]}</small></div></button>`).join('');
+}
+renderOpts();
+const DN=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],MN=['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
+const days=[...Array(14)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()+i);return d});
+$('#bDays').innerHTML=days.map((d,i)=>`<button class="day" data-v="${i}" ${d.getDay()===0&&i>6?'disabled':''}><small>${i===0?'Сьогодні':DN[d.getDay()]}</small><b>${d.getDate()}</b><small>${MN[d.getMonth()]}</small></button>`).join('');
+const TIMES=['09:00','10:00','11:00','12:30','14:00','15:00','16:30','18:00'];
+function drawTimes(){const seed=bk.day??0;$('#bTimes').innerHTML=TIMES.map((t,i)=>`<button class="tm ${bk.time===t?'on':''}" data-v="${t}" ${(i*7+seed*3)%5===0?'disabled':''}>${t}</button>`).join('')}
+drawTimes();
+function pickIn(box,key,next){$(box).addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(!b||b.disabled)return;bk[key]=isNaN(b.dataset.v)?b.dataset.v:+b.dataset.v;$$(box+' [data-v]').forEach(x=>x.classList.toggle('on',x===b));next&&next()})}
+pickIn('#bSvc','svc',()=>setTimeout(()=>go(1),280));
+pickIn('#bDoc','doc',()=>setTimeout(()=>go(2),280));
+pickIn('#bDays','day',()=>{bk.time=null;drawTimes()});
+pickIn('#bTimes','time');
+function go(s){bk.s=s;$$('.bs').forEach(x=>x.classList.toggle('on',+x.dataset.s===s));$$('#prog i').forEach((x,i)=>x.classList.toggle('on',i<=s));$('#bnav').style.display=s===4?'none':'flex';$('#bBack').style.visibility=s?'visible':'hidden';$('#bNext').innerHTML=s===3?'Підтвердити <span class="ar">✓</span>':'Далі <span class="ar">→</span>';
+  if(s===3){const d=days[bk.day];$('#bSum').innerHTML=`<div><span>Послуга</span><b>${S[bk.svc][0]}</b></div><div><span>Лікар</span><b>${bk.doc?DOCS[bk.doc-1][0]:'Будь‑який'}</b></div><div><span>Дата</span><b>${d.getDate()} ${MN[d.getMonth()]}, ${bk.time}</b></div>`}}
+$('#bBack').onclick=()=>go(Math.max(0,bk.s-1));
+$('#bNext').onclick=()=>{
+  const miss=[bk.svc==null&&'Оберіть послугу',bk.doc==null&&'Оберіть лікаря',(bk.day==null||!bk.time)&&'Оберіть дату й час'][bk.s];
+  if(bk.s<3){if(miss)return toast(miss);return go(bk.s+1)}
+  const f=$('#bForm');if(!f.reportValidity())return;
+  const d=days[bk.day];$('#bDone').innerHTML=`Чекаємо вас <b>${d.getDate()} ${MN[d.getMonth()]} о ${bk.time}</b>.<br>Підтвердження надішлемо в SMS.`;f.reset();go(4);
+};
+$('#bAgain').onclick=()=>{Object.assign(bk,{svc:null,doc:null,day:null,time:null});renderOpts();$$('.day').forEach(x=>x.classList.remove('on'));drawTimes();go(0)};
+go(0);
+
+/* reviews */
+const R=[['Олександра К.','Імплантація','Боялася стоматологів з дитинства, але тут навіть не відчула уколу. Імплант стоїть вже рік — ідеально!','#0f8b8d'],['Ігор П.','Відбілювання','Зробив відбілювання перед весіллям. Результат перевершив очікування, на фото посмішка — вогонь.','#f59e0b'],['Наталія В.','Дитяча стоматологія','Син сам проситься до лікарки! Мультики на стелі й наліпки творять дива.','#ef6f6c'],['Максим Л.','Елайнери','За 10 місяців вирівняв зуби, і ніхто навіть не помітив, що я щось носив.','#6366f1'],['Тетяна Г.','Вініри','Цифрове моделювання дозволило побачити результат заздалегідь. Дуже задоволена!','#16a34a']];
+$('#rtrack').innerHTML=R.map(r=>`<div class="rc"><div class="st">★★★★★</div><p>«${r[2]}»</p><div class="who"><i style="background:${r[3]}">${r[0][0]}</i><div><b>${r[0]}</b><small>${r[1]}</small></div></div></div>`).join('');
+let ri=0;const per=()=>innerWidth<=600?1:innerWidth<=1000?2:3;
+function slide(d){ri=Math.max(0,Math.min(R.length-per(),ri+d));const w=$('.rc').offsetWidth+20;$('#rtrack').style.transform=`translateX(${-ri*w}px)`}
+$('#rp').onclick=()=>slide(-1);$('#rn').onclick=()=>slide(1);addEventListener('resize',()=>slide(0));
+setInterval(()=>{ri>=R.length-per()?(ri=0,slide(0)):slide(1)},5000);
+
+/* faq */
+const F=[['Чи боляче лікувати зуби?','Ні. Ми використовуємо комп\'ютерну анестезію The Wand — вона подає препарат повільно й без відчуття уколу.'],['Скільки коштує консультація?','Перша консультація з 3D‑знімком — зі знижкою 20%. Консультація лікаря безкоштовна при подальшому лікуванні.'],['Чи є розстрочка?','Так, до 12 місяців під 0% від банків‑партнерів. Оформлення займає 10 хвилин прямо в клініці.'],['Як довго служить імплант?','При правильному догляді — все життя. На імпланти Straumann ми надаємо довічну гарантію.'],['Чи лікуєте дітей?','Так, з 3 років. У нас окремий дитячий кабінет та лікарі, що спеціалізуються на роботі з дітьми.']];
+$('#faqList').innerHTML=F.map((f,i)=>`<div class="qa rv ${i?'':'open'}"><button>${f[0]}<i>+</i></button><div class="a"><div><p>${f[1]}</p></div></div></div>`).join('');
+$('#faqList').onclick=e=>{const b=e.target.closest('button');if(!b)return;const q=b.parentElement,o=q.classList.contains('open');$$('.qa').forEach(x=>x.classList.remove('open'));if(!o)q.classList.add('open')};
+
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
+addEventListener('scroll',()=>$('#nav').classList.toggle('sh',scrollY>40),{passive:true});
+hydrate();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+$$('.rv').forEach(el=>io.observe(el));
+</script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* Lenis: плавна інерційна прокрутка (лише на пристроях з мишею/тачпадом) */
+(function(){if(!window.Lenis||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+document.documentElement.style.scrollBehavior='auto';
+const lenis=new Lenis({duration:1.15,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
+(function raf(t){lenis.raf(t);requestAnimationFrame(raf)})(performance.now());
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a||a.getAttribute('href').length<2)return;const el=document.querySelector(a.getAttribute('href'));if(!el)return;e.preventDefault();lenis.scrollTo(el,{offset:-70})});
+const _siv=Element.prototype.scrollIntoView;Element.prototype.scrollIntoView=function(o){if(o&&typeof o==='object'&&o.behavior==='smooth')lenis.scrollTo(this,{offset:-70});else _siv.call(this,o)};
+window.lenis=lenis})();
+</script>
+</body>
+</html>

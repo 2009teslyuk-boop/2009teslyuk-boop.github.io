@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchard — техніка Apple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbfbfd;--bg2:#f5f5f7;--card:#fff;--ink:#1d1d1f;--muted:#6e6e73;--line:#e5e5ea;
+  --accent:#0071e3;--accent2:#2997ff;--ok:#1aa260;--orange:#f56300;
+  --r:24px;--ease:cubic-bezier(.22,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{display:block;max-width:100%}
+.ph{background:#e8e8ed;overflow:hidden;position:relative}
+.ph img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s var(--ease),transform 1.2s var(--ease)}
+.ph img.ld{opacity:1}
+.wrap{max-width:1200px;margin:0 auto;padding:0 22px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,251,253,.75);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06);transition:background .4s}
+.nav.dark{background:rgba(0,0,0,.6);border-color:rgba(255,255,255,.08);color:#f5f5f7}
+.nav .wrap{display:flex;align-items:center;gap:30px;height:56px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em;font-size:18px}
+.logo i{width:22px;height:22px;border-radius:7px;background:conic-gradient(from 200deg,#ff375f,#ff9f0a,#30d158,#0a84ff,#bf5af2,#ff375f);display:block}
+.links{display:flex;gap:26px;font-size:14px}
+.links a{position:relative;padding:6px 0;opacity:.75;transition:opacity .2s}
+.links a:hover,.links a.on{opacity:1}
+.links a.on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;border-radius:2px;background:currentColor}
+.nav .sp{flex:1}
+.ibtn{position:relative;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;transition:background .2s}
+.ibtn:hover{background:rgba(127,127,127,.15)}
+.badge{position:absolute;top:2px;right:0;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;padding:0 5px;transform:scale(0);transition:transform .35s var(--ease)}
+.badge.show{transform:scale(1)}
+.burger{display:none}
+.promo{background:var(--ink);color:#d2d2d7;text-align:center;font-size:13px;padding:10px 16px}
+.promo a{color:var(--accent2)}
+
+/* VIEWS */
+.view{display:none}
+.view.active{display:block;animation:viewIn .8s var(--ease) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+/* HERO */
+.hero{background:#000;color:#f5f5f7;position:relative;overflow:hidden;min-height:calc(100vh - 56px);display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.hero .txt{padding:80px 0 80px max(22px,calc((100vw - 1200px)/2 + 22px));position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:#ff9f0a;background:rgba(255,159,10,.12);padding:7px 14px;border-radius:999px;margin-bottom:22px}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.3}}
+.hero h1{font-size:clamp(44px,5.4vw,86px);font-weight:800;letter-spacing:-.05em;line-height:.95;background:linear-gradient(180deg,#fff 20%,#86868b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 span{background:linear-gradient(90deg,#ff9f0a,#ff5e3a);-webkit-background-clip:text;background-clip:text}
+.hero p{font-size:clamp(17px,1.6vw,21px);color:#a1a1a6;margin:24px 0 34px;max-width:470px;line-height:1.5}
+.hero .specs{display:flex;gap:34px;margin-top:50px;padding-top:28px;border-top:1px solid rgba(255,255,255,.12)}
+.hero .specs b{display:block;font-size:26px;letter-spacing:-.03em;color:#fff}
+.hero .specs span{font-size:13px;color:#86868b}
+.hero .vis{position:relative;height:100%;min-height:520px}
+.hero .vis .ph{position:absolute;inset:0;background:#000}
+.hero .vis img{transform:scale(1.12)}
+.hero .vis img.ld{transform:scale(1)}
+.hero .vis::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#000 0%,transparent 35%),linear-gradient(0deg,#000,transparent 25%)}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:999px;font-size:16px;font-weight:500;transition:transform .3s var(--ease),background .25s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:scale(.97)}
+.btn.p{background:var(--accent);color:#fff}
+.btn.p:hover{background:#0077ed;box-shadow:0 12px 30px rgba(0,113,227,.4)}
+.btn.g{color:var(--accent2);box-shadow:inset 0 0 0 1px currentColor}
+.btn.w{background:#fff;color:var(--ink)}
+.btn.dk{background:var(--ink);color:#fff}
+
+section{padding:100px 0}
+.h2{font-size:clamp(34px,5vw,60px);font-weight:700;letter-spacing:-.04em;line-height:1.03}
+.h2 .m{color:var(--muted)}
+.sub{color:var(--muted);font-size:clamp(17px,1.8vw,20px);margin-top:14px;max-width:620px;line-height:1.5}
+.center{text-align:center}.center .sub{margin-left:auto;margin-right:auto}
+.shead{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.more{color:var(--accent);font-size:17px;font-weight:500}
+.more:hover{text-decoration:underline}
+
+/* category rail */
+.rail{display:flex;gap:14px;overflow-x:auto;padding:6px 2px 18px;scrollbar-width:none;margin-top:36px;scroll-snap-type:x mandatory}
+.rail::-webkit-scrollbar{display:none}
+.cat{flex:none;width:170px;scroll-snap-align:start;text-align:center;font-size:15px;font-weight:600;transition:transform .4s var(--ease)}
+.cat .ph{aspect-ratio:1;border-radius:22px;margin-bottom:12px}
+.cat:hover{transform:translateY(-6px)}
+.cat:hover img{transform:scale(1.08)}
+.cat small{display:block;color:var(--muted);font-weight:400;font-size:13px;margin-top:2px}
+
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:300px;gap:18px;margin-top:44px}
+.tile{border-radius:30px;overflow:hidden;position:relative;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:34px;isolation:isolate}
+.tile .ph{position:absolute;inset:0;z-index:-2}
+.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(0,0,0,.72),rgba(0,0,0,.05) 60%)}
+.tile:hover img{transform:scale(1.05)}
+.tile small{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.tile h3{font-size:clamp(26px,3vw,40px);font-weight:700;letter-spacing:-.035em;margin:6px 0}
+.tile p{font-size:16px;opacity:.85;max-width:360px}
+.tile .tl{display:flex;gap:10px;margin-top:18px}
+.tile .tl .btn{padding:10px 20px;font-size:14px}
+.t1{grid-column:span 4;grid-row:span 2}
+.t2{grid-column:span 2;grid-row:span 2}
+.t3,.t4,.t5{grid-column:span 2}
+.tile.light{color:var(--ink)}
+.tile.light::after{background:linear-gradient(0deg,rgba(255,255,255,.9),rgba(255,255,255,0) 55%)}
+
+/* product rail on home */
+.prail{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 2px 24px;margin-top:36px;scrollbar-width:none}
+.prail::-webkit-scrollbar{display:none}
+.prail .card{flex:0 0 300px;scroll-snap-align:start}
+
+.perks{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:44px}
+.perk{background:var(--card);border-radius:var(--r);padding:30px;transition:transform .4s var(--ease),box-shadow .4s}
+.perk:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.07)}
+.perk svg{width:34px;height:34px;margin-bottom:22px}
+.perk b{display:block;font-size:19px;margin-bottom:6px;letter-spacing:-.01em}
+.perk span{color:var(--muted);font-size:15px;line-height:1.5}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+.split .blk{border-radius:30px;overflow:hidden;position:relative;min-height:440px;padding:44px;display:flex;flex-direction:column;isolation:isolate}
+.split .blk .ph{position:absolute;inset:0;z-index:-2}
+.split .blk::after{content:"";position:absolute;inset:0;z-index:-1}
+.blk.a{color:#fff}.blk.a::after{background:linear-gradient(180deg,rgba(0,0,0,.7),transparent 60%)}
+.blk.b{color:#fff}.blk.b::after{background:linear-gradient(180deg,rgba(0,0,0,.65),transparent 60%)}
+.blk h3{font-size:clamp(28px,3.4vw,44px);letter-spacing:-.04em;line-height:1.05}
+.blk p{opacity:.85;margin:10px 0 22px;font-size:17px;max-width:360px}
+
+/* CATALOG */
+.tabs{display:flex;gap:4px;background:var(--bg2);padding:5px;border-radius:999px;position:relative;margin-top:34px;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.tab{position:relative;z-index:1;padding:9px 18px;border-radius:999px;font-size:14px;font-weight:500;color:var(--muted);transition:color .3s;white-space:nowrap}
+.tab.on{color:var(--ink)}
+.tabs .pill{position:absolute;top:5px;height:calc(100% - 10px);background:#fff;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.08);transition:left .45s var(--ease),width .45s var(--ease)}
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 14px;min-width:240px;flex:1;max-width:380px;transition:border .2s,box-shadow .2s}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,113,227,.12)}
+.search input{border:0;outline:0;font:inherit;font-size:15px;flex:1;background:none}
+select{font:inherit;font-size:14px;padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;margin-top:30px}
+.card{background:var(--card);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;position:relative;transition:transform .5s var(--ease),box-shadow .5s var(--ease);cursor:pointer;animation:cardIn .6s var(--ease) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) scale(.97)}}
+.card:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(0,0,0,.1)}
+.card .tag{position:absolute;top:14px;left:14px;z-index:2;font-size:12px;font-weight:600;color:#fff;background:rgba(245,99,0,.92);padding:5px 11px;border-radius:999px;backdrop-filter:blur(6px)}
+.card .ph{aspect-ratio:1.05}
+.card:hover .ph img{transform:scale(1.06)}
+.card .bd{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.card h4{font-size:19px;font-weight:600;letter-spacing:-.015em}
+.card .desc{color:var(--muted);font-size:14px;margin:5px 0 12px;line-height:1.45}
+.dots{display:flex;gap:6px;margin-bottom:14px}
+.dot{width:13px;height:13px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+.card .bottom{margin-top:auto;display:flex;justify-content:space-between;align-items:center}
+.price{font-weight:600;font-size:17px}
+.price small{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:2px}
+.add{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:22px;transition:transform .35s var(--ease),background .2s}
+.add:hover{transform:scale(1.1) rotate(90deg);background:#0077ed}
+.empty{text-align:center;color:var(--muted);padding:60px 0;grid-column:1/-1}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:80;opacity:0;pointer-events:none;transition:opacity .4s}
+.overlay.show{opacity:1;pointer-events:auto}
+.modal{position:fixed;z-index:90;left:50%;top:50%;width:min(1000px,94vw);max-height:92vh;overflow:auto;background:#fff;border-radius:32px;transform:translate(-50%,-46%) scale(.95);opacity:0;pointer-events:none;transition:all .5s var(--ease);display:grid;grid-template-columns:1.05fr .95fr}
+.modal.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
+.m-gal{position:relative;background:var(--bg2);min-height:480px}
+.m-gal .ph{position:absolute;inset:0}
+.m-thumbs{position:absolute;left:16px;bottom:16px;display:flex;gap:8px;z-index:2}
+.m-thumbs button{width:58px;height:58px;border-radius:14px;overflow:hidden;border:2px solid transparent;opacity:.75;transition:all .25s;background:#ddd}
+.m-thumbs button img{width:100%;height:100%;object-fit:cover}
+.m-thumbs button.on{border-color:#fff;opacity:1;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.m-body{padding:40px 36px}
+.m-body h3{font-size:32px;letter-spacing:-.035em}
+.m-body .desc{color:var(--muted);margin:8px 0 18px;line-height:1.5}
+.lbl{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:18px 0 10px}
+.opts{display:flex;gap:10px;flex-wrap:wrap}
+.opt{padding:12px 16px;border:1.5px solid var(--line);border-radius:14px;font-size:14px;font-weight:500;transition:all .25s;text-align:left}
+.opt.on{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,113,227,.12)}
+.sw{width:32px;height:32px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);transition:transform .25s;position:relative}
+.sw.on::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--accent)}
+.sw:hover{transform:scale(1.1)}
+.feat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.feat div{background:var(--bg2);border-radius:14px;padding:12px 14px;font-size:13px;color:var(--muted)}
+.feat b{display:block;color:var(--ink);font-size:15px}
+.m-total{display:flex;align-items:center;justify-content:space-between;margin-top:26px;padding-top:22px;border-top:1px solid var(--line);gap:16px}
+.m-total b{font-size:28px;letter-spacing:-.03em}
+.x{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;font-size:16px;z-index:3;transition:transform .3s;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.x:hover{transform:rotate(90deg)}
+
+/* DRAWER */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:#fff;z-index:95;transform:translateX(100%);transition:transform .55s var(--ease);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+.drawer.show{transform:none}
+.dr-h{padding:24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+.dr-h h3{font-size:24px;letter-spacing:-.02em}
+.dr-list{flex:1;overflow:auto;padding:6px 24px}
+.ci{display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);animation:cardIn .4s var(--ease)}
+.ci .ph{width:72px;height:72px;border-radius:16px;flex:none}
+.ci .info{flex:1;font-size:14px}
+.ci .info b{display:block;font-size:15px}
+.ci .info span{color:var(--muted)}
+.qty{display:flex;align-items:center;gap:10px;margin-top:6px}
+.qty button{width:26px;height:26px;border-radius:50%;background:var(--bg2);font-size:15px}
+.dr-f{padding:24px;border-top:1px solid var(--line)}
+.dr-f .row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:15px;color:var(--muted)}
+.dr-f .row.t{color:var(--ink);font-weight:700;font-size:21px;margin:14px 0 18px}
+.dr-f .btn{width:100%}
+
+/* TRADE IN */
+.ti-hero{position:relative;color:#fff;padding:120px 0 140px;overflow:hidden;isolation:isolate}
+.ti-hero .ph{position:absolute;inset:0;z-index:-2}
+.ti-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.25))}
+.ti-hero .sub{color:#d2d2d7}
+.ti{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;margin-top:-80px;align-items:start;position:relative;z-index:2}
+.panel{background:#fff;border-radius:30px;padding:36px;box-shadow:0 30px 60px rgba(0,0,0,.08)}
+.steps{display:flex;gap:8px;margin-bottom:28px}
+.steps i{flex:1;height:4px;border-radius:4px;background:var(--line);position:relative;overflow:hidden}
+.steps i::after{content:"";position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+.steps i.on::after{transform:scaleX(1)}
+.step{display:none}
+.step.on{display:block;animation:viewIn .5s var(--ease)}
+.step h3{font-size:25px;letter-spacing:-.025em;margin-bottom:6px}
+.step p{color:var(--muted);margin-bottom:22px}
+.choice{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.ch{border:1.5px solid var(--line);border-radius:18px;padding:12px;text-align:center;font-size:14px;font-weight:600;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:10px}
+.ch .ph{width:100%;aspect-ratio:1.3;border-radius:12px}
+.ch:hover{border-color:#b9b9bf}
+.ch.on{border-color:var(--accent);background:#f2f8ff}
+.ch small{color:var(--muted);font-weight:400;font-size:12px;display:block;margin-top:2px}
+.ch.t{padding:18px 14px}
+.nav-btns{display:flex;justify-content:space-between;margin-top:26px}
+.result{background:linear-gradient(160deg,#0b0b0d,#1d1d22);color:#fff;border-radius:30px;padding:36px;position:sticky;top:80px;overflow:hidden}
+.result::before{content:"";position:absolute;width:320px;height:320px;right:-90px;top:-90px;background:radial-gradient(closest-side,rgba(41,151,255,.55),transparent);filter:blur(10px)}
+.result .k{font-size:14px;color:#a1a1a6;position:relative}
+.result .v{font-size:58px;font-weight:800;letter-spacing:-.045em;margin:6px 0 4px;position:relative;font-variant-numeric:tabular-nums}
+.result ul{list-style:none;margin:24px 0;position:relative}
+.result li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px;color:#d1d1d6}
+.ti-how{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:70px}
+.how{background:#fff;border-radius:var(--r);padding:30px}
+.how .n{font-size:46px;font-weight:800;letter-spacing:-.05em;background:linear-gradient(135deg,#0a84ff,#bf5af2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.how b{display:block;margin:8px 0 6px;font-size:19px}
+.how span{color:var(--muted);font-size:15px;line-height:1.5}
+
+/* REPAIR */
+.rp-hero{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;padding:80px 0 30px}
+.rp-hero .ph{aspect-ratio:1.1;border-radius:32px}
+.rp-badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.rp-badges span{background:#fff;border:1px solid var(--line);padding:9px 14px;border-radius:999px;font-size:14px;font-weight:500}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.sv{background:#fff;border-radius:var(--r);padding:28px;transition:transform .4s var(--ease),box-shadow .4s}
+.sv:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(0,0,0,.08)}
+.sv .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;margin-bottom:18px}
+.sv .ic svg{width:26px;height:26px}
+.sv b{font-size:19px;display:block}
+.sv p{color:var(--muted);font-size:14px;margin:6px 0 16px;line-height:1.5}
+.sv .meta{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
+.sv .meta span:last-child{color:var(--muted);font-weight:400}
+.track{background:#fff;border-radius:30px;padding:36px;margin-top:40px;display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:center}
+.tl-steps{display:flex;justify-content:space-between;position:relative;margin-top:10px}
+.tl-steps::before{content:"";position:absolute;left:14px;right:14px;top:14px;height:3px;background:var(--line)}
+.tl-steps .bar{position:absolute;left:14px;top:14px;height:3px;background:var(--ok);transition:width 1.2s var(--ease);width:0}
+.tl-s{position:relative;text-align:center;font-size:12px;color:var(--muted);width:70px}
+.tl-s i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;border:3px solid var(--line);margin:0 auto 8px;transition:all .4s;font-style:normal;font-size:12px;color:#fff}
+.tl-s.done i{background:var(--ok);border-color:var(--ok)}
+.tl-s.done{color:var(--ink)}
+.book{display:grid;grid-template-columns:.9fr 1.1fr;gap:0;margin-top:40px;background:#fff;border-radius:30px;overflow:hidden}
+.book .ph{min-height:100%}
+.book .panel{box-shadow:none;border-radius:0}
+form .f{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.inp{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--muted);font-weight:500}
+.inp.full{grid-column:1/-1}
+.inp input,.inp select,.inp textarea{font:inherit;font-size:15px;color:var(--ink);padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;outline:0;transition:border .2s,box-shadow .2s}
+.inp input:focus,.inp select:focus,.inp textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(0,113,227,.12)}
+.faq{margin-top:60px;max-width:820px}
+.q{border-bottom:1px solid var(--line)}
+.q button{width:100%;text-align:left;padding:22px 0;font-size:18px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.q button span{font-size:24px;font-weight:300;transition:transform .4s var(--ease)}
+.q.open button span{transform:rotate(45deg)}
+.q .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--ease)}
+.q.open .a{grid-template-rows:1fr}
+.q .a>div{overflow:hidden;color:var(--muted);line-height:1.6}
+.q .a>div p{padding-bottom:22px}
+
+footer{background:var(--bg2);padding:56px 0 30px;font-size:13px;color:var(--muted);margin-top:40px}
+.fcols{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-bottom:30px}
+.fcols b{color:var(--ink);display:block;margin-bottom:12px;font-size:13px}
+.fcols a{display:block;padding:4px 0}
+.fcols a:hover{color:var(--ink)}
+.fb{border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.fb a{text-decoration:underline}
+
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,120px);background:rgba(29,29,31,.92);color:#fff;padding:14px 22px;border-radius:16px;font-size:15px;z-index:100;transition:transform .5s var(--ease);backdrop-filter:blur(10px)}
+.toast.show{transform:translate(-50%,0)}
+.fly{position:fixed;z-index:120;width:56px;height:56px;border-radius:14px;overflow:hidden;pointer-events:none;transition:all .8s cubic-bezier(.5,-.3,.7,.4);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.fly img{width:100%;height:100%;object-fit:cover}
+
+@media (max-width:960px){
+  .links{position:fixed;top:56px;left:0;right:0;flex-direction:column;background:rgba(251,251,253,.98);color:var(--ink);backdrop-filter:blur(20px);padding:20px 22px 30px;gap:6px;font-size:24px;font-weight:600;transform:translateY(-130%);transition:transform .5s var(--ease);z-index:-1}
+  .links.open{transform:none}
+  .links a{opacity:1}
+  .links a.on::after{display:none}
+  .burger{display:grid}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero .txt{padding:60px 22px 0}
+  .hero .vis{min-height:420px}
+  .hero .vis::before{background:linear-gradient(180deg,#000,transparent 30%)}
+  .bento{grid-template-columns:1fr 1fr;grid-auto-rows:260px}
+  .t1{grid-column:span 2;grid-row:span 1}.t2{grid-column:span 2;grid-row:span 1}.t3,.t4,.t5{grid-column:span 1}.t5{grid-column:span 2}
+  .perks{grid-template-columns:1fr 1fr}
+  .split,.rp-hero,.book{grid-template-columns:1fr}
+  .book .ph{min-height:240px}
+  .modal{grid-template-columns:1fr}
+  .m-gal{min-height:320px}
+  .ti,.track{grid-template-columns:1fr}
+  .ti-how,.svc{grid-template-columns:1fr}
+  .fcols{grid-template-columns:1fr 1fr}
+  form .f{grid-template-columns:1fr}
+}
+@media (max-width:560px){.perks{grid-template-columns:1fr}.bento{grid-template-columns:1fr}.t3,.t4,.t5{grid-column:span 1}.t1,.t2,.t5{grid-column:span 1}.tile{padding:26px}.split .blk{padding:30px;min-height:380px}.hero .specs{gap:20px}.panel{padding:24px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="promo">Обмінюй старий iPhone на новий зі знижкою до 32 000 ₴. <a href="#tradein">Оцінити зараз ›</a></div>
+<nav class="nav" id="nav">
+  <div class="wrap">
+    <a href="#home" class="logo"><i></i>Orchard</a>
+    <div class="links" id="links">
+      <a href="#home" data-r="home">Головна</a>
+      <a href="#catalog" data-r="catalog">Каталог</a>
+      <a href="#tradein" data-r="tradein">Trade‑in</a>
+      <a href="#repair" data-r="repair">Ремонт</a>
+    </div>
+    <div class="sp"></div>
+    <a class="ibtn" href="#catalog" aria-label="Пошук"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+    <button class="ibtn" id="openCart" aria-label="Кошик">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      <span class="badge" id="badge">0</span>
+    </button>
+    <button class="ibtn burger" id="burger" aria-label="Меню"><svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path d="M4 8h16M4 16h16"/></svg></button>
+  </div>
+</nav>
+
+<main>
+<!-- HOME -->
+<div class="view" id="v-home">
+  <header class="hero">
+    <div class="txt">
+      <div class="eyebrow reveal">Вже у продажу</div>
+      <h1 class="reveal d1">iPhone 17 Pro.<br><span>Pro до краю.</span></h1>
+      <p class="reveal d2">Алюмінієвий unibody, камера 48 Мп на всіх трьох модулях і чип A19 Pro. Офіційна гарантія та доставка по Україні за 1 день.</p>
+      <div class="btns reveal d3">
+        <a href="#catalog" class="btn p" data-go="iphone">Купити від 54 999 ₴</a>
+        <a href="#tradein" class="btn g">Обміняти старий ›</a>
+      </div>
+      <div class="specs reveal d3"><div><b>A19 Pro</b><span>чип</span></div><div><b>48 Мп</b><span>×3 камери</span></div><div><b>8×</b><span>оптичний зум</span></div></div>
+    </div>
+    <div class="vis"><div class="ph" data-img="1759588071781-2c3ba9128497" data-w="1400"></div></div>
+  </header>
+
+  <section>
+    <div class="wrap">
+      <div class="shead"><h2 class="h2 reveal">Магазин. <span class="m">Найкращий спосіб купити улюблену техніку.</span></h2></div>
+      <div class="rail reveal d1" id="rail"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="shead"><h2 class="h2 reveal">Новинки. <span class="m">Подивіться, що нового.</span></h2><a href="#catalog" class="more reveal">Увесь каталог ›</a></div>
+      <div class="bento">
+        <a href="#catalog" data-go="mac" class="tile t1 reveal"><div class="ph" data-img="1517336714731-489689fd1ca8" data-w="1400"></div><small>Новинка</small><h3>MacBook Pro M5</h3><p>Монстр продуктивності. До 24 годин без зарядки.</p><div class="tl"><span class="btn w">Детальніше</span></div></a>
+        <a href="#catalog" data-go="watch" class="tile t2 reveal d1"><div class="ph" data-img="1713056878930-c5604da9acfd" data-w="900"></div><small>Пригоди</small><h3>Watch Ultra 3</h3><p>Титан. 42 години автономності.</p></a>
+        <a href="#catalog" data-go="ipad" class="tile t3 light reveal"><div class="ph" data-img="1630453016513-bba65d503b06" data-w="800"></div><h3>iPad Air</h3><p>Легкий. Потужний. Твій.</p></a>
+        <a href="#catalog" data-go="airpods" class="tile t4 reveal d1"><div class="ph" data-img="1572569511254-d8f925fe2cbb" data-w="800"></div><h3>AirPods Pro 3</h3><p>Тиша, яку чутно.</p></a>
+        <a href="#catalog" data-go="other" class="tile t5 reveal d2"><div class="ph" data-img="1696429175928-793a1cdef1d3" data-w="800"></div><h3>Vision Pro</h3><p>Просторовий комп'ютер.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="shead"><h2 class="h2 reveal">Хіти продажів. <span class="m">Що обирають цього тижня.</span></h2></div>
+      <div class="prail" id="prail"></div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="split">
+        <a href="#tradein" class="blk a reveal"><div class="ph" data-img="1609692814858-f7cd2f0afa4f" data-w="1000"></div><small style="opacity:.8;font-weight:600">TRADE‑IN</small><h3>Старе — на нове.</h3><p>Оцініть свій пристрій онлайн за 30 секунд і отримайте знижку одразу.</p><span class="btn w" style="align-self:flex-start">Оцінити пристрій</span></a>
+        <a href="#repair" class="blk b reveal d1"><div class="ph" data-img="1746005514011-ea00280f3b6e" data-w="1000"></div><small style="opacity:.8;font-weight:600">СЕРВІС‑ЦЕНТР</small><h3>Ремонт за 30 хвилин.</h3><p>Оригінальні запчастини та гарантія до 6 місяців.</p><span class="btn w" style="align-self:flex-start">Записатися</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <h2 class="h2 reveal">Чому Orchard. <span class="m">Купувати в нас — просто.</span></h2>
+      <div class="perks">
+        <div class="perk reveal"><svg viewBox="0 0 24 24" fill="none" stroke="#0a84ff" stroke-width="1.6"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><b>Офіційна гарантія</b><span>12 місяців на всю техніку. Тільки оригінал.</span></div>
+        <div class="perk reveal d1"><svg viewBox="0 0 24 24" fill="none" stroke="#30d158" stroke-width="1.6"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg><b>Доставка за 1 день</b><span>Нова Пошта або кур'єр по Києву за 2 години.</span></div>
+        <div class="perk reveal d2"><svg viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg><b>Розстрочка 0%</b><span>До 24 платежів без переплат від банків‑партнерів.</span></div>
+        <div class="perk reveal d3"><svg viewBox="0 0 24 24" fill="none" stroke="#bf5af2" stroke-width="1.6"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/></svg><b>Сервіс‑центр</b><span>Діагностика безкоштовно, ремонт від 30 хвилин.</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CATALOG -->
+<div class="view" id="v-catalog">
+  <section style="padding-top:70px">
+    <div class="wrap">
+      <h2 class="h2">Каталог. <span class="m">Уся техніка Apple в одному місці.</span></h2>
+      <div class="tabs" id="tabs"><span class="pill" id="pill"></span></div>
+      <div class="toolbar">
+        <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Пошук: iPhone, Mac, 256 ГБ…"></label>
+        <select id="sort"><option value="pop">Спершу популярні</option><option value="asc">Ціна: за зростанням</option><option value="desc">Ціна: за спаданням</option></select>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- TRADE IN -->
+<div class="view" id="v-tradein">
+  <div class="ti-hero">
+    <div class="ph" data-img="1726587912121-ea21fcc57ff8" data-w="1800"></div>
+    <div class="wrap">
+      <div class="eyebrow reveal">Trade‑in</div>
+      <h2 class="h2 reveal d1" style="font-size:clamp(40px,6vw,76px)">Старе — на нове.</h2>
+      <p class="sub reveal d2">Оцініть свій пристрій за 30 секунд і отримайте знижку на нову техніку одразу в магазині.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="ti">
+      <div class="panel reveal">
+        <div class="steps" id="tiSteps"><i class="on"></i><i></i><i></i><i></i></div>
+        <div class="step on" data-s="0"><h3>Що обмінюємо?</h3><p>Оберіть тип пристрою.</p><div class="choice" id="tiType"></div></div>
+        <div class="step" data-s="1"><h3>Яка модель?</h3><p>Оберіть модель свого пристрою.</p><div class="choice" id="tiModel"></div></div>
+        <div class="step" data-s="2"><h3>Який стан?</h3><p>Будьте чесні — фінальну оцінку зробить майстер.</p><div class="choice" id="tiCond"></div></div>
+        <div class="step" data-s="3"><h3>Пам'ять та батарея</h3><p>Ще трохи деталей для точної ціни.</p><div class="lbl">Пам'ять</div><div class="opts" id="tiMem"></div><div class="lbl">Ємність батареї</div><div class="opts" id="tiBat"></div></div>
+        <div class="nav-btns"><button class="btn" id="tiBack" style="box-shadow:inset 0 0 0 1px var(--line)">‹ Назад</button><button class="btn p" id="tiNext">Далі ›</button></div>
+      </div>
+      <div class="result reveal d1">
+        <div class="k">Попередня оцінка</div>
+        <div class="v" id="tiVal">0 ₴</div>
+        <div class="k" id="tiHint">Оберіть пристрій, щоб почати</div>
+        <ul id="tiList"></ul>
+        <a href="#catalog" class="btn p" style="width:100%;position:relative">Обрати нову техніку</a>
+      </div>
+    </div>
+    <div class="ti-how">
+      <div class="how reveal"><div class="n">01</div><b>Оцініть онлайн</b><span>Пройдіть 4 кроки й отримайте попередню ціну.</span></div>
+      <div class="how reveal d1"><div class="n">02</div><b>Принесіть у магазин</b><span>Майстер перевірить пристрій за 10 хвилин.</span></div>
+      <div class="how reveal d2"><div class="n">03</div><b>Заберіть новинку</b><span>Сума оцінки одразу віднімається від ціни покупки.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- REPAIR -->
+<div class="view" id="v-repair">
+  <div class="wrap">
+    <div class="rp-hero">
+      <div>
+        <div class="eyebrow reveal" style="color:var(--accent);background:#e8f2ff">Сервіс‑центр Orchard</div>
+        <h2 class="h2 reveal d1" style="font-size:clamp(38px,5.4vw,68px)">Ремонт Apple.<br><span class="m">Швидко. Чесно. Оригінал.</span></h2>
+        <p class="sub reveal d2">Сертифіковані майстри, оригінальні запчастини та гарантія до 6 місяців на кожен ремонт.</p>
+        <div class="rp-badges reveal d3"><span>⏱ від 30 хв</span><span>🛡 Гарантія 6 міс.</span><span>🔍 Діагностика 0 ₴</span></div>
+        <div class="btns reveal d3" style="margin-top:28px"><a href="#" class="btn p" id="toBook">Записатися на ремонт</a></div>
+      </div>
+      <div class="ph reveal d1" data-img="1639776738932-956082f0b704" data-w="1100"></div>
+    </div>
+  </div>
+  <section style="padding-top:40px">
+    <div class="wrap">
+      <h3 class="h2 reveal" style="font-size:clamp(28px,3.6vw,44px)">Послуги та ціни</h3>
+      <div class="svc" id="svc"></div>
+
+      <div class="track reveal">
+        <div>
+          <h3 style="font-size:28px;letter-spacing:-.025em">Статус ремонту</h3>
+          <p style="color:var(--muted);margin:8px 0 18px">Введіть номер замовлення (спробуйте <b>OR‑2048</b>).</p>
+          <div style="display:flex;gap:10px"><label class="search" style="max-width:none"><input id="trackId" placeholder="OR‑0000"></label><button class="btn dk" id="trackBtn">Перевірити</button></div>
+        </div>
+        <div>
+          <div class="tl-steps" id="tl"><div class="bar" id="tlBar"></div>
+            <div class="tl-s"><i>✓</i>Прийнято</div><div class="tl-s"><i>✓</i>Діагностика</div><div class="tl-s"><i>✓</i>Ремонт</div><div class="tl-s"><i>✓</i>Перевірка</div><div class="tl-s"><i>✓</i>Готово</div>
+          </div>
+          <p id="tlMsg" style="text-align:center;color:var(--muted);font-size:14px;margin-top:20px">&nbsp;</p>
+        </div>
+      </div>
+
+      <div class="book reveal" id="bookBox">
+        <div class="ph" data-img="1550041473-d296a3a8a18a" data-w="900"></div>
+        <div class="panel">
+          <h3 style="font-size:28px;letter-spacing:-.025em">Записатися на ремонт</h3>
+          <p style="color:var(--muted);margin:8px 0 24px">Перезвонимо протягом 15 хвилин і підтвердимо час.</p>
+          <form id="rForm"><div class="f">
+            <label class="inp">Ім'я<input required placeholder="Олена"></label>
+            <label class="inp">Телефон<input required type="tel" placeholder="+380 __ ___ __ __"></label>
+            <label class="inp">Пристрій<select><option>iPhone</option><option>MacBook</option><option>iPad</option><option>Apple Watch</option><option>AirPods</option></select></label>
+            <label class="inp">Послуга<select id="rSvc"></select></label>
+            <label class="inp">Дата<input type="date" required id="rDate"></label>
+            <label class="inp">Час<select><option>10:00</option><option>12:00</option><option>14:00</option><option>16:00</option><option>18:00</option></select></label>
+            <label class="inp full">Опишіть проблему<textarea rows="3" placeholder="Наприклад: розбите скло, не заряджається…"></textarea></label>
+          </div><button class="btn p" style="margin-top:20px">Записатися</button></form>
+        </div>
+      </div>
+
+      <div class="faq">
+        <h3 class="h2 reveal" style="font-size:36px;margin-bottom:10px">Питання та відповіді</h3>
+        <div class="q"><button>Чи збережуться мої дані після ремонту?<span>+</span></button><div class="a"><div><p>Так. Ми не скидаємо налаштування без вашої згоди, але радимо зробити резервну копію в iCloud перед візитом.</p></div></div></div>
+        <div class="q"><button>Скільки триває заміна екрана?<span>+</span></button><div class="a"><div><p>Для більшості моделей iPhone — від 30 до 60 хвилин. Можна почекати в нашій зоні відпочинку з кавою.</p></div></div></div>
+        <div class="q"><button>Яка гарантія на ремонт?<span>+</span></button><div class="a"><div><p>Від 3 до 6 місяців залежно від типу ремонту. Гарантія зазначена в акті виконаних робіт.</p></div></div></div>
+        <div class="q"><button>Чи безкоштовна діагностика?<span>+</span></button><div class="a"><div><p>Так, діагностика безкоштовна, навіть якщо ви вирішите не ремонтувати пристрій.</p></div></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div><b>Магазин</b><a href="#catalog" data-go="iphone">iPhone</a><a href="#catalog" data-go="mac">Mac</a><a href="#catalog" data-go="ipad">iPad</a><a href="#catalog" data-go="watch">Watch</a></div>
+      <div><b>Послуги</b><a href="#tradein">Trade‑in</a><a href="#repair">Ремонт</a><a href="#repair">Статус замовлення</a><a href="#home">Розстрочка</a></div>
+      <div><b>Orchard</b><a href="#home">Про нас</a><a href="#home">Вакансії</a><a href="#home">Контакти</a></div>
+      <div><b>Київ</b><span>вул. Хрещатик, 22<br>щодня 10:00–21:00<br>0 800 123 456</span></div>
+    </div>
+    <div class="fb"><span>© 2026 Orchard. Демонстраційний проєкт для портфоліо. Не пов'язаний з Apple Inc.</span><span>Фото: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></span></div>
+  </div>
+</footer>
+
+<div class="overlay" id="ov"></div>
+<div class="modal" id="modal">
+  <button class="x" id="mx" aria-label="Закрити">✕</button>
+  <div class="m-gal"><div class="ph" id="mPic"></div><div class="m-thumbs" id="mThumbs"></div></div>
+  <div class="m-body">
+    <div style="font-size:13px;color:var(--orange);font-weight:600" id="mTag"></div>
+    <h3 id="mTitle"></h3>
+    <p class="desc" id="mDesc"></p>
+    <div class="feat" id="mFeat"></div>
+    <div class="lbl">Колір — <span id="mColorName" style="text-transform:none;color:var(--ink);letter-spacing:0"></span></div>
+    <div class="opts" id="mColors"></div>
+    <div class="lbl" id="mMemL">Пам'ять</div>
+    <div class="opts" id="mMem"></div>
+    <div class="m-total"><div><small style="color:var(--muted)">Ціна</small><br><b id="mPrice"></b></div><button class="btn p" id="mAdd">Додати в кошик</button></div>
+    <p style="font-size:13px;color:var(--muted);margin-top:12px" id="mMonthly"></p>
+  </div>
+</div>
+
+<aside class="drawer" id="drawer">
+  <div class="dr-h"><h3>Кошик</h3><button class="x" style="position:static" id="dx" aria-label="Закрити">✕</button></div>
+  <div class="dr-list" id="drList"></div>
+  <div class="dr-f">
+    <div class="row"><span>Сума</span><span id="sSub">0 ₴</span></div>
+    <div class="row"><span>Доставка</span><span style="color:var(--ok)">Безкоштовно</span></div>
+    <div class="row t"><span>Разом</span><span id="sTot">0 ₴</span></div>
+    <button class="btn p" id="checkout">Оформити замовлення</button>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const fmt=n=>n.toLocaleString('uk-UA').replace(/,/g,' ')+' ₴';
+const U=(id,w)=>`img/${id}.jpg`;
+const ph=(id,w,alt='')=>`<div class="ph"><img src="${U(id,w)}" alt="${alt}" loading="lazy" onload="this.classList.add('ld')"></div>`;
+function hydrate(root=document){root.querySelectorAll('.ph[data-img]').forEach(d=>{if(d.firstChild)return;const i=new Image();i.loading='lazy';i.alt='';i.onload=()=>i.classList.add('ld');i.src=U(d.dataset.img,d.dataset.w||900);d.appendChild(i)})}
+
+/* ---------- data ---------- */
+const P=[
+ {id:'ip17p',cat:'iphone',n:'iPhone 17 Pro',d:'Алюмінієвий unibody, A19 Pro, три камери 48 Мп.',tag:'Новинка',base:54999,mem:[256,512,1024],step:7000,colors:[['Космічний оранжевий','#d9773a'],['Глибокий синій','#2f3b55'],['Срібний','#d6d6d8']],img:['1757710436034-f1d7372ec1be','1764746250417-2cc103a45a56','1757709608566-4b9fd41a7af5'],f:[['A19 Pro','чип'],['6,3″','ProMotion'],['48 Мп ×3','камери'],['до 31 год','відео']],pop:10},
+ {id:'ip17',cat:'iphone',n:'iPhone 17',d:'Дисплей ProMotion 120 Гц і чип A19.',tag:'Новинка',base:38999,mem:[256,512],step:6000,colors:[['Білий','#ececec'],['Лавандовий','#c7b8e6'],['Шавлія','#a8b8a0'],['Чорний','#2b2b2b']],img:['1591337676887-a217a6970a8a','1726732970014-f2df88c87dd3'],f:[['A19','чип'],['6,3″','120 Гц'],['48 Мп','Fusion'],['до 30 год','відео']],pop:9},
+ {id:'ipair',cat:'iphone',n:'iPhone Air',d:'Найтонший iPhone в історії — 5,6 мм.',tag:'',base:47999,mem:[256,512,1024],step:7000,colors:[['Срібний','#e3e3e5'],['Небесний','#b9d4ea'],['Чорний','#202020']],img:['1727013884184-b313982327f3','1759588073186-1d4ac7e33623'],f:[['5,6 мм','товщина'],['6,5″','ProMotion'],['A19 Pro','чип'],['165 г','вага']],pop:8},
+ {id:'ip16e',cat:'iphone',n:'iPhone 16e',d:'Все необхідне за доступною ціною.',tag:'Вигідно',base:24999,mem:[128,256],step:4000,colors:[['Чорний','#262626'],['Білий','#f0f0f0']],img:['1702184117235-56002cb13663','1709528922440-4fc4f05ef110'],f:[['A18','чип'],['6,1″','OLED'],['48 Мп','камера'],['до 26 год','відео']],pop:6},
+ {id:'mbp',cat:'mac',n:'MacBook Pro 14″ M5',d:'Дисплей Liquid Retina XDR. До 24 год автономності.',tag:'Новинка',base:79999,mem:[512,1024,2048],step:12000,colors:[['Космічний чорний','#2e2e30'],['Сріблястий','#cfd0d2']],img:['1517336714731-489689fd1ca8','1629131726692-1accd0c53ce0'],f:[['M5','чип'],['14,2″','XDR'],['24 год','батарея'],['16 ГБ','пам\'ять']],pop:9},
+ {id:'mba',cat:'mac',n:'MacBook Air 13″ M4',d:'Тонкий, легкий і безшумний.',tag:'',base:46999,mem:[256,512,1024],step:9000,colors:[['Сріблястий','#d4d5d7'],['Небесний','#a9c2d6'],['Північ','#2f3441'],['Зоряне сяйво','#e3d7c3']],img:['1611186871348-b1ce696e52c9','1541807084-5c52b6b3adef'],f:[['M4','чип'],['13,6″','Retina'],['18 год','батарея'],['1,24 кг','вага']],pop:8},
+ {id:'imac',cat:'mac',n:'iMac 24″ M4',d:'Все‑в‑одному з дисплеєм 4,5K.',tag:'',base:59999,mem:[256,512],step:9000,colors:[['Сріблястий','#d4d5d7'],['Синій','#7d9bc1'],['Рожевий','#e8b4b8']],img:['1527443224154-c4a3942d3acf','1527443195645-1133f7f28990'],f:[['M4','чип'],['24″','4,5K'],['12 Мп','камера'],['11,5 мм','товщина']],pop:6},
+ {id:'ipadpro',cat:'ipad',n:'iPad Pro M5',d:'Ультратонкий з дисплеєм Tandem OLED.',tag:'',base:49999,mem:[256,512,1024],step:9000,colors:[['Космічний чорний','#2b2b2d'],['Сріблястий','#d2d3d5']],img:['1630331528526-7d04c6eb463f','1561154464-82e9adf32764'],f:[['M5','чип'],['11″','OLED'],['5,3 мм','товщина'],['Pencil Pro','підтримка']],pop:7},
+ {id:'ipadair',cat:'ipad',n:'iPad Air M3',d:'Потужність M3 у легкому корпусі.',tag:'',base:29999,mem:[128,256,512],step:5000,colors:[['Сірий','#8a8a8f'],['Фіолетовий','#b7a6cf'],['Синій','#90a9c5']],img:['1630453016513-bba65d503b06','1544244015-0df4b3ffc6b0'],f:[['M3','чип'],['11″','Liquid Retina'],['10 год','батарея'],['Touch ID','захист']],pop:7},
+ {id:'ipad',cat:'ipad',n:'iPad 11',d:'Для навчання, творчості й розваг.',tag:'Вигідно',base:17999,mem:[128,256],step:4000,colors:[['Сріблястий','#d9d9db'],['Рожевий','#efc3c8'],['Синій','#9fbbd6']],img:['1623126908029-58cb08a2b272','1611648694964-a4cbd6ab1c70'],f:[['A16','чип'],['11″','Retina'],['10 год','батарея'],['USB‑C','порт']],pop:6},
+ {id:'aw11',cat:'watch',n:'Apple Watch Series 11',d:'Моніторинг тиску та сну. 24 год роботи.',tag:'Новинка',base:18999,mem:['42 мм','46 мм'],step:1500,colors:[['Чорний','#1f1f21'],['Сріблястий','#d6d7d9'],['Рожеве золото','#e8c1b0']],img:['1616353329366-b5546ca70b1a','1546868871-7041f2a55e12'],f:[['S11','чип'],['24 год','батарея'],['ЕКГ','здоров\'я'],['50 м','водозахист']],pop:8},
+ {id:'awu',cat:'watch',n:'Apple Watch Ultra 3',d:'Титан, 3000 ніт, до 42 год автономності.',tag:'',base:36999,mem:['49 мм'],step:0,colors:[['Натуральний титан','#bdb6aa'],['Чорний титан','#2a2a2a']],img:['1713056878930-c5604da9acfd','1617043983671-adaadcaa2460'],f:[['49 мм','титан'],['42 год','батарея'],['3000 ніт','яскравість'],['100 м','водозахист']],pop:7},
+ {id:'app3',cat:'airpods',n:'AirPods Pro 3',d:'Активне шумозаглушення ×2 та пульсометр.',tag:'Новинка',base:10999,mem:['USB‑C'],step:0,colors:[['Білий','#f5f5f5']],img:['1572569511254-d8f925fe2cbb','1606841837239-c5a1a4a07af7'],f:[['H2','чип'],['×2','шумодав'],['8 год','музика'],['IP57','захист']],pop:9},
+ {id:'ap4',cat:'airpods',n:'AirPods 4',d:'Новий дизайн та персоналізоване просторове аудіо.',tag:'',base:6999,mem:['Стандарт','З ANC'],step:1500,colors:[['Білий','#f5f5f5']],img:['1606741965326-cb990ae01bb2','1587523459887-e669248cf666'],f:[['H2','чип'],['5 год','музика'],['USB‑C','кейс'],['IP54','захист']],pop:7},
+ {id:'avp',cat:'other',n:'Apple Vision Pro',d:'Просторовий комп\'ютер нового покоління.',tag:'Ексклюзив',base:159999,mem:[256,512],step:9000,colors:[['Срібний','#c9c9cc']],img:['1696429175928-793a1cdef1d3','1707228773518-7ca0492d0c4d','1706990769341-d450bb0c52b7'],f:[['M5 + R1','чипи'],['23 млн','пікселів'],['2 год','батарея'],['visionOS','система']],pop:5},
+];
+const CATS=[['all','Усе'],['iphone','iPhone'],['mac','Mac'],['ipad','iPad'],['watch','Watch'],['airpods','AirPods'],['other','Vision']];
+const CATIMG={iphone:'1592750475338-74b7b21085ab',mac:'1611186871348-b1ce696e52c9',ipad:'1630331528526-7d04c6eb463f',watch:'1546868871-7041f2a55e12',airpods:'1606841837239-c5a1a4a07af7',other:'1707228773518-7ca0492d0c4d'};
+const memLabel=m=>typeof m==='number'?(m>=1024?m/1024+' ТБ':m+' ГБ'):m;
+const card=(p,i=0)=>`<article class="card" data-id="${p.id}" style="animation-delay:${i*50}ms">${p.tag?`<span class="tag">${p.tag}</span>`:''}${ph(p.img[0],700,p.n)}<div class="bd"><div class="dots">${p.colors.map(c=>`<span class="dot" style="background:${c[1]}"></span>`).join('')}</div><h4>${p.n}</h4><p class="desc">${p.d}</p><div class="bottom"><div class="price">від ${fmt(p.base)}<small>або ${fmt(Math.round(p.base/24))}/міс.</small></div><button class="add" data-quick="${p.id}" aria-label="Додати в кошик">+</button></div></div></article>`;
+
+/* ---------- home ---------- */
+$('#rail').innerHTML=CATS.slice(1).map(([k,v])=>`<a class="cat" href="#catalog" data-go="${k}">${ph(CATIMG[k],400,v)}${v}<small>від ${fmt(Math.min(...P.filter(p=>p.cat===k).map(p=>p.base)))}</small></a>`).join('');
+$('#prail').innerHTML=[...P].sort((a,b)=>b.pop-a.pop).slice(0,7).map(card).join('');
+hydrate();
+
+/* ---------- router ---------- */
+let curCat='all';
+function route(){
+  const r=(location.hash.slice(1)||'home').split('/')[0];
+  const v=$('#v-'+r)?r:'home';
+  $$('.view').forEach(x=>x.classList.toggle('active',x.id==='v-'+v));
+  $$('.links a').forEach(a=>a.classList.toggle('on',a.dataset.r===v));
+  $('#links').classList.remove('open');closeAll();
+  window.scrollTo({top:0,behavior:'instant'});
+  if(v==='catalog'){render();requestAnimationFrame(movePill)}
+  navTone();observe();
+}
+addEventListener('hashchange',route);
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){curCat=g.dataset.go;if(location.hash==='#catalog'){render();movePill()}}});
+$('#burger').onclick=()=>$('#links').classList.toggle('open');
+function navTone(){const home=$('#v-home').classList.contains('active');const h=$('.hero');$('#nav').classList.toggle('dark',home&&scrollY<h.offsetHeight+h.offsetTop-60)}
+addEventListener('scroll',navTone,{passive:true});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+function observe(){$$('.view.active .reveal:not(.in)').forEach(el=>io.observe(el))}
+
+/* ---------- catalog ---------- */
+$('#tabs').insertAdjacentHTML('beforeend',CATS.map(([k,v])=>`<button class="tab" data-c="${k}">${v}</button>`).join(''));
+function movePill(){const t=$(`.tab[data-c="${curCat}"]`);if(!t)return;$$('.tab').forEach(x=>x.classList.toggle('on',x===t));const p=$('#pill');p.style.left=t.offsetLeft+'px';p.style.width=t.offsetWidth+'px'}
+$('#tabs').onclick=e=>{const t=e.target.closest('.tab');if(!t)return;curCat=t.dataset.c;movePill();render()};
+$('#q').oninput=render;$('#sort').onchange=render;
+function render(){
+  const q=$('#q').value.trim().toLowerCase(),s=$('#sort').value;
+  let list=P.filter(p=>(curCat==='all'||p.cat===curCat)&&(!q||(p.n+' '+p.d+' '+p.mem.map(memLabel).join(' ')).toLowerCase().includes(q)));
+  list.sort((a,b)=>s==='asc'?a.base-b.base:s==='desc'?b.base-a.base:b.pop-a.pop);
+  $('#grid').innerHTML=list.length?list.map(card).join(''):`<div class="empty">Нічого не знайдено. Спробуйте інший запит.</div>`;
+}
+document.addEventListener('click',e=>{
+  const q=e.target.closest('[data-quick]');
+  if(q){e.stopPropagation();e.preventDefault();addToCart(P.find(x=>x.id===q.dataset.quick),0,0,q);return}
+  const c=e.target.closest('.card');if(c)openModal(c.dataset.id);
+});
+
+/* ---------- modal ---------- */
+let mp,mc=0,mm=0;
+function setPic(i){$('#mPic').innerHTML=`<img src="${U(mp.img[i],1100)}" alt="${mp.n}" onload="this.classList.add('ld')">`;$$('#mThumbs button').forEach((b,k)=>b.classList.toggle('on',k===i))}
+function openModal(id){mp=P.find(p=>p.id===id);mc=0;mm=0;
+  $('#mTag').textContent=mp.tag;$('#mTitle').textContent=mp.n;$('#mDesc').textContent=mp.d;
+  $('#mThumbs').innerHTML=mp.img.length>1?mp.img.map((s,i)=>`<button data-i="${i}"><img src="${U(s,160)}" alt=""></button>`).join(''):'';
+  $('#mFeat').innerHTML=mp.f.map(f=>`<div><b>${f[0]}</b>${f[1]}</div>`).join('');
+  $('#mColors').innerHTML=mp.colors.map((c,i)=>`<button class="sw ${i?'':'on'}" data-i="${i}" style="background:${c[1]}" title="${c[0]}"></button>`).join('');
+  $('#mMemL').textContent=typeof mp.mem[0]==='number'?"Пам'ять":'Варіант';
+  $('#mMem').innerHTML=mp.mem.map((m,i)=>`<button class="opt ${i?'':'on'}" data-i="${i}">${memLabel(m)}${i&&mp.step?`<br><small style="color:var(--muted)">+${fmt(mp.step*i)}</small>`:''}</button>`).join('');
+  setPic(0);updModal();$('#ov').classList.add('show');$('#modal').classList.add('show');document.body.style.overflow='hidden';
+}
+function updModal(){const pr=mp.base+mp.step*mm;$('#mColorName').textContent=mp.colors[mc][0];$('#mPrice').textContent=fmt(pr);$('#mMonthly').textContent=`або ${fmt(Math.round(pr/24))}/міс. у розстрочку на 24 місяці під 0%`}
+$('#mThumbs').onclick=e=>{const b=e.target.closest('button');if(b)setPic(+b.dataset.i)};
+$('#mColors').onclick=e=>{const b=e.target.closest('.sw');if(!b)return;mc=+b.dataset.i;$$('#mColors .sw').forEach(x=>x.classList.toggle('on',x===b));updModal()};
+$('#mMem').onclick=e=>{const b=e.target.closest('.opt');if(!b)return;mm=+b.dataset.i;$$('#mMem .opt').forEach(x=>x.classList.toggle('on',x===b));updModal()};
+$('#mAdd').onclick=e=>{addToCart(mp,mc,mm,e.currentTarget);closeAll()};
+function closeAll(){['#ov','#modal','#drawer'].forEach(s=>$(s).classList.remove('show'));document.body.style.overflow=''}
+$('#ov').onclick=closeAll;$('#mx').onclick=closeAll;$('#dx').onclick=closeAll;
+document.addEventListener('keydown',e=>e.key==='Escape'&&closeAll());
+
+/* ---------- cart ---------- */
+let cart=[];try{cart=JSON.parse(localStorage.getItem('orchard-cart2'))||[]}catch(e){}
+function save(){try{localStorage.setItem('orchard-cart2',JSON.stringify(cart))}catch(e){}}
+function addToCart(p,c,m,from){
+  const key=p.id+'-'+c+'-'+m,ex=cart.find(x=>x.key===key);
+  ex?ex.q++:cart.push({key,id:p.id,c,m,q:1});save();drawCart();
+  if(from){const r=from.getBoundingClientRect(),t=$('#openCart').getBoundingClientRect(),f=document.createElement('div');f.className='fly';f.innerHTML=`<img src="${U(p.img[0],120)}" alt="">`;f.style.left=r.left+'px';f.style.top=r.top+'px';document.body.appendChild(f);requestAnimationFrame(()=>requestAnimationFrame(()=>{f.style.left=t.left+'px';f.style.top=t.top+'px';f.style.transform='scale(.3)';f.style.opacity='.5'}));setTimeout(()=>f.remove(),850)}
+  toast(`✓ ${p.n} додано в кошик`);
+}
+function drawCart(){
+  const n=cart.reduce((s,x)=>s+x.q,0);$('#badge').textContent=n;$('#badge').classList.toggle('show',n>0);
+  let sum=0;
+  $('#drList').innerHTML=cart.length?cart.map((x,i)=>{const p=P.find(y=>y.id===x.id);if(!p)return'';const pr=p.base+p.step*x.m;sum+=pr*x.q;
+    return`<div class="ci">${ph(p.img[0],200,p.n)}<div class="info"><b>${p.n}</b><span>${p.colors[x.c][0]} · ${memLabel(p.mem[x.m])}</span><div class="qty"><button data-d="${i}" aria-label="Менше">−</button>${x.q}<button data-u="${i}" aria-label="Більше">+</button></div></div><b>${fmt(pr*x.q)}</b></div>`}).join('')
+    :`<div class="empty">Кошик порожній.<br><br><a class="btn p" href="#catalog" onclick="closeAll()">До каталогу</a></div>`;
+  $('#sSub').textContent=fmt(sum);$('#sTot').textContent=fmt(sum);
+}
+$('#drList').onclick=e=>{const u=e.target.dataset.u,d=e.target.dataset.d;if(u!=null)cart[u].q++;if(d!=null){cart[d].q--;if(!cart[d].q)cart.splice(d,1)}save();drawCart()};
+$('#openCart').onclick=()=>{drawCart();$('#ov').classList.add('show');$('#drawer').classList.add('show')};
+$('#checkout').onclick=()=>{if(!cart.length)return;cart=[];save();drawCart();closeAll();toast('🎉 Замовлення оформлено! Менеджер зателефонує вам.')};
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600)}
+
+/* ---------- trade-in ---------- */
+const TI={
+  iphone:{n:'iPhone',img:'1592750475338-74b7b21085ab',models:[['iPhone 16 Pro',30000],['iPhone 16',22000],['iPhone 15 Pro',24000],['iPhone 15',17000],['iPhone 14',12500],['iPhone 13',9500],['iPhone 12',7000],['iPhone 11',5000]]},
+  mac:{n:'Mac',img:'1611186871348-b1ce696e52c9',models:[['MacBook Pro M3',42000],['MacBook Air M3',30000],['MacBook Pro M2',33000],['MacBook Air M2',23000],['MacBook Air M1',15000],['Mac (Intel)',7000]]},
+  ipad:{n:'iPad',img:'1630331528526-7d04c6eb463f',models:[['iPad Pro M4',32000],['iPad Air M2',18000],['iPad 10',9000],['iPad mini 6',8500],['iPad 9',5500]]},
+  watch:{n:'Watch',img:'1546868871-7041f2a55e12',models:[['Watch Ultra 2',18000],['Watch Series 10',9000],['Watch Series 9',7000],['Watch SE 2',4000]]},
+};
+const COND=[['Як новий','Без подряпин',1],['Добрий','Легкі сліди',.85],['Задовільний','Помітні подряпини',.65],['Пошкоджений','Тріщини / дефекти',.35]];
+const BAT=[['90%+',1],['80–89%',.92],['< 80%',.8]];
+let ti={s:0,type:null,model:null,cond:null,mem:0,bat:0};
+$('#tiType').innerHTML=Object.entries(TI).map(([k,v])=>`<button class="ch" data-v="${k}">${ph(v.img,400,v.n)}${v.n}</button>`).join('');
+$('#tiCond').innerHTML=COND.map((c,i)=>`<button class="ch t" data-v="${i}"><b style="font-size:24px">${['✨','👍','👌','🔧'][i]}</b><span>${c[0]}<small>${c[1]}</small></span></button>`).join('');
+$('#tiMem').innerHTML=['Базова','×2','×4'].map((m,i)=>`<button class="opt ${i?'':'on'}" data-v="${i}">${m}</button>`).join('');
+$('#tiBat').innerHTML=BAT.map((b,i)=>`<button class="opt ${i?'':'on'}" data-v="${i}">${b[0]}</button>`).join('');
+function tiCalc(){
+  let v=0,rows=[];
+  if(ti.type&&ti.model!=null){const m=TI[ti.type].models[ti.model];v=m[1];rows.push(['Модель',m[0]])}
+  if(ti.cond!=null){v*=COND[ti.cond][2];rows.push(['Стан',COND[ti.cond][0]])}
+  if(ti.s>=3){v*=1+ti.mem*.08;v*=BAT[ti.bat][1];rows.push(['Батарея',BAT[ti.bat][0]])}
+  v=Math.round(v/100)*100;animNum($('#tiVal'),v);
+  $('#tiHint').textContent=v?(ti.s>=3?'Бонус +10% при обміні на новий iPhone':'Продовжуйте для точнішої оцінки'):'Оберіть пристрій, щоб почати';
+  $('#tiList').innerHTML=rows.map(r=>`<li><span>${r[0]}</span><span>${r[1]}</span></li>`).join('');
+}
+let cur=0;function animNum(el,to){const from=cur,t0=performance.now();cur=to;(function f(t){const k=Math.min(1,(t-t0)/700),e=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*e));if(k<1)requestAnimationFrame(f)})(t0)}
+function tiGo(s){ti.s=s;$$('.step').forEach(x=>x.classList.toggle('on',+x.dataset.s===s));$$('#tiSteps i').forEach((x,i)=>x.classList.toggle('on',i<=s));$('#tiBack').style.visibility=s?'visible':'hidden';$('#tiNext').textContent=s===3?'Записатися на оцінку':'Далі ›';tiCalc()}
+function pick(box,key,after){$(box).onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;$$(box+' [data-v]').forEach(x=>x.classList.toggle('on',x===b));const v=b.dataset.v;ti[key]=isNaN(v)?v:+v;after&&after();tiCalc()}}
+pick('#tiType','type',()=>{ti.model=null;$('#tiModel').innerHTML=TI[ti.type].models.map((m,i)=>`<button class="ch t" data-v="${i}"><span>${m[0]}<small>до ${fmt(m[1])}</small></span></button>`).join('');setTimeout(()=>tiGo(1),250)});
+pick('#tiModel','model',()=>setTimeout(()=>tiGo(2),250));
+pick('#tiCond','cond',()=>setTimeout(()=>tiGo(3),250));
+pick('#tiMem','mem');pick('#tiBat','bat');
+$('#tiBack').onclick=()=>tiGo(Math.max(0,ti.s-1));
+$('#tiNext').onclick=()=>{const need=[ti.type,ti.model,ti.cond][ti.s];if(ti.s<3){if(need==null)return toast('Спершу зробіть вибір');tiGo(ti.s+1)}else{location.hash='repair';setTimeout(()=>$('#bookBox').scrollIntoView({behavior:'smooth'}),400);toast('Залиште контакти — ми підтвердимо оцінку')}};
+tiGo(0);
+
+/* ---------- repair ---------- */
+const ico=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${p}</svg>`;
+const SVC=[
+ ['Заміна екрана','Оригінальні дисплеї з True Tone. Гарантія 6 міс.','від 2 499 ₴','30–60 хв','#e8f2ff','#0a84ff','<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 8l6 6M15 8l-3 3"/>'],
+ ['Заміна батареї','Повертаємо 100% ємності та швидку зарядку.','від 1 299 ₴','20 хв','#eafaf0','#30d158','<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4M7 10v4M10 10v4"/>'],
+ ['Заднє скло','Лазерна заміна без розбирання корпусу.','від 1 799 ₴','2 год','#fff3e6','#ff9f0a','<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><rect x="8.5" y="5" width="4" height="4" rx="1"/>'],
+ ['Камера','Заміна модулів, скла камери, налаштування фокусу.','від 1 499 ₴','40 хв','#f5ecfb','#bf5af2','<circle cx="12" cy="12" r="4"/><path d="M4 8h3l2-3h6l2 3h3v11H4z"/>'],
+ ['Після води','Ультразвукове чищення та відновлення плати.','від 899 ₴','1 день','#e6f6fb','#32ade6','<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'],
+ ['Діагностика','Повна перевірка всіх систем пристрою.','Безкоштовно','15 хв','#f2f2f4','#1d1d1f','<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>'],
+];
+$('#svc').innerHTML=SVC.map((s,i)=>`<div class="sv reveal d${i%3}"><div class="ic" style="background:${s[4]};color:${s[5]}">${ico(s[6])}</div><b>${s[0]}</b><p>${s[1]}</p><div class="meta"><span>${s[2]}</span><span>⏱ ${s[3]}</span></div></div>`).join('');
+$('#rSvc').innerHTML=SVC.map(s=>`<option>${s[0]}</option>`).join('');
+$('#rDate').min=new Date().toISOString().slice(0,10);
+$('#toBook').onclick=e=>{e.preventDefault();$('#bookBox').scrollIntoView({behavior:'smooth'})};
+$('#rForm').onsubmit=e=>{e.preventDefault();e.target.reset();toast('✓ Ви записані! Чекайте дзвінка протягом 15 хв')};
+$('#trackBtn').onclick=()=>{
+  const id=$('#trackId').value.trim().toUpperCase().replace(/[-‑\s]/g,'');
+  const st={OR2048:3,OR1024:5,OR512:1}[id];
+  const s=$$('.tl-s');s.forEach(x=>x.classList.remove('done'));$('#tlBar').style.width=0;
+  if(st==null){$('#tlMsg').textContent='Замовлення не знайдено. Спробуйте OR‑2048 або OR‑1024';return}
+  setTimeout(()=>{const w=$('#tl').offsetWidth-28;$('#tlBar').style.width=w*(st-1)/4+'px';s.forEach((x,i)=>i<st&&setTimeout(()=>x.classList.add('done'),i*220))},50);
+  $('#tlMsg').textContent=st===5?'🎉 Ваш пристрій готовий! Можна забирати.':`Етап: ${s[st-1].textContent.slice(1)}. Орієнтовна готовність — сьогодні до 18:00`;
+};
+$$('.q button').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
+
+drawCart();route();
+</script>
+</body>
+</html>

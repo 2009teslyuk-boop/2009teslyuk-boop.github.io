@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Смерека — еко‑шале в Карпатах</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3efe6;--paper:#fbf9f4;--ink:#1d2820;--forest:#22342a;--muted:#6f776c;--line:rgba(29,40,32,.13);--acc:#b0864a;--acc2:#e8d6b5;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+body.winter{--bg:#eef2f5;--paper:#f9fbfc;--forest:#1e2c3a;--acc:#5f84a8;--acc2:#d3e1ee;--muted:#6b7682}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Outfit,system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background 1s var(--ease)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+img{display:block;max-width:100%}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+.ph{overflow:hidden;position:relative;background:#cfc8b8}
+.ph img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s var(--ease),transform 1.6s var(--ease)}
+.ph img.ld{opacity:1}
+
+.loader{position:fixed;inset:0;background:var(--forest);z-index:500;display:grid;place-items:center;color:#f3efe6;transition:clip-path 1.2s var(--ease) .1s;clip-path:inset(0 0 0 0)}
+.loader.out{clip-path:inset(0 0 100% 0)}
+.loader div{font-family:"Cormorant Garamond",serif;font-size:46px;font-style:italic;overflow:hidden}
+.loader div span{display:block;animation:lup 1s var(--ease)}
+.loader i{position:absolute;bottom:40px;left:50%;width:140px;height:1px;margin-left:-70px;background:rgba(255,255,255,.2);overflow:hidden}
+.loader i::after{content:"";position:absolute;inset:0;background:#f3efe6;transform-origin:left;animation:load 1.4s var(--ease) forwards}
+@keyframes lup{from{transform:translateY(100%)}}
+@keyframes load{from{transform:scaleX(0)}}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:60;color:#fff;transition:background .5s,color .5s,box-shadow .5s}
+.nav.solid{background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:20px}
+.logo{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:600;display:flex;align-items:center;gap:10px;letter-spacing:.01em}
+.logo svg{width:22px;fill:currentColor}
+.links{display:flex;gap:32px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.links a{opacity:.85;transition:opacity .3s;position:relative}
+.links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:currentColor;transform:scaleX(0);transition:transform .4s var(--ease)}
+.links a:hover{opacity:1}.links a:hover::after{transform:scaleX(1)}
+.right{display:flex;gap:12px;align-items:center}
+.season{display:flex;border:1px solid currentColor;border-radius:999px;padding:3px;position:relative}
+.season button{position:relative;z-index:1;padding:7px 14px;font-size:13px;border-radius:999px;transition:color .4s;white-space:nowrap}
+.season .kn{position:absolute;top:3px;left:3px;width:calc(50% - 3px);height:calc(100% - 6px);border-radius:999px;background:currentColor;transition:transform .6s var(--ease)}
+body.winter .season .kn{transform:translateX(100%)}
+.nav .season button.on{color:var(--forest)}
+.nav.solid .season button.on{color:var(--bg)}
+.bk{padding:12px 22px;border-radius:999px;background:#fff;color:var(--forest);font-size:14px;font-weight:500;transition:all .4s var(--ease)}
+.nav.solid .bk{background:var(--forest);color:#fff}
+.bk:hover{transform:translateY(-2px)}
+
+.hero{height:100vh;min-height:680px;position:relative;overflow:hidden;color:#fff;background:#1d2820}
+.slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease}
+.slide.on{opacity:1;z-index:1}
+.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.15)}
+.slide.on img{animation:kb 9s linear forwards}
+@keyframes kb{from{transform:scale(1.15)}to{transform:scale(1.02)}}
+.hero::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.05) 35%,rgba(0,0,0,.55))}
+.hero .txt{position:absolute;z-index:3;left:0;right:0;top:50%;transform:translateY(-58%);text-align:center;padding:0 20px}
+.hero small{letter-spacing:.45em;text-transform:uppercase;font-size:13px;display:block;opacity:.95}
+.hero h1{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(78px,15vw,230px);line-height:.86;letter-spacing:-.02em;margin:14px 0 18px}
+.hero h1 i{font-style:italic}
+.hero p{font-size:19px;font-weight:300;opacity:.92;max-width:520px;margin:0 auto}
+.hero .meta{position:absolute;z-index:3;left:0;right:0;bottom:120px}
+.hero .meta .wrap{display:flex;justify-content:space-between;align-items:center;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.counter{display:flex;align-items:center;gap:14px}
+.counter .bars{display:flex;gap:6px}
+.counter .bars i{width:42px;height:2px;background:rgba(255,255,255,.3);position:relative;overflow:hidden;cursor:pointer}
+.counter .bars i::after{content:"";position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left}
+.counter .bars i.on::after{animation:bar 6s linear forwards}
+.counter .bars i.done::after{transform:scaleX(1)}
+@keyframes bar{to{transform:scaleX(1)}}
+#snow{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity 1.2s}
+body.winter #snow{opacity:1}
+
+.bar{position:relative;z-index:10;margin-top:-62px}
+.bar form{background:var(--paper);border-radius:22px;display:grid;grid-template-columns:repeat(4,1fr) auto;align-items:center;padding:10px;box-shadow:0 30px 70px rgba(20,30,24,.18)}
+.bf{padding:12px 22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
+.bf label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.bf input,.bf select{background:none;border:0;outline:0;color:var(--ink);font:inherit;font-size:17px;width:100%}
+.go{background:var(--forest);color:#fff;padding:21px 34px;border-radius:15px;font-weight:500;transition:all .4s var(--ease);margin-left:10px}
+.go:hover{background:var(--acc)}
+
+section{padding:140px 0}
+.eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--acc);margin-bottom:24px;display:flex;align-items:center;gap:14px;transition:color 1s}
+.eyebrow::before{content:"";width:34px;height:1px;background:currentColor}
+.h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:clamp(46px,6.2vw,96px);line-height:.98;letter-spacing:-.015em}
+.h2 i{color:var(--acc);transition:color 1s}
+.p{color:var(--muted);font-size:18px;line-height:1.8;max-width:500px;font-weight:300}
+.rv{opacity:0;transform:translateY(50px);transition:opacity 1.2s var(--ease),transform 1.2s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 30px;border-radius:999px;font-weight:500;transition:all .4s var(--ease)}
+.btn.f{background:var(--forest);color:#fff}
+.btn.f:hover{background:var(--acc)}
+
+.intro{display:grid;grid-template-columns:1fr 1.05fr;gap:90px;align-items:center}
+.collage{position:relative;aspect-ratio:1;max-width:620px;justify-self:end;width:100%}
+.collage .ph{position:absolute;border-radius:20px;box-shadow:0 30px 60px rgba(20,30,24,.18)}
+.collage .c1{left:0;top:6%;width:62%;height:78%;border-radius:200px 200px 20px 20px}
+.collage .c2{right:0;top:0;width:44%;height:48%}
+.collage .c3{right:6%;bottom:0;width:40%;height:42%}
+.collage .seal{position:absolute;left:52%;top:48%;width:118px;height:118px;z-index:3;animation:spin 20s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px;border-top:1px solid var(--line);padding-top:32px}
+.facts b{font-family:"Cormorant Garamond",serif;font-size:58px;font-weight:500;display:block;line-height:1}
+.facts span{color:var(--muted);font-size:14px}
+
+.chalets{display:grid;gap:110px;margin-top:90px}
+.ch{display:grid;grid-template-columns:1.25fr .75fr;gap:70px;align-items:center}
+.ch:nth-child(even){grid-template-columns:.75fr 1.25fr}
+.ch:nth-child(even) .gal{order:2}
+.gal{position:relative;aspect-ratio:1.35;border-radius:26px;overflow:hidden;background:#cfc8b8}
+.gal .ph{position:absolute;inset:0;opacity:0;transition:opacity .9s var(--ease)}
+.gal .ph.on{opacity:1}
+.gal .ph.on img{transform:scale(1.03)}
+.gal .ctl{position:absolute;bottom:18px;right:18px;z-index:2;display:flex;gap:8px}
+.gal .ctl button{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.88);color:var(--ink);backdrop-filter:blur(6px);transition:transform .3s}
+.gal .ctl button:hover{transform:scale(1.08)}
+.gal .dots{position:absolute;left:20px;bottom:30px;z-index:2;display:flex;gap:6px}
+.gal .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);transition:all .3s}
+.gal .dots i.on{background:#fff;width:22px;border-radius:4px}
+.gal .lb{position:absolute;top:18px;left:18px;z-index:2;background:rgba(255,255,255,.9);color:var(--ink);padding:7px 14px;border-radius:999px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.info .no{font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;color:var(--acc)}
+.info h3{font-family:"Cormorant Garamond",serif;font-size:clamp(40px,4vw,58px);font-weight:400;line-height:1;margin:10px 0 18px}
+.info .p{font-size:16px}
+.am{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;margin:28px 0;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:15px}
+.am span{display:flex;gap:10px;align-items:center}
+.am svg{width:20px;height:20px;stroke:var(--acc);flex:none;transition:stroke 1s}
+.pr{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.pr b{font-family:"Cormorant Garamond",serif;font-size:40px;font-weight:500}
+.pr small{color:var(--muted);font-size:14px}
+
+.hz{height:320vh;position:relative;background:var(--forest);color:#f3efe6;transition:background 1s}
+.hz .sticky{position:sticky;top:0;height:100vh;padding-top:84px;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.hz .head{display:flex;justify-content:space-between;align-items:end;gap:30px}
+.hz .h2 i{color:var(--acc2)}
+.hz .eyebrow{color:var(--acc2)}
+.hz .p{color:rgba(243,239,230,.7)}
+.track{display:flex;gap:26px;padding-left:max(24px,calc((100vw - 1280px)/2 + 24px));will-change:transform;margin-top:40px}
+.exp{flex:none;width:min(400px,76vw);aspect-ratio:.76;max-height:56vh;border-radius:24px;position:relative;overflow:hidden;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate}
+.exp .ph{position:absolute;inset:0;z-index:-2}
+.exp::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(0,0,0,.75),transparent 55%)}
+.exp:hover img{transform:scale(1.06)}
+.exp .n{font-family:"Cormorant Garamond",serif;font-size:18px;font-style:italic;opacity:.85}
+.exp h3{font-family:"Cormorant Garamond",serif;font-size:40px;font-weight:500;line-height:1;margin-top:6px}
+.exp p{font-size:15px;opacity:.85;margin-top:10px;line-height:1.5}
+.exp .tg{position:absolute;top:20px;left:20px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px;font-size:12px;letter-spacing:.06em}
+.hz .prog{height:1px;background:rgba(243,239,230,.2);margin:46px auto 0;max-width:1232px;width:calc(100% - 48px)}
+.hz .prog i{display:block;height:100%;background:var(--acc2);width:0}
+
+.band{height:90vh;min-height:560px;position:relative;overflow:hidden;display:grid;place-items:center;color:#fff;text-align:center}
+.band .ph{position:absolute;inset:-15% 0;will-change:transform}
+.band::after{content:"";position:absolute;inset:0;background:rgba(10,16,12,.45)}
+.band>div:last-child{position:relative;z-index:2}
+.band q{font-family:"Cormorant Garamond",serif;font-size:clamp(34px,4.6vw,66px);font-style:italic;line-height:1.15;quotes:none;max-width:1000px;padding:0 24px;display:block}
+.band small{display:block;margin-top:26px;letter-spacing:.24em;text-transform:uppercase;font-size:12px}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:70px}
+.duo .card{position:relative;border-radius:26px;overflow:hidden;min-height:560px;color:#fff;padding:40px;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate}
+.duo .card .ph{position:absolute;inset:0;z-index:-2}
+.duo .card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,rgba(0,0,0,.72),transparent 60%)}
+.duo .card:hover img{transform:scale(1.05)}
+.duo h3{font-family:"Cormorant Garamond",serif;font-size:46px;font-weight:400;line-height:1}
+.duo p{opacity:.88;margin:12px 0 0;max-width:420px;line-height:1.6}
+.duo ul{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.duo li{border:1px solid rgba(255,255,255,.4);padding:6px 12px;border-radius:999px;font-size:13px}
+
+.gallery{columns:3;column-gap:18px;margin-top:70px}
+.gi{break-inside:avoid;margin-bottom:18px;border-radius:18px;overflow:hidden;position:relative;cursor:zoom-in;display:block;width:100%}
+.gi:hover img{transform:scale(1.05)}
+.lbx{position:fixed;inset:0;background:rgba(10,14,12,.92);z-index:200;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .45s}
+.lbx.show{opacity:1;pointer-events:auto}
+.lbx img{max-width:min(1200px,90vw);max-height:84vh;border-radius:14px;transform:scale(.94);transition:transform .5s var(--ease)}
+.lbx.show img{transform:none}
+.lbx button{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:22px;transition:background .3s}
+.lbx button:hover{background:rgba(255,255,255,.25)}
+.lbx .lp{left:24px;top:50%;margin-top:-28px}.lbx .ln{right:24px;top:50%;margin-top:-28px}.lbx .lx{right:24px;top:24px}
+
+.calc{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin-top:70px;align-items:start}
+.cbox{background:var(--paper);border-radius:26px;padding:38px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fl{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.fl>label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.fl input,.fl select{background:var(--bg);border:1px solid transparent;border-radius:14px;padding:15px 16px;color:var(--ink);font:inherit;outline:0;transition:border .3s}
+.fl input:focus,.fl select:focus{border-color:var(--acc)}
+.ctr{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:14px;padding:8px 8px 8px 16px}
+.ctr button{width:38px;height:38px;border-radius:10px;background:var(--paper);font-size:18px;transition:all .3s}
+.ctr button:hover{background:var(--forest);color:#fff}
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ex{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:14px;cursor:pointer;transition:all .3s;font-size:14px;position:relative}
+.ex input{position:absolute;opacity:0;pointer-events:none}
+.ex i{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--muted);display:grid;place-items:center;font-style:normal;font-size:12px;color:transparent;transition:all .3s;flex:none}
+.ex:has(input:checked){border-color:var(--acc);background:color-mix(in srgb,var(--acc) 8%,transparent)}
+.ex:has(input:checked) i{background:var(--acc);border-color:var(--acc);color:#fff}
+.ex small{margin-left:auto;color:var(--muted)}
+.summary{position:sticky;top:110px;background:var(--forest);color:#f3efe6;transition:background 1s}
+.summary h3{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:400}
+.summary .sph{height:150px;border-radius:16px;margin:18px 0 10px}
+.ln{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed rgba(243,239,230,.2);font-size:15px;color:rgba(243,239,230,.7)}
+.ln b{color:#fff;font-weight:500;white-space:nowrap}
+.tot{display:flex;justify-content:space-between;align-items:baseline;margin:24px 0}
+.tot b{font-family:"Cormorant Garamond",serif;font-size:56px;font-weight:500;line-height:1}
+.cta{width:100%;padding:18px;border-radius:14px;background:var(--acc2);color:var(--forest);font-weight:600;font-size:16px;transition:all .4s var(--ease)}
+.cta:hover{background:#fff}
+.wx{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.wd{background:var(--bg);border-radius:16px;padding:14px 6px;text-align:center}
+.wd small{color:var(--muted);font-size:12px}
+.wd div{font-size:24px;margin:6px 0}
+.wd b{font-size:17px;font-weight:500}
+
+.where{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;margin-top:70px}
+.map{border-radius:26px;overflow:hidden;min-height:460px;position:relative;background:#ddd}
+.map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.75)}
+.route{background:var(--paper);border-radius:26px;padding:36px;display:grid;gap:18px;align-content:start}
+.route>div{display:flex;gap:16px;align-items:flex-start;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.route>div:last-child{border:0;padding:0}
+.route i{width:44px;height:44px;border-radius:12px;background:var(--bg);display:grid;place-items:center;font-style:normal;flex:none;font-size:18px}
+.route b{display:block;font-weight:500}
+.route small{color:var(--muted);font-size:14px}
+footer{background:var(--forest);color:rgba(243,239,230,.7);padding:110px 0 36px;margin-top:140px;transition:background 1s;overflow:hidden}
+footer .big{font-family:"Cormorant Garamond",serif;font-size:clamp(90px,19vw,290px);line-height:.8;text-align:center;font-style:italic;color:var(--acc2);transition:color 1s}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:90px;border-top:1px solid rgba(243,239,230,.15);padding-top:36px;font-size:15px;line-height:1.8}
+.fgrid b{color:#fff;font-weight:500;display:block;margin-bottom:6px}
+.fgrid a{text-decoration:underline}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,160%);background:var(--forest);color:#fff;padding:16px 26px;border-radius:999px;z-index:300;transition:transform .5s var(--ease);font-weight:500;box-shadow:0 14px 40px rgba(0,0,0,.25);white-space:nowrap}
+.toast.show{transform:translate(-50%,0)}
+
+@media(max-width:1180px){.links{display:none}}
+@media(max-width:980px){
+  .bar form{grid-template-columns:1fr 1fr}.bf{border-right:0;border-bottom:1px solid var(--line)}.go{grid-column:1/-1;margin:10px 0 0}
+  .intro,.calc,.where,.duo{grid-template-columns:1fr;gap:50px}
+  .collage{justify-self:center}
+  .ch,.ch:nth-child(even){grid-template-columns:1fr;gap:34px}
+  .ch:nth-child(even) .gal{order:0}
+  .chalets{gap:80px}
+  .gallery{columns:2}
+  .summary{position:static}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .hero .meta{bottom:100px}
+  .hz .head{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  section{padding:100px 0}
+  .gallery{columns:1}.extras,.row2{grid-template-columns:1fr}
+  .bk{display:none}
+  .facts b{font-size:42px}
+  .cbox{padding:24px}
+  .duo .card{min-height:440px;padding:28px}
+  .wx{grid-template-columns:repeat(3,1fr)}.wd:nth-child(n+4){display:none}
+  .counter span{display:none}
+  .season button{padding:7px 10px}
+  .am{grid-template-columns:1fr}
+  .toast{white-space:normal;width:calc(100% - 32px);text-align:center}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+.smap{position:absolute;inset:0;overflow:hidden;background:#e8e4dc}
+.smap-in{position:absolute;display:grid;grid-template-columns:repeat(5,256px);line-height:0}
+.smap-in img{width:256px;height:256px;max-width:none;display:block}
+.smap-pin{position:absolute;left:50%;top:50%;width:44px;height:56px;transform:translate(-50%,-100%);filter:drop-shadow(0 6px 10px rgba(0,0,0,.3));animation:smapb 2.2s ease-in-out infinite}
+@keyframes smapb{50%{transform:translate(-50%,-112%)}}
+.smap-link{position:absolute;right:14px;top:14px;background:#fff;color:#111;padding:9px 14px;border-radius:999px;font-size:13px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.smap-attr{position:absolute;right:8px;bottom:6px;font-size:10px;background:rgba(255,255,255,.8);color:#333;padding:2px 6px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="loader" id="loader"><div><span>Смерека</span></div><i></i></div>
+
+<nav class="nav" id="nav"><div class="wrap">
+  <a href="#" class="logo"><svg viewBox="0 0 32 40"><path d="M16 0l8 12h-4l7 10h-5l8 11H2l8-11H5l7-10H8z"/><rect x="14" y="33" width="4" height="7"/></svg>Смерека</a>
+  <div class="links"><a href="#about">Про нас</a><a href="#chalets">Шале</a><a href="#exp">Враження</a><a href="#gallery">Галерея</a><a href="#book">Бронювання</a></div>
+  <div class="right">
+    <div class="season"><span class="kn"></span><button class="on" data-s="summer">☀ Літо</button><button data-s="winter">❄ Зима</button></div>
+    <a href="#book" class="bk">Забронювати</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="hero">
+  <div class="slides" id="slides"></div>
+  <canvas id="snow"></canvas>
+  <div class="txt"><small>Буковель · Карпати · 1 240 м</small><h1>Тиша <i>гір</i></h1><p>Дев'ять дерев'яних шале на схилі гори. Без поспіху, без шуму — тільки ви, ліс і зорі.</p></div>
+  <div class="meta"><div class="wrap"><div class="counter"><span id="cnt">01 / 03</span><div class="bars" id="bars"></div></div><span id="slCap"></span></div></div>
+</header>
+
+<div class="wrap bar rv"><form id="quick">
+  <div class="bf"><label for="qIn">Заїзд</label><input type="date" id="qIn"></div>
+  <div class="bf"><label for="qOut">Виїзд</label><input type="date" id="qOut"></div>
+  <div class="bf"><label for="qG">Гості</label><select id="qG"><option>1 гість</option><option selected>2 гостя</option><option>3 гостя</option><option>4 гостя</option><option>5 гостей</option><option>6 гостей</option></select></div>
+  <div class="bf" style="border:0"><label for="qR">Шале</label><select id="qR"></select></div>
+  <button class="go">Перевірити</button>
+</form></div>
+
+<section id="about"><div class="wrap intro">
+  <div>
+    <div class="eyebrow rv">Про Смереку</div>
+    <h2 class="h2 rv">Місце, де час<br>тече <i>повільніше</i></h2>
+    <p class="p rv" style="margin-top:30px">Панорамні вікна з видом на Говерлу, камін, чани з гарячою водою під зорями та кухня з локальних продуктів. Ми побудували «Смереку» з карпатської деревини, щоб відпочинок відчувався справжнім.</p>
+    <div class="facts rv"><div><b data-n="9">0</b><span>приватних шале</span></div><div><b data-n="1240">0</b><span>метрів над морем</span></div><div><b data-n="3">0</b><span>км до підйомників</span></div></div>
+  </div>
+  <div class="collage rv">
+    <div class="ph c1" data-img="1575403071235-5dcd06cbf169" data-w="900"></div>
+    <div class="ph c2" data-img="1728649072511-bd946044a63b" data-w="700"></div>
+    <div class="ph c3" data-img="1641125639624-1197fdee779d" data-w="700"></div>
+    <svg class="seal" viewBox="0 0 130 130"><defs><path id="c" d="M65,65 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><circle cx="65" cy="65" r="64" style="fill:var(--forest);transition:fill 1s"/><text font-size="11" letter-spacing="4" fill="#f3efe6" font-family="Outfit"><textPath href="#c">EST. 2019 · КАРПАТИ · EST. 2019 · КАРПАТИ ·</textPath></text><path d="M65 44l10 14h-5l8 12h-7l9 12H50l9-12h-7l8-12h-5z" fill="#f3efe6"/></svg>
+  </div>
+</div></section>
+
+<section id="chalets" style="padding-top:0"><div class="wrap">
+  <div class="eyebrow rv">Шале</div>
+  <h2 class="h2 rv">Оберіть <i>свій</i> дім у горах</h2>
+  <div class="chalets" id="chList"></div>
+</div></section>
+
+<section class="hz" id="exp" style="padding:0">
+  <div class="sticky">
+    <div class="wrap head"><div><div class="eyebrow">Враження</div><h2 class="h2" id="expTitle">Літо в <i>Карпатах</i></h2></div><p class="p" id="expSub"></p></div>
+    <div class="track" id="track"></div>
+    <div class="prog"><i id="hzp"></i></div>
+  </div>
+</section>
+
+<div class="band"><div class="ph" id="bandPh" data-img="1500534623283-312aade485b7" data-w="2000"></div><div><q>Ми приїхали на два дні, а залишилися на тиждень. Прокидатися від тиші та запаху смереки — це те, чого не вистачало все життя.</q><small>— Ірина та Олег, Львів · ★★★★★</small></div></div>
+
+<section style="padding-bottom:0"><div class="wrap">
+  <div class="eyebrow rv">Відновлення</div>
+  <h2 class="h2 rv">Спа, чан <i>і сніданок</i> у ліжко</h2>
+  <div class="duo">
+    <div class="card rv"><div class="ph" data-img="1660735698223-23a4edefa264" data-w="1000"></div><h3>Лісове спа</h3><p>Фінська сауна, хамам, купіль з гірською водою та масажі з карпатськими травами.</p><ul><li>Сауна</li><li>Чан на дровах</li><li>Масаж</li><li>Купіль</li></ul></div>
+    <div class="card rv"><div class="ph" data-img="1641924676578-ed2792eb24de" data-w="1000"></div><h3>Кухня з гір</h3><p>Банош, бринза від сусідніх ґазд, свіжий хліб з печі та сніданок, який привезуть прямо в шале.</p><ul><li>Сніданок у ліжко</li><li>Вечері біля вогнища</li><li>Дегустації</li></ul></div>
+  </div>
+</div></section>
+
+<section id="gallery"><div class="wrap">
+  <div class="eyebrow rv">Галерея</div>
+  <h2 class="h2 rv">Моменти <i>Смереки</i></h2>
+  <div class="gallery" id="gal"></div>
+</div></section>
+
+<section id="book" style="padding-top:0"><div class="wrap">
+  <div class="eyebrow rv">Бронювання</div>
+  <h2 class="h2 rv">Сплануйте <i>втечу</i></h2>
+  <div class="calc">
+    <div class="cbox rv">
+      <div class="row2">
+        <div class="fl"><label for="cIn">Заїзд</label><input type="date" id="cIn"></div>
+        <div class="fl"><label for="cOut">Виїзд</label><input type="date" id="cOut"></div>
+      </div>
+      <div class="row2">
+        <div class="fl"><label for="cRoom">Шале</label><select id="cRoom"></select></div>
+        <div class="fl"><label>Гості</label><div class="ctr"><span id="gN">2 гостя</span><div style="display:flex;gap:6px"><button type="button" id="gM" aria-label="Менше гостей">−</button><button type="button" id="gP" aria-label="Більше гостей">+</button></div></div></div>
+      </div>
+      <div class="fl"><label>Додатково</label><div class="extras" id="extras"></div></div>
+      <div class="fl" style="margin:0"><label>Прогноз погоди</label><div class="wx" id="wx"></div></div>
+    </div>
+    <div class="cbox summary rv">
+      <h3>Ваше бронювання</h3>
+      <div class="ph sph" id="sumPh"></div>
+      <div id="lines"></div>
+      <div class="tot"><span style="opacity:.7">Разом</span><b id="total">0 ₴</b></div>
+      <button class="cta" id="reserve">Забронювати</button>
+      <p style="opacity:.6;font-size:13px;margin-top:14px;text-align:center">Безкоштовне скасування за 7 днів до заїзду</p>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="eyebrow rv">Як дістатися</div>
+  <h2 class="h2 rv">с. Поляниця, <i>Буковель</i></h2>
+  <div class="where">
+    <div class="route rv">
+      <div><i>🚆</i><span><b>Потягом до Ворохти</b><small>Нічний «Київ — Ворохта», далі трансфер 25 хв</small></span></div>
+      <div><i>✈</i><span><b>Літаком до Івано‑Франківська</b><small>Трансфер з аеропорту — 2 год, 1 200 ₴</small></span></div>
+      <div><i>🚗</i><span><b>Автомобілем</b><small>Безкоштовний паркінг біля кожного шале</small></span></div>
+      <div><i>🎿</i><span><b>До підйомників</b><small>3 км · шатл щогодини взимку</small></span></div>
+    </div>
+    <div class="map rv"><div class="smap"><div class="smap-in" style="left:calc(50% - 703px);top:calc(50% - 667px);filter:saturate(.75)"><img src="img/map/14_9300_5668.png" alt=""><img src="img/map/14_9301_5668.png" alt=""><img src="img/map/14_9302_5668.png" alt=""><img src="img/map/14_9303_5668.png" alt=""><img src="img/map/14_9304_5668.png" alt=""><img src="img/map/14_9300_5669.png" alt=""><img src="img/map/14_9301_5669.png" alt=""><img src="img/map/14_9302_5669.png" alt=""><img src="img/map/14_9303_5669.png" alt=""><img src="img/map/14_9304_5669.png" alt=""><img src="img/map/14_9300_5670.png" alt=""><img src="img/map/14_9301_5670.png" alt=""><img src="img/map/14_9302_5670.png" alt=""><img src="img/map/14_9303_5670.png" alt=""><img src="img/map/14_9304_5670.png" alt=""><img src="img/map/14_9300_5671.png" alt=""><img src="img/map/14_9301_5671.png" alt=""><img src="img/map/14_9302_5671.png" alt=""><img src="img/map/14_9303_5671.png" alt=""><img src="img/map/14_9304_5671.png" alt=""></div><svg class="smap-pin" viewBox="0 0 44 56" aria-hidden="true"><path d="M22 54S4 34 4 21a18 18 0 0 1 36 0c0 13-18 33-18 33z" fill="#22342a"/><circle cx="22" cy="21" r="7" fill="#fff"/></svg><a class="smap-link" href="https://www.openstreetmap.org/?mlat=48.362&amp;mlon=24.406#map=14/48.362/24.406" target="_blank" rel="noopener">Відкрити мапу ↗</a><span class="smap-attr">© OpenStreetMap</span></div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="big">Смерека</div>
+  <div class="fgrid">
+    <div><b>Адреса</b>с. Поляниця, Буковель<br>Івано‑Франківська обл.</div>
+    <div><b>Контакти</b>+380 67 777 00 77<br>hello@smereka.ua</div>
+    <div><b>Соцмережі</b>Instagram<br>Telegram</div>
+    <div><b>Портфоліо</b>© 2026 · Демо‑проєкт<br>Фото: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> · Мапа: © OpenStreetMap</div>
+  </div>
+</div></footer>
+
+<div class="lbx" id="lbx"><img id="lbImg" alt=""><button class="lp" id="lp" aria-label="Попереднє">←</button><button class="ln" id="lnx" aria-label="Наступне">→</button><button class="lx" id="lx" aria-label="Закрити">✕</button></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const fmt=n=>n.toLocaleString('uk-UA').replace(/,/g,' ')+' ₴';
+const U=(id,w)=>`img/${id}.jpg`;
+const ph=(id,w,cls='')=>`<div class="ph ${cls}"><img src="${U(id,w)}" alt="" loading="lazy" onload="this.classList.add('ld')"></div>`;
+function hydrate(root=document){root.querySelectorAll('.ph[data-img]').forEach(d=>{const id=d.dataset.img;const old=d.querySelector('img');if(old&&old.dataset.id===id)return;const i=new Image();i.alt='';i.dataset.id=id;i.onload=()=>{i.classList.add('ld');if(old)setTimeout(()=>old.remove(),900)};i.src=U(id,d.dataset.w||1000);if(old){i.style.position='absolute';i.style.inset='0'}d.appendChild(i)})}
+const out=()=>$('#loader').classList.add('out');addEventListener('load',()=>setTimeout(out,500));setTimeout(out,2200);
+
+let winter=false;
+const S=()=>winter?'winter':'summer';
+
+/* hero slideshow */
+const HERO={summer:[['1572376218380-47c6b21fe84a','Світанок над хребтом'],['1581545089841-9423c2ec0548','Смерекові ліси'],['1484911501340-37fbfd715b41','Вечір у долині']],
+            winter:[['1638985787285-46f05ff063f2','Шале «Говерла» взимку'],['1614630669107-f48325791b57','Засніжені схили'],['1741948924635-13a7ddbc6a05','Ніч у горах']]};
+let si=0,sTimer;
+function buildSlides(){const set=HERO[S()];$('#slides').innerHTML=set.map(s=>`<div class="slide"><img src="${U(s[0],2000)}" alt="${s[1]}"></div>`).join('');$('#bars').innerHTML=set.map(()=>'<i></i>').join('');si=-1;nextSlide()}
+function nextSlide(to){const sl=$$('.slide'),b=$$('#bars i');si=to??(si+1)%sl.length;sl.forEach((s,k)=>s.classList.toggle('on',k===si));b.forEach((x,k)=>{x.classList.remove('on','done');if(k<si)x.classList.add('done')});void b[si].offsetWidth;b[si].classList.add('on');$('#cnt').textContent=`0${si+1} / 0${sl.length}`;$('#slCap').textContent=HERO[S()][si][1];clearTimeout(sTimer);sTimer=setTimeout(()=>nextSlide(),6000)}
+$('#bars').onclick=e=>{const i=$$('#bars i').indexOf(e.target);if(i>=0)nextSlide(i)};
+
+/* snow */
+const cv=$('#snow'),cx=cv.getContext('2d');let flakes=[];
+const rnd=(a,b)=>a+Math.random()*(b-a);
+function rs(){cv.width=innerWidth;cv.height=innerHeight;flakes=[...Array(Math.round(innerWidth/8))].map(()=>({x:rnd(0,cv.width),y:rnd(0,cv.height),r:rnd(1,3.2),s:rnd(.4,1.3),w:rnd(0,6)}))}
+rs();addEventListener('resize',rs);
+(function snow(){if(winter&&scrollY<innerHeight){cx.clearRect(0,0,cv.width,cv.height);cx.fillStyle='rgba(255,255,255,.85)';for(const f of flakes){f.y+=f.s;f.w+=.01;f.x+=Math.sin(f.w)*.5;if(f.y>cv.height){f.y=-5;f.x=rnd(0,cv.width)}cx.beginPath();cx.arc(f.x,f.y,f.r,0,7);cx.fill()}}requestAnimationFrame(snow)})();
+
+/* chalets */
+const IC={bed:'<path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 14h18M6 10V7h5v3"/>',fire:'<path d="M12 3s5 5 5 10a5 5 0 0 1-10 0c0-2 1-4 2-5 0 2 1 3 2 3 0-3 1-6 1-8z"/>',tub:'<path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4zM6 12V6a2 2 0 0 1 4 0"/>',view:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',area:'<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 9h5V4"/>',kitchen:'<path d="M6 3v8M4 3v4a2 2 0 0 0 4 0V3M17 3c-2 0-3 2-3 5s1 4 3 4v9"/>',sauna:'<path d="M5 21h14M7 21v-6h10v6M9 11c-1-2 1-3 0-5M12 11c-1-2 1-3 0-5M15 11c-1-2 1-3 0-5"/>',wine:'<path d="M8 3h8l-1 6a3 3 0 0 1-6 0zM12 12v8M8 21h8"/>'};
+const ico=k=>`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.6">${IC[k]}</svg>`;
+const ROOMS=[
+ {n:'Шале «Говерла»',lb:'Для двох',d:'Затишний A‑frame для двох з панорамним вікном у ліс, каміном і власним чаном на терасі.',price:3800,guests:2,
+  am:[['bed','King size ліжко'],['fire','Камін'],['tub','Чан на терасі'],['area','42 м²']],
+  img:{summer:['1575403071235-5dcd06cbf169','1631805991633-eb01749753af','1734329596076-4aa090053d5f'],winter:['1638985787285-46f05ff063f2','1631805991633-eb01749753af','1610829702204-d42b9922d03b']}},
+ {n:'Шале «Піп Іван»',lb:'Сімейне',d:'Дві спальні, кухня та вітальня з каміном. Ідеально для родини або компанії друзів.',price:5600,guests:4,
+  am:[['bed','2 спальні'],['kitchen','Кухня'],['fire','Вітальня з каміном'],['area','78 м²']],
+  img:{summer:['1570793005386-840846445fed','1696860740767-f4211c9209f4','1631630259742-c0f0b17c6c10'],winter:['1670177792931-5eb0193c4eea','1696860740767-f4211c9209f4','1631630259742-c0f0b17c6c10']}},
+ {n:'Вілла «Чорногора»',lb:'Преміум',d:'Чотири спальні, приватна сауна, винотека й тераса з найкращим видом на Чорногірський хребет.',price:11900,guests:8,
+  am:[['bed','4 спальні'],['sauna','Приватна сауна'],['wine','Винотека'],['view','Вид на хребет']],
+  img:{summer:['1525113990976-399835c43838','1767348922879-a5cade5cceff','1712659604528-b179a3634560'],winter:['1741948924635-13a7ddbc6a05','1767348922879-a5cade5cceff','1712659604528-b179a3634560']}},
+];
+const rate=r=>Math.round(r.price*(winter?1.35:1)/10)*10;
+function drawRooms(){
+  $('#chList').innerHTML=ROOMS.map((r,i)=>`<article class="ch rv" data-i="${i}">
+    <div class="gal"><span class="lb">${r.lb}</span>${r.img[S()].map((id,k)=>`<div class="ph ${k?'':'on'}" data-img="${id}" data-w="1300"></div>`).join('')}
+      <div class="dots">${r.img[S()].map((_,k)=>`<i class="${k?'':'on'}"></i>`).join('')}</div>
+      <div class="ctl"><button data-dir="-1" aria-label="Попереднє фото">←</button><button data-dir="1" aria-label="Наступне фото">→</button></div></div>
+    <div class="info"><span class="no">0${i+1} / 03</span><h3>${r.n}</h3><p class="p">${r.d}</p>
+      <div class="am">${r.am.map(a=>`<span>${ico(a[0])}${a[1]}</span>`).join('')}</div>
+      <div class="pr"><div><b>${fmt(rate(r))}</b> <small>/ ніч · до ${r.guests} гостей</small></div><button class="btn f" data-pick="${i}">Обрати →</button></div></div>
+  </article>`).join('');
+  hydrate($('#chList'));$$('#chList .rv').forEach(el=>io.observe(el));
+}
+$('#chList').addEventListener('click',e=>{
+  const d=e.target.closest('[data-dir]');
+  if(d){const g=d.closest('.gal'),ps=[...g.querySelectorAll('.ph')],ds=[...g.querySelectorAll('.dots i')];let k=ps.findIndex(p=>p.classList.contains('on'));k=(k+ +d.dataset.dir+ps.length)%ps.length;ps.forEach((p,j)=>p.classList.toggle('on',j===k));ds.forEach((p,j)=>p.classList.toggle('on',j===k));return}
+  const p=e.target.closest('[data-pick]');if(p){$('#cRoom').value=p.dataset.pick;calc();$('#book').scrollIntoView({behavior:'smooth'})}
+});
+const opts=ROOMS.map((r,i)=>`<option value="${i}">${r.n}</option>`).join('');$('#qR').innerHTML=opts;$('#cRoom').innerHTML=opts;
+
+/* experiences */
+const EXP={summer:[['Схід сонця на Говерлі','Ранковий похід з гідом і сніданок на вершині.','1586022045497-31fcf76fa6cc','5 год'],['Велотури','Маршрути від 15 до 60 км серед смерекових лісів.','1633707167682-9068729bc84c','від 2 год'],['Гірське озеро','Каякінг і пікнік біля озера в долині.','1603979649806-5299879db16b','пів дня'],['Чан під зорями','Гаряча вода з травами та вид на хребет.','1734329596076-4aa090053d5f','щовечора'],['Зоряне небо','Нічна прогулянка з телескопом і гарячим чаєм.','1508402476522-c77c2fa4479d','2 год']],
+winter:[['Лижі та борд','3 км до підйомників Буковеля. Інструктори для дітей і дорослих.','1551698618-1dfe5d97d256','весь день'],['Підйомники','Безкоштовний шатл щогодини прямо від шале.','1528659862616-22886eb53642','щогодини'],['Хаскі‑сафарі','Упряжки з хаскі засніженим лісом.','1647591413051-3662ec03bfe8','1,5 год'],['Снігоступи','Прогулянка тихим зимовим лісом з гідом.','1641743442454-ac29749547d2','3 год'],['Зоряна ніч','Найчистіше небо — у морозну ніч на 1 240 м.','1519681393784-d120267933ba','2 год']]};
+function drawExp(){$('#expTitle').innerHTML=winter?'Зима в <i>Карпатах</i>':'Літо в <i>Карпатах</i>';$('#expSub').textContent=winter?'Взимку — сніг по коліна, лижі, хаскі та гарячий глінтвейн біля каміна.':'Гори влітку — це світанки над хмарами, гірські озера й нескінченні стежки.';
+  $('#track').innerHTML=EXP[S()].map((e,i)=>`<div class="exp">${ph(e[2],800)}<span class="tg">⏱ ${e[3]}</span><span class="n">0${i+1}</span><h3>${e[0]}</h3><p>${e[1]}</p></div>`).join('');hz()}
+function hz(){const s=$('#exp'),r=s.getBoundingClientRect(),max=s.offsetHeight-innerHeight,p=Math.max(0,Math.min(1,-r.top/max)),t=$('#track'),d=t.scrollWidth-innerWidth+80;t.style.transform=`translateX(${-p*Math.max(0,d)}px)`;$('#hzp').style.width=p*100+'%'}
+
+/* gallery + lightbox */
+const GAL={summer:['1628522983129-0d800408b8eb','1418065460487-3e41a6c84dc5','1696860740767-f4211c9209f4','1691413819265-0e37578fdd8a','1675125530909-15213f01a9e1','1559310589-2673bfe16970','1525113990976-399835c43838','1604223190546-a43e4c7f29d7'],
+           winter:['1675373420153-809b8d1da50c','1670177792931-5eb0193c4eea','1614630669107-f48325791b57','1696860740767-f4211c9209f4','1610829702204-d42b9922d03b','1647374916415-d9b89f985bb6','1638985787285-46f05ff063f2','1605540436563-5bca919ae766']};
+const RAT=[1.25,.8,1,1.3,.85,1.1,.75,1.2];
+function drawGal(){$('#gal').innerHTML=GAL[S()].map((id,i)=>`<button class="gi rv" data-i="${i}" aria-label="Відкрити фото"><div class="ph" style="aspect-ratio:${(1/RAT[i]).toFixed(3)}" data-img="${id}" data-w="800"></div></button>`).join('');hydrate($('#gal'));$$('#gal .rv').forEach(el=>io.observe(el))}
+let li=0;function openLb(i){const g=GAL[S()];li=(i+g.length)%g.length;$('#lbImg').src=U(g[li],1800);$('#lbx').classList.add('show')}
+$('#gal').onclick=e=>{const g=e.target.closest('.gi');if(g)openLb(+g.dataset.i)};
+$('#lp').onclick=e=>{e.stopPropagation();openLb(li-1)};$('#lnx').onclick=e=>{e.stopPropagation();openLb(li+1)};
+$('#lx').onclick=$('#lbx').onclick=()=>$('#lbx').classList.remove('show');
+$('#lbImg').onclick=e=>e.stopPropagation();
+addEventListener('keydown',e=>{if(!$('#lbx').classList.contains('show'))return;if(e.key==='Escape')$('#lbx').classList.remove('show');if(e.key==='ArrowRight')openLb(li+1);if(e.key==='ArrowLeft')openLb(li-1)});
+
+/* calculator */
+const EX=[['Сніданок','🥐',450,'person'],['Трансфер','🚙',1200,'once'],['Чан','♨',1500,'night'],['SPA‑масаж','💆',1800,'person'],['Прокат лиж','⛷',600,'person'],['Пет‑френдлі','🐕',400,'night']];
+$('#extras').innerHTML=EX.map((x,i)=>`<label class="ex"><input type="checkbox" data-i="${i}"><i>✓</i>${x[1]} ${x[0]}<small>${x[2]} ₴</small></label>`).join('');
+let guests=2;const gw=n=>n===1?'гість':n<5?'гостя':'гостей';
+$('#gM').onclick=()=>{guests=Math.max(1,guests-1);calc()};$('#gP').onclick=()=>{const mx=ROOMS[+$('#cRoom').value].guests;if(guests>=mx)toast(`Це шале — до ${mx} гостей`);guests=Math.min(mx,guests+1);calc()};
+const iso=d=>d.toISOString().slice(0,10);
+const t1=new Date();t1.setDate(t1.getDate()+7);const t2=new Date(t1);t2.setDate(t2.getDate()+3);
+['#cIn','#qIn'].forEach(s=>{$(s).value=iso(t1);$(s).min=iso(new Date())});['#cOut','#qOut'].forEach(s=>{$(s).value=iso(t2);$(s).min=iso(new Date())});
+['#cIn','#cOut','#cRoom'].forEach(s=>$(s).addEventListener('change',calc));$('#extras').addEventListener('change',calc);
+function calc(){
+  const a=new Date($('#cIn').value),b=new Date($('#cOut').value);let n=Math.round((b-a)/864e5);if(!(n>0))n=1;
+  const r=ROOMS[+$('#cRoom').value];guests=Math.min(guests,r.guests);const rt=rate(r);$('#gN').textContent=guests+' '+gw(guests);
+  const lines=[[r.n,`${n} ${n===1?'ніч':n<5?'ночі':'ночей'} × ${fmt(rt)}`,rt*n]];let sum=rt*n;
+  $$('#extras input:checked').forEach(c=>{const x=EX[c.dataset.i],mult=x[3]==='person'?guests*n:x[3]==='night'?n:1,v=x[2]*mult;sum+=v;lines.push([x[0],x[3]==='once'?'одноразово':`× ${mult}`,v])});
+  if(n>=7){const d=Math.round(sum*.1);sum-=d;lines.push(['Знижка 7+ ночей','−10%',-d])}
+  $('#lines').innerHTML=lines.map(l=>`<div class="ln"><span>${l[0]}<br><small>${l[1]}</small></span><b>${l[2]<0?'−'+fmt(-l[2]):fmt(l[2])}</b></div>`).join('');
+  const sp=$('#sumPh');sp.dataset.img=r.img[S()][0];sp.dataset.w=700;hydrate($('.summary'));
+  animTo(sum);
+}
+let shown=0;function animTo(v){const f=shown,t0=performance.now();shown=v;(function s(t){const k=Math.min(1,(t-t0)/600),e=1-Math.pow(1-k,3);$('#total').textContent=fmt(Math.round(f+(v-f)*e));if(k<1)requestAnimationFrame(s)})(t0)}
+$('#reserve').onclick=()=>toast('🌲 Бронювання прийнято! Підтвердження — на вашій пошті');
+$('#quick').onsubmit=e=>{e.preventDefault();$('#cIn').value=$('#qIn').value;$('#cOut').value=$('#qOut').value;guests=$('#qG').selectedIndex+1;$('#cRoom').value=$('#qR').value;calc();$('#book').scrollIntoView({behavior:'smooth'})};
+
+function drawWx(){const D=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],today=new Date().getDay();const W=winter?[['❄',-6],['🌨',-9],['☀',-4],['❄',-7],['🌤',-3]]:[['☀',22],['🌤',19],['⛅',17],['🌦',15],['☀',21]];$('#wx').innerHTML=W.map((s,i)=>`<div class="wd"><small>${i?D[(today+i)%7]:'Сьогодні'}</small><div>${s[0]}</div><b>${s[1]>0?'+':''}${s[1]}°</b></div>`).join('')}
+
+/* season */
+function applySeason(){document.body.classList.toggle('winter',winter);buildSlides();drawRooms();drawExp();drawGal();drawWx();calc();$('#bandPh').dataset.img=winter?'1519681393784-d120267933ba':'1500534623283-312aade485b7';hydrate($('.band'))}
+$$('.season button').forEach(b=>b.onclick=()=>{const w=b.dataset.s==='winter';if(w===winter)return;winter=w;$$('.season button').forEach(x=>x.classList.toggle('on',x===b));applySeason();toast(winter?'❄ Зимовий сезон: лижі, хаскі та чан у снігу':'☀ Літній сезон: походи, озера й велотури')});
+
+/* scroll fx */
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2800)}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target);e.target.querySelectorAll('[data-n]').forEach(b=>{const to=+b.dataset.n,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1800),q=1-Math.pow(1-k,4);b.textContent=Math.round(to*q).toLocaleString('uk-UA');if(k<1)requestAnimationFrame(f)})(t0)})}),{threshold:.12});
+function onScroll(){const y=scrollY;$('#nav').classList.toggle('solid',y>innerHeight-90);hz();
+  const band=$('.band'),r=band.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight)$('#bandPh').style.transform=`translateY(${(r.top/innerHeight-.5)*-12}%)`;
+  const c=$('.collage'),cr=c.getBoundingClientRect(),k=(cr.top+cr.height/2-innerHeight/2)/innerHeight;$('.c2').style.transform=`translateY(${k*-60}px)`;$('.c3').style.transform=`translateY(${k*40}px)`}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',hz);
+
+applySeason();hydrate();$$('.rv').forEach(el=>io.observe(el));onScroll();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* Lenis: плавна інерційна прокрутка (лише на пристроях з мишею/тачпадом) */
+(function(){if(!window.Lenis||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+document.documentElement.style.scrollBehavior='auto';
+const lenis=new Lenis({duration:1.15,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
+(function raf(t){lenis.raf(t);requestAnimationFrame(raf)})(performance.now());
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a||a.getAttribute('href').length<2)return;const el=document.querySelector(a.getAttribute('href'));if(!el)return;e.preventDefault();lenis.scrollTo(el,{offset:-70})});
+const _siv=Element.prototype.scrollIntoView;Element.prototype.scrollIntoView=function(o){if(o&&typeof o==='object'&&o.behavior==='smooth')lenis.scrollTo(this,{offset:-70});else _siv.call(this,o)};
+window.lenis=lenis})();
+</script>
+</body>
+</html>
