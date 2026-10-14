@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ремонт — Just Apple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Kaushan+Script&family=Marck+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="repair.html">
+<main>
+  <div class="wrap">
+    <div class="rp-hero">
+      <div>
+        <div class="eyebrow reveal" style="color:var(--accent);background:#e8f2ff">Сервіс Just Apple</div>
+        <h2 class="h2 reveal d1" style="font-size:clamp(38px,5.4vw,68px)">Ремонт Apple.<br><span class="m">Швидко. Чесно. Якісно.</span></h2>
+        <p class="sub reveal d2">Заміна екранів, батарей, камер і роз'ємів. Більшість ремонтів робимо, поки ви чекаєте.</p>
+        <div class="rp-badges reveal d3"><span>⏱ від 20 хв</span><span>🛡 Гарантія на роботу</span><span>🔍 Діагностика 0 ₴</span></div>
+        <div class="btns reveal d3" style="margin-top:28px"><a href="#book" class="btn p">Записатися на ремонт</a></div>
+      </div>
+      <div class="ph reveal d1" data-img="1639776738932-956082f0b704"></div>
+    </div>
+  </div>
+  <section style="padding-top:40px">
+    <div class="wrap">
+      <h3 class="h2 reveal" style="font-size:clamp(28px,3.6vw,44px)">Послуги та ціни</h3>
+      <div class="svc" id="svc"></div>
+
+      <div class="track reveal">
+        <div>
+          <h3 style="font-size:28px;letter-spacing:-.025em">Статус ремонту</h3>
+          <p style="color:var(--muted);margin:8px 0 18px">Введіть номер квитанції (спробуйте <b>JA‑2048</b>).</p>
+          <div style="display:flex;gap:10px"><label class="search" style="max-width:none"><input id="trackId" placeholder="JA‑0000" aria-label="Номер квитанції"></label><button class="btn dk" id="trackBtn">Перевірити</button></div>
+        </div>
+        <div>
+          <div class="tl-steps" id="tl"><div class="bar" id="tlBar"></div>
+            <div class="tl-s"><i>✓</i>Прийнято</div><div class="tl-s"><i>✓</i>Діагностика</div><div class="tl-s"><i>✓</i>Ремонт</div><div class="tl-s"><i>✓</i>Перевірка</div><div class="tl-s"><i>✓</i>Готово</div>
+          </div>
+          <p id="tlMsg" style="text-align:center;color:var(--muted);font-size:14px;margin-top:20px">&nbsp;</p>
+        </div>
+      </div>
+
+      <div class="book reveal" id="book">
+        <div class="ph" data-img="1550041473-d296a3a8a18a"></div>
+        <div class="panel">
+          <h3 style="font-size:28px;letter-spacing:-.025em">Записатися на ремонт</h3>
+          <p style="color:var(--muted);margin:8px 0 24px">Перезвонимо протягом 15 хвилин і підтвердимо час.</p>
+          <form id="rForm"><div class="f">
+            <label class="inp">Ім'я<input id="rName" required placeholder="Олена"></label>
+            <label class="inp">Телефон<input id="rPhone" required type="tel" placeholder="+380 __ ___ __ __"></label>
+            <label class="inp">Пристрій<select id="rDev"><option>iPhone</option><option>MacBook</option><option>iPad</option><option>Apple Watch</option><option>AirPods</option></select></label>
+            <label class="inp">Послуга<select id="rSvc"></select></label>
+            <label class="inp">Дата<input type="date" required id="rDate"></label>
+            <label class="inp">Час<select id="rTime"><option>10:00</option><option>12:00</option><option>14:00</option><option>16:00</option><option>18:00</option></select></label>
+            <label class="inp full">Опишіть проблему<textarea id="rText" rows="3" placeholder="Наприклад: розбите скло, не заряджається…"></textarea></label>
+          </div><button class="btn p" style="margin-top:20px">Записатися</button></form>
+        </div>
+      </div>
+
+      <div class="faq">
+        <h3 class="h2 reveal" style="font-size:36px;margin-bottom:10px">Питання та відповіді</h3>
+        <div class="q"><button>Чи збережуться мої дані?<span>+</span></button><div class="a"><div><p>Так, при заміні екрана чи батареї дані не стираються. Але резервну копію в iCloud краще зробити перед візитом.</p></div></div></div>
+        <div class="q"><button>Скільки триває заміна екрана?<span>+</span></button><div class="a"><div><p>Для більшості моделей iPhone — до години. Можна почекати в магазині.</p></div></div></div>
+        <div class="q"><button>Чи безкоштовна діагностика?<span>+</span></button><div class="a"><div><p>Так, навіть якщо ви вирішите не ремонтувати пристрій.</p></div></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const ico=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">${p}</svg>`;
+const SVC=[
+ ['Заміна дисплея','Оригінальна матриця з True Tone.','від 2 400 ₴','40–60 хв','#e8f2ff','#0a84ff','<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 8l6 6M15 8l-3 3"/>'],
+ ['Заміна батареї','Повертаємо 100% ємності та швидку зарядку.','від 1 200 ₴','30 хв','#eafaf0','#30d158','<rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4M7 10v4M10 10v4"/>'],
+ ['Заднє скло','Лазерна заміна без розбирання корпусу.','від 1 500 ₴','2 год','#fff3e6','#ff9f0a','<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><rect x="8.5" y="5" width="4" height="4" rx="1"/>'],
+ ['Камера','Заміна модулів і скла камери.','від 700 ₴','20–40 хв','#f5ecfb','#bf5af2','<circle cx="12" cy="12" r="4"/><path d="M4 8h3l2-3h6l2 3h3v11H4z"/>'],
+ ['Після води','Ультразвукове чищення та відновлення плати.','від 800 ₴','1–2 дні','#e6f6fb','#32ade6','<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'],
+ ['Діагностика','Повна перевірка всіх систем пристрою.','Безкоштовно','15 хв','#f2f2f4','#1d1d1f','<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>'],
+];
+$('#svc').innerHTML=SVC.map((s,i)=>`<div class="sv reveal d${i%3}"><div class="ic" style="background:${s[4]};color:${s[5]}">${ico(s[6])}</div><b>${s[0]}</b><p>${s[1]}</p><div class="meta"><span>${s[2]}</span><span>⏱ ${s[3]}</span></div></div>`).join('');
+$('#rSvc').innerHTML=SVC.map(s=>`<option>${s[0]}</option>`).join('');
+$('#rDate').min=new Date().toISOString().slice(0,10);
+$('#rForm').onsubmit=e=>{e.preventDefault();e.target.reset();toast('✓ Ви записані! Чекайте дзвінка протягом 15 хв')};
+$('#trackBtn').onclick=()=>{
+  const id=$('#trackId').value.trim().toUpperCase().replace(/[-‑\s]/g,'');
+  const st={JA2048:3,JA1024:5,JA512:1}[id];
+  const s=$$('.tl-s');s.forEach(x=>x.classList.remove('done'));$('#tlBar').style.width=0;
+  if(st==null){$('#tlMsg').textContent='Квитанцію не знайдено. Спробуйте JA‑2048 або JA‑1024';return}
+  setTimeout(()=>{const w=$('#tl').offsetWidth-28;$('#tlBar').style.width=w*(st-1)/4+'px';s.forEach((x,i)=>i<st&&setTimeout(()=>x.classList.add('done'),i*220))},50);
+  $('#tlMsg').textContent=st===5?'🎉 Ваш пристрій готовий! Можна забирати.':`Етап: ${s[st-1].textContent.slice(1)}. Орієнтовна готовність — сьогодні до 18:00`};
+boot();
+</script>
+</body>
+</html>

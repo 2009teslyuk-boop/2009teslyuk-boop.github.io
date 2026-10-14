@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Обмін (Trade‑in) — Just Apple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Kaushan+Script&family=Marck+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="trade-in.html">
+<main>
+  <div class="ti-hero">
+    <div class="ph" data-img="1726587912121-ea21fcc57ff8"></div>
+    <div class="wrap">
+      <div class="eyebrow reveal">Trade‑in</div>
+      <h2 class="h2 reveal d1" style="font-size:clamp(40px,6vw,76px)">Старе — на нове.</h2>
+      <p class="sub reveal d2">Оцініть свій пристрій за 30 секунд і отримайте знижку на iPhone 18 одразу в магазині.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="ti">
+      <div class="panel reveal">
+        <div class="steps" id="tiSteps"><i class="on"></i><i></i><i></i><i></i></div>
+        <div class="step on" data-s="0"><h3>Що обмінюємо?</h3><p>Оберіть тип пристрою.</p><div class="choice" id="tiType"></div></div>
+        <div class="step" data-s="1"><h3>Яка модель?</h3><p>Оберіть модель свого пристрою.</p><div class="choice" id="tiModel"></div></div>
+        <div class="step" data-s="2"><h3>Який стан?</h3><p>Будьте чесні — фінальну оцінку зробить майстер.</p><div class="choice" id="tiCond"></div></div>
+        <div class="step" data-s="3"><h3>Пам'ять та батарея</h3><p>Ще трохи деталей для точної ціни.</p><div class="lbl">Пам'ять</div><div class="opts" id="tiMem"></div><div class="lbl">Ємність батареї</div><div class="opts" id="tiBat"></div></div>
+        <div class="nav-btns"><button class="btn" id="tiBack" style="box-shadow:inset 0 0 0 1px var(--line)">‹ Назад</button><button class="btn p" id="tiNext">Далі ›</button></div>
+      </div>
+      <div class="result reveal d1">
+        <div class="k">Попередня оцінка</div>
+        <div class="v" id="tiVal">0 ₴</div>
+        <div class="k" id="tiHint">Оберіть пристрій, щоб почати</div>
+        <ul id="tiList"></ul>
+        <a href="catalog.html?cat=iphone" class="btn p" style="width:100%;position:relative">Обрати iPhone 18</a>
+        <a class="btn g" id="tiDm" target="_blank" rel="noopener" style="width:100%;position:relative;margin-top:10px">Надіслати фото в Direct</a>
+      </div>
+    </div>
+    <div class="ti-how">
+      <div class="how reveal"><div class="n">01</div><b>Оцініть онлайн</b><span>Пройдіть 4 кроки й отримайте попередню ціну.</span></div>
+      <div class="how reveal d1"><div class="n">02</div><b>Принесіть у магазин</b><span>Майстер перевірить пристрій за 10–15 хвилин.</span></div>
+      <div class="how reveal d2"><div class="n">03</div><b>Заберіть новинку</b><span>Сума оцінки одразу віднімається від ціни покупки.</span></div>
+    </div>
+    <div class="faq" style="margin-bottom:60px">
+      <h3 class="h2 reveal" style="font-size:36px;margin-bottom:10px">Питання та відповіді</h3>
+      <div class="q"><button>Що взяти з собою?<span>+</span></button><div class="a"><div><p>Сам пристрій і, якщо є, коробку. Перед візитом зробіть резервну копію та вийдіть з iCloud — або ми допоможемо на місці.</p></div></div></div>
+      <div class="q"><button>Чи приймаєте з розбитим екраном?<span>+</span></button><div class="a"><div><p>Так, ціна буде нижчою, бо врахуємо вартість ремонту.</p></div></div></div>
+      <div class="q"><button>Можна просто продати, без обміну?<span>+</span></button><div class="a"><div><p>Так, ми викуповуємо техніку. Ціна викупу трохи нижча, ніж при обміні.</p></div></div></div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const TI={
+  iphone:{n:'iPhone',img:'1592750475338-74b7b21085ab',models:[['iPhone 17 Pro Max',44000],['iPhone 17 Pro',38000],['iPhone 17',27000],['iPhone 16 Pro Max',36000],['iPhone 16 Pro',31000],['iPhone 16',22500],['iPhone 15 Pro Max',28500],['iPhone 15 Pro',24500],['iPhone 15',17500],['iPhone 14 Pro',18000],['iPhone 14',13000],['iPhone 13',10000],['iPhone 12',7000],['iPhone 11',5200]]},
+  mac:{n:'Mac',img:'1611186871348-b1ce696e52c9',models:[['MacBook Pro M4',52000],['MacBook Air M4',36000],['MacBook Pro M3',42000],['MacBook Air M3',30000],['MacBook Air M2',23000],['MacBook Air M1',15000]]},
+  ipad:{n:'iPad',img:'1630331528526-7d04c6eb463f',models:[['iPad Pro M4',32000],['iPad Air M2',18000],['iPad 10',9000],['iPad mini 6',8500]]},
+  watch:{n:'Watch',img:'1546868871-7041f2a55e12',models:[['Watch Ultra 2',18000],['Watch Series 10',9000],['Watch Series 9',7000],['Watch SE 2',4000]]},
+};
+const COND=[['Як новий','Без подряпин',1],['Добрий','Легкі сліди',.85],['Задовільний','Помітні подряпини',.65],['Пошкоджений','Тріщини / дефекти',.35]];
+const BAT=[['90%+',1],['80–89%',.92],['< 80%',.8]];
+let ti={s:0,type:null,model:null,cond:null,mem:0,bat:0};
+$('#tiType').innerHTML=Object.entries(TI).map(([k,v])=>`<button class="ch" data-v="${k}">${ph(v.img,v.n)}${v.n}</button>`).join('');
+$('#tiCond').innerHTML=COND.map((c,i)=>`<button class="ch t" data-v="${i}"><b style="font-size:24px">${['✨','👍','👌','🔧'][i]}</b><span>${c[0]}<small>${c[1]}</small></span></button>`).join('');
+$('#tiMem').innerHTML=['Базова','×2','×4'].map((m,i)=>`<button class="opt ${i?'':'on'}" data-v="${i}">${m}</button>`).join('');
+$('#tiBat').innerHTML=BAT.map((b,i)=>`<button class="opt ${i?'':'on'}" data-v="${i}">${b[0]}</button>`).join('');
+$('#tiDm').href=DM;
+let cur=0;function animNum(el,to){const from=cur,t0=performance.now();cur=to;(function f(t){const k=Math.min(1,(t-t0)/700),e=1-Math.pow(1-k,3);el.textContent=fmt(Math.round(from+(to-from)*e));if(k<1)requestAnimationFrame(f)})(t0)}
+function tiCalc(){let v=0,rows=[];
+  if(ti.type&&ti.model!=null){const m=TI[ti.type].models[ti.model];v=m[1];rows.push(['Модель',m[0]])}
+  if(ti.cond!=null){v*=COND[ti.cond][2];rows.push(['Стан',COND[ti.cond][0]])}
+  if(ti.s>=3){v*=1+ti.mem*.08;v*=BAT[ti.bat][1];rows.push(['Батарея',BAT[ti.bat][0]])}
+  v=Math.round(v/100)*100;animNum($('#tiVal'),v);
+  if(v){const n=P.find(p=>p.id==='ip18p');rows.push(['iPhone 18 Pro з доплатою',fmt(Math.max(0,n.base-v))])}
+  $('#tiHint').textContent=v?(ti.s>=3?'Бонус +5% при обміні на iPhone 18':'Продовжуйте для точнішої оцінки'):'Оберіть пристрій, щоб почати';
+  $('#tiList').innerHTML=rows.map(r=>`<li><span>${r[0]}</span><span>${r[1]}</span></li>`).join('')}
+function tiGo(s){ti.s=s;$$('.step').forEach(x=>x.classList.toggle('on',+x.dataset.s===s));$$('#tiSteps i').forEach((x,i)=>x.classList.toggle('on',i<=s));$('#tiBack').style.visibility=s?'visible':'hidden';$('#tiNext').textContent=s===3?'Записатися на оцінку':'Далі ›';tiCalc()}
+function pick(box,key,after){$(box).onclick=e=>{const b=e.target.closest('[data-v]');if(!b)return;$$(box+' [data-v]').forEach(x=>x.classList.toggle('on',x===b));const v=b.dataset.v;ti[key]=isNaN(v)?v:+v;after&&after();tiCalc()}}
+pick('#tiType','type',()=>{ti.model=null;$('#tiModel').innerHTML=TI[ti.type].models.map((m,i)=>`<button class="ch t" data-v="${i}"><span>${m[0]}<small>до ${fmt(m[1])}</small></span></button>`).join('');setTimeout(()=>tiGo(1),250)});
+pick('#tiModel','model',()=>setTimeout(()=>tiGo(2),250));
+pick('#tiCond','cond',()=>setTimeout(()=>tiGo(3),250));
+pick('#tiMem','mem');pick('#tiBat','bat');
+$('#tiBack').onclick=()=>tiGo(Math.max(0,ti.s-1));
+$('#tiNext').onclick=()=>{const need=[ti.type,ti.model,ti.cond][ti.s];if(ti.s<3){if(need==null)return toast('Спершу зробіть вибір');tiGo(ti.s+1)}else location.href='contacts.html#ask'};
+boot();tiGo(0);
+</script>
+</body>
+</html>
