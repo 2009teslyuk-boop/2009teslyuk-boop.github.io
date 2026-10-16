@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Товар — Orchard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.pg{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;padding-top:110px;align-items:start}
+.gal{position:sticky;top:80px}
+.gal .main{aspect-ratio:1;border-radius:34px;box-shadow:inset 0 0 0 1px var(--line)}
+.gal .main img{transition:opacity .5s,transform .8s var(--ease)}
+.thumbs{display:flex;gap:10px;margin-top:12px}
+.thumbs button{width:76px;height:76px;border-radius:16px;overflow:hidden;opacity:.5;transition:opacity .2s,box-shadow .2s}
+.thumbs button.on{opacity:1;box-shadow:0 0 0 2px var(--fg)}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.cfg h1{font-size:clamp(36px,4vw,56px);font-weight:700;letter-spacing:-.045em;line-height:1}
+.grp{padding:24px 0;border-bottom:1px solid var(--line)}
+.grp>b{display:block;font-weight:500;font-size:18px;margin-bottom:4px}
+.grp>small{color:var(--muted);display:block;margin-bottom:14px}
+.sws{display:flex;gap:12px;flex-wrap:wrap}
+.sw{width:38px;height:38px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);position:relative;transition:transform .2s}
+.sw:hover{transform:scale(1.08)}
+.sw.on::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--blue)}
+.opts{display:grid;gap:10px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-radius:18px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--line);text-align:left;transition:box-shadow .25s,background .25s}
+.opt.on{box-shadow:inset 0 0 0 2px var(--blue);background:rgba(41,151,255,.08)}
+.opt b{font-weight:500;font-size:17px}
+.opt span{color:var(--muted);font-size:14px}
+.tsel{margin-top:10px;display:none}
+.tsel.show{display:block}
+.buy{position:sticky;bottom:0;margin-top:20px;padding:20px 0;background:linear-gradient(180deg,transparent,#000 30%)}
+.buy .row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.buy .t{font-size:clamp(30px,3vw,40px);font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.buy small{display:block;color:var(--muted);font-size:13px}
+.specs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.spc{border-radius:24px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--line);padding:24px}
+.spc b{display:block;font-size:22px;font-weight:600;letter-spacing:-.03em;margin-top:8px}
+@media(max-width:900px){.pg{grid-template-columns:1fr}.gal{position:static}.specs{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-page="product.html">
+<main><div class="wrap" id="root"></div>
+<section style="padding-top:80px"><div class="wrap"><div class="shead"><h2 class="h2">Характеристики</h2><a class="link" id="cmpL" href="compare.html">Порівняти з іншими ›</a></div><div class="specs" id="specs"></div></div></section>
+<section style="padding-top:0"><div class="wrap"><div class="shead"><h2 class="h2">Може зацікавити</h2></div><div class="grid" id="rel"></div></div></section>
+</main>
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const p=byId(param('id'))||P[0];document.title=`${p.n} — Orchard`;
+const TRADES=[['iPhone 16 Pro',30000],['iPhone 15 Pro',24000],['iPhone 15',17000],['iPhone 14',12500],['iPhone 13',9500],['iPhone 12',7000]];
+const st={c:0,m:0,care:false,trade:false,ti:0};
+$('#root').innerHTML=`<div class="pg">
+  <div class="gal"><div class="ph main" id="main"></div>${p.img.length>1?`<div class="thumbs" id="th">${p.img.map((s,i)=>`<button data-i="${i}" class="${i?'':'on'}" aria-label="Фото ${i+1}"><img src="${U(s)}" alt=""></button>`).join('')}</div>`:''}</div>
+  <div class="cfg">
+    <span class="mono">${p.tag||'В наявності'}</span><h1 style="margin-top:10px">Купити ${p.n}</h1><p class="lead" style="margin-top:12px">${p.d}</p>
+    <div class="grp"><b>Колір. <span class="m" id="cn"></span></b><small>Оберіть свій відтінок.</small><div class="sws" id="sws">${p.colors.map((c,i)=>`<button class="sw ${i?'':'on'}" data-i="${i}" style="background:${c[1]}" aria-label="${c[0]}" title="${c[0]}"></button>`).join('')}</div></div>
+    <div class="grp"><b>${typeof p.mem[0]==='number'?"Пам'ять":'Варіант'}.</b><small>${typeof p.mem[0]==='number'?'Скільки місця вам потрібно?':'Оберіть конфігурацію.'}</small><div class="opts" id="mem">${p.mem.map((m,i)=>`<button class="opt ${i?'':'on'}" data-i="${i}"><b>${memLabel(m)}</b><span>${i&&p.step?'+ '+fmt(p.step*i):'базова ціна'}</span></button>`).join('')}</div></div>
+    <div class="grp"><b>AppleCare+.</b><small>Захист від падінь і рідини на 2 роки.</small><div class="opts" id="care"><button class="opt on" data-v="0"><b>Без AppleCare+</b><span>—</span></button><button class="opt" data-v="1"><b>AppleCare+ на 2 роки</b><span>+ 3 999 ₴</span></button></div></div>
+    <div class="grp"><b>Trade‑in.</b><small>Здайте старий iPhone і отримайте знижку одразу.</small><div class="opts" id="tr"><button class="opt on" data-v="0"><b>Без обміну</b><span>—</span></button><button class="opt" data-v="1"><b>Так, є старий iPhone</b><span>до −30 000 ₴</span></button></div>
+      <select class="inp tsel" id="tsel" aria-label="Ваш старий iPhone">${TRADES.map((t,i)=>`<option value="${i}">${t[0]} · до −${fmt(t[1])}</option>`).join('')}</select></div>
+    <div class="buy"><div class="row"><div><small>Разом</small><span class="t" id="tot"></span><small id="mon"></small></div><button class="btn b" id="add">Додати в кошик</button></div></div>
+  </div></div>`;
+const setMain=i=>{$('#main').innerHTML=`<img src="${U(p.img[i])}" alt="${p.n}" onload="this.classList.add('ld')">`;$$('#th button').forEach((b,k)=>b.classList.toggle('on',k===i))};setMain(0);
+$('#th')&&($('#th').onclick=e=>{const b=e.target.closest('button');if(b)setMain(+b.dataset.i)});
+const pick=(sel,fn)=>$(sel).onclick=e=>{const b=e.target.closest('button');if(!b)return;$$(sel+' button').forEach(x=>x.classList.toggle('on',x===b));fn(b);upd()};
+pick('#sws',b=>{st.c=+b.dataset.i;const m=$('#main img');m&&m.animate([{transform:'scale(1.04) rotate(-1deg)'},{transform:'none'}],{duration:600,easing:'ease-out'})});
+pick('#mem',b=>st.m=+b.dataset.i);pick('#care',b=>st.care=b.dataset.v==='1');pick('#tr',b=>{st.trade=b.dataset.v==='1';$('#tsel').classList.toggle('show',st.trade)});
+$('#tsel').onchange=e=>{st.ti=+e.target.value;upd()};
+let shown=0;
+function upd(){$('#cn').textContent=p.colors[st.c][0];const tr=st.trade?TRADES[st.ti][1]:0,v=Math.max(0,p.base+p.step*st.m+(st.care?3999:0)-tr);
+  const f=shown,t0=performance.now();shown=v;(function s(n){const k=Math.min(1,(n-t0)/500),q=1-Math.pow(1-k,3);$('#tot').textContent=fmt(Math.round(f+(v-f)*q));if(k<1)requestAnimationFrame(s)})(t0);
+  $('#mon').textContent=`або ${fmt(Math.round(v/24))}/міс. · 24 платежі під 0%${tr?` · знижка trade‑in ${fmt(tr)}`:''}`}
+$('#add').onclick=e=>addToBag({id:p.id,c:st.c,m:st.m,care:st.care,trade:st.trade?TRADES[st.ti][1]:0},e.currentTarget);
+$('#specs').innerHTML=SPEC_NAMES.filter(([k])=>p.sp[k]&&p.sp[k]!=='—').map(([k,n])=>`<div class="spc"><span class="mono">${n}</span><b>${p.sp[k]}</b></div>`).join('');
+$('#cmpL').href=`compare.html?a=${p.id}`;
+$('#rel').innerHTML=P.filter(x=>x.id!==p.id&&x.cat===p.cat).concat(P.filter(x=>x.cat!==p.cat&&x.pop>=9)).slice(0,4).map(card).join('');
+boot();upd();
+</script>
+</body>
+</html>

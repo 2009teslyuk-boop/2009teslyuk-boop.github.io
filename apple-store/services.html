@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trade-in і ремонт — Orchard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.sh{padding:130px 0 50px;text-align:center}
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--line);margin-top:26px}
+.tabs a{padding:10px 20px;border-radius:999px;font-size:15px;color:var(--muted)}
+.tabs a:hover{color:var(--fg)}
+.blk{scroll-margin-top:90px}
+.ti{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:stretch}
+.ti>*,.rep>*{min-width:0}
+.box{border-radius:30px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--line);padding:clamp(24px,3.6vw,42px)}
+.box h3{font-size:22px;font-weight:600;margin:24px 0 12px;letter-spacing:-.02em}
+.box h3:first-child{margin-top:0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:11px 16px;border-radius:999px;font-size:14px;background:var(--glass2);transition:all .25s}
+.chip.on{background:var(--fg);color:#000}
+.res{border-radius:30px;padding:clamp(24px,3.6vw,42px);background:radial-gradient(ellipse at 100% 0,rgba(255,61,119,.35),transparent 60%),radial-gradient(ellipse at 0 100%,rgba(41,151,255,.3),transparent 60%),#0b0b0d;box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;gap:16px}
+.res .v{font-size:clamp(54px,7vw,92px);font-weight:800;letter-spacing:-.06em;line-height:1;font-variant-numeric:tabular-nums}
+.res ul{list-style:none;display:grid;gap:8px}
+.res li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.res li span{color:var(--muted)}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sv{border-radius:24px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--line);padding:24px;transition:transform .4s var(--ease),background .4s}
+.sv:hover{transform:translateY(-4px);background:rgba(255,255,255,.07)}
+.sv i{font-style:normal;font-size:28px}
+.sv b{display:block;font-size:19px;font-weight:600;margin:14px 0 6px}
+.sv p{color:var(--muted);font-size:14px;line-height:1.5}
+.sv .m2{display:flex;justify-content:space-between;margin-top:16px;font-size:14px}
+.rep{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.rep .ph{border-radius:30px;min-height:420px}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trk{display:flex;gap:10px;margin-top:12px}
+.steps{display:flex;justify-content:space-between;margin-top:22px;position:relative}
+.steps::before{content:"";position:absolute;left:12px;right:12px;top:12px;height:2px;background:var(--line)}
+.steps .bar{position:absolute;left:12px;top:12px;height:2px;background:var(--ok);width:0;transition:width 1s var(--ease)}
+.steps div{position:relative;text-align:center;font-size:11px;color:var(--muted);width:64px}
+.steps i{display:block;width:26px;height:26px;border-radius:50%;margin:0 auto 6px;background:#0b0b0d;box-shadow:inset 0 0 0 2px var(--line);transition:all .4s}
+.steps div.done{color:var(--fg)}.steps div.done i{background:var(--ok);box-shadow:none}
+@media(max-width:900px){.ti,.rep{grid-template-columns:1fr}.svc{grid-template-columns:1fr 1fr}.rep .ph{min-height:260px}}
+@media(max-width:560px){.svc,.f{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-page="services.html">
+<main>
+  <div class="wrap sh"><span class="mono">Сервіс Orchard</span><h1 class="h1" style="margin-top:12px">Старе — на нове.<br><span class="m">Зламане — як нове.</span></h1><div class="tabs"><a href="#trade">Trade‑in</a><a href="#repair">Ремонт</a></div></div>
+
+  <section class="blk" id="trade" style="padding-top:10px"><div class="wrap">
+    <div class="shead"><h2 class="h2 rv">Trade‑in. <span class="m">Оцінка за 30 секунд.</span></h2></div>
+    <div class="ti">
+      <div class="box rv">
+        <h3>Ваша модель</h3><select class="inp" id="tm" aria-label="Модель"></select>
+        <h3>Стан</h3><div class="chips" id="tc"></div>
+        <h3>Пам'ять</h3><div class="chips" id="tmem"></div>
+        <h3>Батарея</h3><div class="chips" id="tb"></div>
+      </div>
+      <div class="res rv"><span class="mono">Попередня оцінка</span><div class="v grad" id="tv">0 ₴</div><ul id="tl"></ul><a class="btn w" id="tgo" href="product.html?id=ip17p">Застосувати до iPhone 17 Pro</a><p style="font-size:13px;color:var(--muted)">Фінальну ціну назве майстер після огляду в магазині.</p></div>
+    </div>
+  </div></section>
+
+  <section class="blk" id="repair" style="padding-top:20px"><div class="wrap">
+    <div class="shead"><h2 class="h2 rv">Ремонт. <span class="m">Від 20 хвилин.</span></h2></div>
+    <div class="svc" id="svc"></div>
+    <div class="rep">
+      <div class="box rv"><h3>Записатися на ремонт</h3>
+        <form id="rf" style="display:grid;gap:10px"><div class="f"><input class="inp" id="rName" required placeholder="Ім'я" aria-label="Ім'я"><input class="inp" id="rPhone" required type="tel" placeholder="+380 __ ___ __ __" aria-label="Телефон"></div><div class="f"><select class="inp" id="rSvc" aria-label="Послуга"></select><input class="inp" type="date" id="rDate" required aria-label="Дата"></div><button class="btn b">Записатися</button></form>
+        <h3>Статус ремонту</h3><p class="m" style="font-size:14px">Спробуйте номер <b style="color:var(--fg)">OR‑2048</b>.</p>
+        <div class="trk"><input class="inp" id="tid" placeholder="OR‑0000" aria-label="Номер ремонту"><button class="btn gl" id="tbtn">Перевірити</button></div>
+        <div class="steps" id="steps"><span class="bar" id="sbar"></span><div><i></i>Прийнято</div><div><i></i>Діагностика</div><div><i></i>Ремонт</div><div><i></i>Перевірка</div><div><i></i>Готово</div></div>
+        <p class="m" style="font-size:14px;margin-top:14px;text-align:center" id="smsg">&nbsp;</p>
+      </div>
+      <div class="ph rv" data-img="1746005514011-ea00280f3b6e"></div>
+    </div>
+  </div></section>
+</main>
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const TM=[['iPhone 16 Pro Max',36000],['iPhone 16 Pro',30000],['iPhone 16',22000],['iPhone 15 Pro',24000],['iPhone 15',17000],['iPhone 14 Pro',18000],['iPhone 14',12500],['iPhone 13',9500],['iPhone 12',7000],['iPhone 11',5000]];
+const C=[['Як новий',1],['Добрий',.85],['Подряпини',.65],['Тріщини',.35]],M=[['Базова',1],['×2',1.08],['×4',1.15]],B=[['90%+',1],['80–89%',.92],['<80%',.8]];
+const t={m:1,c:0,mem:0,b:0};
+$('#tm').innerHTML=TM.map((x,i)=>`<option value="${i}" ${i===1?'selected':''}>${x[0]}</option>`).join('');
+const chips=(id,arr,k)=>{$(id).innerHTML=arr.map((a,i)=>`<button class="chip ${i?'':'on'}" data-i="${i}">${a[0]}</button>`).join('');$(id).onclick=e=>{const b=e.target.closest('.chip');if(!b)return;t[k]=+b.dataset.i;$$(id+' .chip').forEach(x=>x.classList.toggle('on',x===b));calc()}};
+chips('#tc',C,'c');chips('#tmem',M,'mem');chips('#tb',B,'b');$('#tm').onchange=e=>{t.m=+e.target.value;calc()};
+let sh=0;function calc(){const v=Math.round(TM[t.m][1]*C[t.c][1]*M[t.mem][1]*B[t.b][1]/100)*100,n=byId('ip17p');
+  $('#tl').innerHTML=[['Модель',TM[t.m][0]],['Стан',C[t.c][0]],['iPhone 17 Pro з доплатою',fmt(Math.max(0,n.base-v))]].map(r=>`<li><span>${r[0]}</span><b>${r[1]}</b></li>`).join('');
+  const f=sh,t0=performance.now();sh=v;(function s(x){const k=Math.min(1,(x-t0)/600),q=1-Math.pow(1-k,3);$('#tv').textContent=fmt(Math.round(f+(v-f)*q));if(k<1)requestAnimationFrame(s)})(t0)}
+const SV=[['📱','Заміна дисплея','Оригінальна матриця з True Tone.','від 2 499 ₴','40 хв'],['🔋','Заміна батареї','100% ємності та швидка зарядка.','від 1 299 ₴','20 хв'],['🔙','Заднє скло','Лазерна заміна без розбирання.','від 1 799 ₴','2 год'],['📷','Камера','Модулі, скло камери, фокус.','від 1 499 ₴','40 хв'],['💧','Після води','Чищення та відновлення плати.','від 899 ₴','1 день'],['🔍','Діагностика','Повна перевірка пристрою.','Безкоштовно','15 хв']];
+$('#svc').innerHTML=SV.map(s=>`<div class="sv rv"><i>${s[0]}</i><b>${s[1]}</b><p>${s[2]}</p><div class="m2"><b style="margin:0;font-size:15px">${s[3]}</b><span class="m">⏱ ${s[4]}</span></div></div>`).join('');
+$('#rSvc').innerHTML=SV.map(s=>`<option>${s[1]}</option>`).join('');
+$('#rDate').min=$('#rDate').value=new Date().toISOString().slice(0,10);
+$('#rf').onsubmit=e=>{e.preventDefault();e.target.reset();$('#rDate').value=new Date().toISOString().slice(0,10);toast('✓ Ви записані! Передзвонимо протягом 15 хв')};
+$('#tbtn').onclick=()=>{const id=$('#tid').value.trim().toUpperCase().replace(/[-‑\s]/g,''),st={OR2048:3,OR1024:5,OR512:1}[id],s=$$('#steps div');s.forEach(x=>x.classList.remove('done'));$('#sbar').style.width=0;
+  if(st==null){$('#smsg').textContent='Не знайдено. Спробуйте OR‑2048 або OR‑1024';return}
+  setTimeout(()=>{$('#sbar').style.width=(($('#steps').offsetWidth-24)*(st-1)/4)+'px';s.forEach((x,i)=>i<st&&setTimeout(()=>x.classList.add('done'),i*200))},50);
+  $('#smsg').textContent=st===5?'🎉 Пристрій готовий — можна забирати.':`Етап: ${s[st-1].textContent}. Готовність сьогодні до 18:00.`};
+boot();calc();
+if(location.hash){const el=$(location.hash);if(el)setTimeout(()=>{window.lenis?window.lenis.scrollTo(el,{offset:-80}):el.scrollIntoView()},150)}
+$$('.tabs a').forEach(a=>a.onclick=e=>{e.preventDefault();const el=$(a.getAttribute('href'));window.lenis?window.lenis.scrollTo(el,{offset:-80}):el.scrollIntoView({behavior:'smooth'})});
+</script>
+</body>
+</html>

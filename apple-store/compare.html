@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Порівняння моделей — Orchard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.ch{padding:130px 0 40px;text-align:center}
+.cmp{overflow-x:auto}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:16px;min-width:680px}
+.col{text-align:center}
+.col select{width:100%;background:var(--glass);border:0;box-shadow:inset 0 0 0 1px var(--line);border-radius:14px;padding:13px 14px;font-size:15px;margin-bottom:20px}
+.col select option{background:#111}
+.col .ph{aspect-ratio:1;border-radius:28px;margin-bottom:18px}
+.col h3{font-size:24px;font-weight:600;letter-spacing:-.03em}
+.col .pr{color:var(--muted);margin:6px 0 16px}
+.dots{justify-content:center}
+.rows{margin-top:40px;min-width:680px}
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:22px 0;border-top:1px solid var(--line);text-align:center}
+.row .lbl{grid-column:1/-1;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:-6px}
+.row div{font-size:17px;font-weight:400;transition:color .3s}
+.row div.best{color:#fff;font-weight:600}
+.row div.best::after{content:" ★";background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.legend{color:var(--muted);font-size:14px;text-align:center;margin-top:24px}
+</style>
+</head>
+<body data-page="compare.html">
+<main><div class="wrap">
+  <div class="ch"><span class="mono">Порівняння</span><h1 class="h1" style="margin-top:12px">Який — <span class="grad">ваш?</span></h1><p class="lead" style="margin:16px auto 0">Оберіть до трьох моделей і порівняйте головне.</p></div>
+  <div class="cmp"><div class="cols" id="cols"></div><div class="rows" id="rows"></div></div>
+  <p class="legend">★ — найкращий показник серед обраних моделей.</p>
+</div></main>
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const sel=[param('a')&&byId(param('a'))?param('a'):'ip17p','ipair','ip17'].map((x,i,a)=>a.indexOf(x)!==i?['ip17p','ipair','ip17','ip16e'].find(y=>!a.includes(y)):x);
+const opts=P.map(p=>`<option value="${p.id}">${p.n}</option>`).join('');
+/* хто «кращий» у рядку: більше число або менша вага */
+const num=s=>parseFloat(String(s).replace(',','.').replace(/[^\d.]/g,''))||0;
+const BEST={screen:v=>num(v),video:v=>num(v),weight:v=>-num(v)*(String(v).includes('кг')?1000:1)};
+function draw(){
+  $('#cols').innerHTML=sel.map((id,i)=>{const p=byId(id);return `<div class="col"><select data-i="${i}" aria-label="Модель ${i+1}">${opts.replace(`value="${id}"`,`value="${id}" selected`)}</select>${ph(p.img[0],p.n)}<div class="dots">${p.colors.map(c=>`<span class="dot" style="background:${c[1]}"></span>`).join('')}</div><h3>${p.n}</h3><p class="pr">від ${fmt(p.base)}</p><a class="btn b sm" href="product.html?id=${p.id}">Купити</a></div>`}).join('');
+  $('#rows').innerHTML=SPEC_NAMES.map(([k,n])=>{const vals=sel.map(id=>byId(id).sp[k]||'—');let bi=-1;if(BEST[k]){const sc=vals.map(v=>v==='—'?-Infinity:BEST[k](v));const m=Math.max(...sc);if(sc.filter(x=>x===m).length===1)bi=sc.indexOf(m)}
+    return `<div class="row"><span class="lbl">${n}</span>${vals.map((v,i)=>`<div class="${i===bi?'best':''}">${v}</div>`).join('')}</div>`}).join('')+`<div class="row"><span class="lbl">Ціна від</span>${sel.map(id=>`<div>${fmt(byId(id).base)}</div>`).join('')}</div>`;
+  $$('#cols select').forEach(s=>s.onchange=e=>{sel[+e.target.dataset.i]=e.target.value;draw()})}
+boot();draw();
+</script>
+</body>
+</html>

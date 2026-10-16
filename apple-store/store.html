@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Магазин — Orchard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.sh{padding:130px 0 30px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:34px 0 26px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:4px;border-radius:999px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--line);position:relative}
+.chips::-webkit-scrollbar{display:none}
+.chips button{position:relative;z-index:1;padding:9px 18px;border-radius:999px;font-size:14px;color:var(--muted);white-space:nowrap;transition:color .3s}
+.chips button.on{color:#000}
+.chips .pill{position:absolute;top:4px;bottom:4px;border-radius:999px;background:var(--fg);transition:left .45s var(--ease),width .45s var(--ease)}
+.tools{display:flex;gap:10px;flex-wrap:wrap}
+.srch{display:flex;align-items:center;gap:8px;background:var(--glass);box-shadow:inset 0 0 0 1px var(--line);border-radius:999px;padding:11px 16px;min-width:240px}
+.srch input{border:0;outline:0;background:none;flex:1;font-size:15px;min-width:0}
+.srch svg{width:16px;height:16px;color:var(--muted)}
+.sel{background:var(--glass);border:0;box-shadow:inset 0 0 0 1px var(--line);border-radius:999px;padding:11px 16px;font-size:14px}
+.sel option{background:#111}
+.empty2{grid-column:1/-1;text-align:center;color:var(--muted);padding:70px 0}
+</style>
+</head>
+<body data-page="store.html">
+<main><div class="wrap">
+  <div class="sh"><span class="mono">Магазин</span><h1 class="h1" style="margin-top:12px" id="ttl">Уся техніка. <span class="m">Одне місце.</span></h1></div>
+  <div class="bar"><div class="chips" id="chips"><span class="pill" id="pill"></span></div>
+    <div class="tools"><label class="srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="Пошук" aria-label="Пошук"></label>
+    <select class="sel" id="sort" aria-label="Сортування"><option value="pop">Популярні</option><option value="asc">Дешевші</option><option value="desc">Дорожчі</option></select></div></div>
+  <div class="grid" id="grid"></div>
+</div></main>
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+let cat=param('cat')||'all';
+$('#chips').insertAdjacentHTML('beforeend',CATS.map(([k,v])=>`<button data-c="${k}">${v}</button>`).join(''));
+function pill(){const b=$(`#chips [data-c="${cat}"]`)||$('#chips button');$$('#chips button').forEach(x=>x.classList.toggle('on',x===b));const p=$('#pill');p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px'}
+$('#chips').onclick=e=>{const b=e.target.closest('button');if(!b)return;cat=b.dataset.c;pill();render();history.replaceState(null,'','store.html'+(cat==='all'?'':'?cat='+cat))};
+$('#q').oninput=render;$('#sort').onchange=render;
+function render(){const q=$('#q').value.trim().toLowerCase(),s=$('#sort').value;let l=P.filter(p=>(cat==='all'||p.cat===cat)&&(!q||(p.n+' '+p.d).toLowerCase().includes(q)));
+  l.sort((a,b)=>s==='asc'?a.base-b.base:s==='desc'?b.base-a.base:b.pop-a.pop);
+  const nm=(CATS.find(c=>c[0]===cat)||[])[1];$('#ttl').innerHTML=cat==='all'?'Уся техніка. <span class="m">Одне місце.</span>':`${nm}. <span class="m">Оберіть свій.</span>`;
+  $('#grid').innerHTML=l.length?l.map(card).join(''):'<div class="empty2">Нічого не знайдено.</div>'}
+boot();render();pill();addEventListener('resize',pill);
+if(location.hash==='#q')setTimeout(()=>$('#q').focus(),300);
+</script>
+</body>
+</html>
