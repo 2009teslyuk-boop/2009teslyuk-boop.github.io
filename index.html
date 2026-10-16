@@ -17,7 +17,7 @@ h1 span{color:var(--muted)}
 .sub{color:var(--muted);font-size:18px;margin-top:24px;max-width:540px;line-height:1.5}
 .list{margin-top:70px;border-top:1px solid var(--line)}
 .it{display:grid;grid-template-columns:60px 1fr auto;gap:24px;align-items:center;padding:36px 0;border-bottom:1px solid var(--line);position:relative;opacity:0;transform:translateY(30px);animation:in .9s var(--ease) forwards}
-.it:nth-child(2){animation-delay:.1s}.it:nth-child(3){animation-delay:.2s}.it:nth-child(4){animation-delay:.3s}
+.it:nth-child(2){animation-delay:.1s}.it:nth-child(3){animation-delay:.2s}.it:nth-child(4){animation-delay:.3s}.it:nth-child(5){animation-delay:.4s}.it:nth-child(6){animation-delay:.5s}.it:nth-child(7){animation-delay:.6s}
 @keyframes in{to{opacity:1;transform:none}}
 .it .n{color:var(--muted);font-size:14px}
 .it h2{font-size:clamp(34px,5.4vw,72px);letter-spacing:-.045em;font-weight:500;transition:transform .6s var(--ease),color .4s;line-height:1}
@@ -41,11 +41,11 @@ footer a{text-decoration:underline}
 <body>
 <div class="wrap">
   <h1>Вибрані<br><span>роботи ↘</span></h1>
-  <p class="sub">Чотири сайти, зроблені з нуля на HTML, CSS та JavaScript. Реальні фото, анімації, кошики, калькулятори й онлайн‑запис.</p>
+  <p class="sub">Сім сайтів, зроблених з нуля на HTML, CSS та JavaScript. Реальні фото, анімації, кошики, калькулятори й онлайн‑запис.</p>
   <div class="list" id="list">
     <a class="it" href="apple-store/index.html" style="--c:#0071e3" data-i="0">
       <span class="n">01</span>
-      <div><h2>Orchard</h2><p>Магазин техніки Apple: каталог, кошик, Trade‑in калькулятор, запис на ремонт</p><div class="tags"><span>E‑commerce</span><span>SPA‑роутинг</span><span>Модальні вікна</span></div><img class="thumb" alt="" loading="lazy" src="apple-store/img/1757710436034-f1d7372ec1be.jpg"></div>
+      <div><h2>Orchard</h2><p>Магазин техніки Apple у стилі презентацій: конфігуратор, порівняння моделей, trade‑in і ремонт</p><div class="tags"><span>E‑commerce</span><span>Scroll‑анімації</span><span>Конфігуратор</span></div><img class="thumb" alt="" loading="lazy" src="apple-store/img/1759588071781-2c3ba9128497.jpg"></div>
       <span class="ar">→</span>
     </a>
     <a class="it" href="coffee/index.html" style="--c:#c27a43" data-i="1">
@@ -63,12 +63,27 @@ footer a{text-decoration:underline}
       <div><h2>Смерека</h2><p>Еко‑шале в Карпатах: слайдшоу, режим «літо/зима», галерея, калькулятор бронювання</p><div class="tags"><span>Туризм</span><span>Сезонні теми</span><span>Canvas</span></div><img class="thumb" alt="" loading="lazy" src="hotel/img/1638985787285-46f05ff063f2.jpg"></div>
       <span class="ar">→</span>
     </a>
+    <a class="it" href="ribs/index.html" style="--c:#ff5a1f" data-i="4">
+      <span class="n">05</span>
+      <div><h2>ДИМ</h2><p>Реберня та барбекю: меню з кошиком і доставкою, калькулятор м'яса на компанію, бронювання</p><div class="tags"><span>Ресторан</span><span>Доставка</span><span>Canvas‑іскри</span></div><img class="thumb" alt="" loading="lazy" src="ribs/img/1611354609291-69aba96e45df.jpg"></div>
+      <span class="ar">→</span>
+    </a>
+    <a class="it" href="restaurant/index.html" style="--c:#c8553d" data-i="5">
+      <span class="n">06</span>
+      <div><h2>Luce</h2><p>Тратторія та коктейль‑бар: меню з опціями, підбирач коктейлів, оформлення й статус замовлення</p><div class="tags"><span>Замовлення онлайн</span><span>Чекаут</span><span>Квіз</span></div><img class="thumb" alt="" loading="lazy" src="restaurant/img/1574071318508-1cdbab80d002.jpg"></div>
+      <span class="ar">→</span>
+    </a>
+    <a class="it" href="barber/index.html" style="--c:#c9a26b" data-i="6">
+      <span class="n">07</span>
+      <div><h2>Бритва</h2><p>Барбершоп: прайс за рівнем майстра, профілі барберів, онлайн‑запис з вибором часу</p><div class="tags"><span>Бронювання</span><span>Календар .ics</span><span>Dark UI</span></div><img class="thumb" alt="" loading="lazy" src="barber/img/1503951914875-452162b0f3f1.jpg"></div>
+      <span class="ar">→</span>
+    </a>
   </div>
   <footer><span>© 2026 · Портфоліо</span><span>Фото: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></span></footer>
 </div>
 <div class="prev" id="prev"></div>
 <script>
-const ids=['apple-store/img/1757710436034-f1d7372ec1be.jpg','coffee/img/1541167760496-1628856ab772.jpg','dental/img/1548382131-e0ebb1f0cdea.jpg','hotel/img/1638985787285-46f05ff063f2.jpg'];
+const ids=['apple-store/img/1759588071781-2c3ba9128497.jpg','coffee/img/1541167760496-1628856ab772.jpg','dental/img/1548382131-e0ebb1f0cdea.jpg','hotel/img/1638985787285-46f05ff063f2.jpg','ribs/img/1611354609291-69aba96e45df.jpg','restaurant/img/1574071318508-1cdbab80d002.jpg','barber/img/1503951914875-452162b0f3f1.jpg'];
 const prev=document.getElementById('prev');
 prev.innerHTML=ids.map(id=>`<img alt="" src="${id}">`).join('');
 const imgs=[...prev.children];let x=0,y=0,cx=0,cy=0;
