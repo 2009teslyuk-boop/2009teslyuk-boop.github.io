@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Оформлення замовлення — Luce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.co{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;padding-top:140px;align-items:start}
+.box{background:var(--card);border-radius:28px;padding:clamp(24px,3.4vw,40px)}
+.step{display:grid;gap:12px;padding-bottom:26px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+.step:last-of-type{border:0;margin:0;padding:0}
+.step h3{font-family:var(--serif);font-size:26px;font-weight:500;display:flex;align-items:center;gap:12px}
+.step h3 i{font-style:normal;font-family:var(--sans);font-size:13px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mode{border-radius:18px;padding:16px;text-align:left;box-shadow:inset 0 0 0 1.5px var(--line);transition:all .25s}
+.mode b{display:block;font-size:16px}
+.mode span{font-size:13px;color:var(--muted)}
+.mode.on{box-shadow:inset 0 0 0 2px var(--green);background:rgba(29,59,47,.06)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.side{position:sticky;top:100px}
+.li{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.li .ph{width:56px;height:56px;border-radius:50%;flex:none}
+.li .t{flex:1;min-width:0;font-size:14px}
+.li .t b{display:block;font-family:var(--serif);font-size:17px;font-weight:500}
+.li .t span{color:var(--muted);font-size:12px}
+.r{display:flex;justify-content:space-between;padding:8px 0;font-size:15px;color:var(--muted)}
+.r.t{color:var(--ink);font-size:18px;padding-top:16px;margin-top:8px;border-top:1px solid var(--line)}
+.r.t b{font-family:var(--serif);font-size:34px;font-weight:500}
+.promo{display:flex;gap:8px;margin:14px 0}
+.promo .inp{flex:1}
+.hide{display:none!important}
+@media(max-width:900px){.co{grid-template-columns:1fr;padding-top:110px}.side{position:static;order:-1}.modes{grid-template-columns:1fr}.grid3,.grid2{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-page="checkout.html">
+<main><div class="wrap co">
+  <form class="box" id="cf">
+    <div class="kick">Оформлення</div>
+    <h1 class="h2" style="margin-bottom:30px">Майже <em>готово</em></h1>
+    <div class="step"><h3><i>1</i>Як отримаєте</h3>
+      <div class="modes" id="modes">
+        <button type="button" class="mode on" data-m="del"><b>🛵 Доставка</b><span>40–50 хв · 70 ₴</span></button>
+        <button type="button" class="mode" data-m="pick"><b>🥡 Самовивіз</b><span>20 хв · −5%</span></button>
+        <button type="button" class="mode" data-m="table"><b>🍽 До столика</b><span>якщо ви вже в Luce</span></button>
+      </div>
+    </div>
+    <div class="step" id="sAddr"><h3><i>2</i>Куди везти</h3>
+      <div class="grid3"><input class="inp" id="street" placeholder="Вулиця" aria-label="Вулиця"><input class="inp" id="house" placeholder="Будинок" aria-label="Будинок"><input class="inp" id="apt" placeholder="Кв." aria-label="Квартира"></div>
+      <div class="grid2"><input class="inp" id="floor" placeholder="Під'їзд, поверх" aria-label="Під'їзд і поверх"><input class="inp" id="code" placeholder="Код домофону" aria-label="Код домофону"></div>
+    </div>
+    <div class="step hide" id="sTable"><h3><i>2</i>Ваш столик</h3><input class="inp" id="table" type="number" min="1" max="40" placeholder="Номер столика (на табличці)" aria-label="Номер столика"></div>
+    <div class="step"><h3><i>3</i>Контакти</h3>
+      <div class="grid2"><input class="inp" id="cName" required placeholder="Ваше ім'я" aria-label="Ім'я"><input class="inp" id="cPhone" required type="tel" placeholder="+380 __ ___ __ __" aria-label="Телефон"></div>
+    </div>
+    <div class="step"><h3><i>4</i>Коли й оплата</h3>
+      <div class="grid2"><select class="inp" id="when" aria-label="Коли"><option>Якнайшвидше</option></select><select class="inp" id="pay" aria-label="Оплата"><option>Картою при отриманні</option><option>Готівкою</option></select></div>
+      <div class="grid2"><select class="inp" id="cut" aria-label="Прибори"><option>Без приборів</option><option>1 комплект приборів</option><option>2 комплекти</option><option>3 комплекти</option><option>4 комплекти</option></select><input class="inp" id="note" placeholder="Коментар до замовлення" aria-label="Коментар"></div>
+    </div>
+  </form>
+  <aside class="side">
+    <div class="box">
+      <h2 class="h3" style="margin-bottom:10px">Ваше замовлення</h2>
+      <div id="lines"></div>
+      <div class="promo"><input class="inp" id="promo" placeholder="Промокод (спробуйте LUCE10)" aria-label="Промокод"><button type="button" class="btn o sm" id="apply">OK</button></div>
+      <div id="sums"></div>
+      <button class="btn t" form="cf" style="width:100%;margin-top:18px" id="go">Підтвердити замовлення</button>
+      <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center">Демо-сайт: замовлення не надсилається в реальний ресторан.</p>
+    </div>
+  </aside>
+</div></main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+let mode='del',disc=0;
+/* час «на коли» — кожні 30 хв на найближчі години */
+(function(){const s=$('#when'),n=new Date();n.setMinutes(n.getMinutes()<30?60:90,0,0);for(let i=0;i<8;i++){const t=new Date(n.getTime()+i*18e5);s.insertAdjacentHTML('beforeend',`<option>На ${t.toTimeString().slice(0,5)}</option>`)}})();
+$('#modes').onclick=e=>{const b=e.target.closest('.mode');if(!b)return;mode=b.dataset.m;$$('.mode').forEach(x=>x.classList.toggle('on',x===b));
+  $('#sAddr').classList.toggle('hide',mode!=='del');$('#sTable').classList.toggle('hide',mode!=='table');$('#street').required=$('#house').required=mode==='del';$('#table').required=mode==='table';sums()};
+$('#street').required=$('#house').required=true;
+$('#apply').onclick=()=>{const v=$('#promo').value.trim().toUpperCase();if(v==='LUCE10'){disc=.1;toast('🎉 Промокод застосовано: −10%')}else{disc=0;toast('Такого промокоду немає')}sums()};
+function totals(){const s=cartSum(),del=mode==='del'&&s<800&&s>0?70:0,pick=mode==='pick'?Math.round(s*.05):0,pr=Math.round(s*disc);return {s,del,pick,pr,t:s+del-pick-pr}}
+function sums(){
+  $('#lines').innerHTML=cart.length?cart.map(x=>{const m=byId(x.id);return `<div class="li">${ph(m.img)}<div class="t"><b>${x.q} × ${m.n}</b><span>${x.label||''}</span></div><b>${fmt(x.price*x.q)}</b></div>`}).join(''):`<div class="empty">Кошик порожній. <a href="menu.html" style="color:var(--terra);text-decoration:underline">До меню</a></div>`;
+  const T=totals();
+  $('#sums').innerHTML=[['Страви',fmt(T.s)],mode==='del'?['Доставка',T.del?fmt(T.del):'безкоштовно']:null,T.pick?['Знижка за самовивіз','−'+fmt(T.pick)]:null,T.pr?['Промокод LUCE10','−'+fmt(T.pr)]:null].filter(Boolean).map(r=>`<div class="r"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')+`<div class="r t"><span>До сплати</span><b>${fmt(T.t)}</b></div>`+(mode==='del'&&T.s<800&&T.s>0?`<p style="font-size:13px;color:var(--muted)">Ще ${fmt(800-T.s)} — і доставка безкоштовна.</p>`:'');
+  $('#go').disabled=!cart.length;$('#go').style.opacity=cart.length?1:.5}
+$('#cf').onsubmit=e=>{e.preventDefault();if(!cart.length)return toast('Додайте щось у замовлення');
+  const T=totals(),n=Math.floor(100+Math.random()*900);
+  store.set('luce-last',{n,created:Date.now(),mode,items:cart,total:T.t,name:$('#cName').value,when:$('#when').value,table:$('#table').value,addr:mode==='del'?`${$('#street').value}, ${$('#house').value}${$('#apt').value?', кв. '+$('#apt').value:''}`:''});
+  cart=[];save();location.href='order.html'};
+boot();sums();
+</script>
+</body>
+</html>

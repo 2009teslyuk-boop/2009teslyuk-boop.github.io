@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Коктейль-бар — Luce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+/* Бар — нічна версія палітри */
+body.night{--paper:#10241b;--paper2:#16301f;--card:#183326;--ink:#f4efe6;--muted:#a9b8ad;--line:rgba(244,239,230,.12);color-scheme:dark}
+body.night .hdr.solid{background:rgba(16,36,27,.88)}
+body.night .nav a.on{background:var(--gold);color:#10241b}
+body.night .cartbtn{background:var(--gold);color:#10241b}
+body.night em{color:var(--gold)}
+body.night .kick{color:var(--gold)}
+body.night .plus{background:var(--gold);color:#10241b}
+body.night .btn.g{background:var(--gold);color:#10241b}
+body.night .opt.on{background:var(--gold);color:#10241b}
+body.night .inp{background:rgba(244,239,230,.06)}
+body.night .ftr{background:#0b1a13}
+.bh{position:relative;min-height:92vh;display:flex;align-items:flex-end;padding:140px 0 60px;isolation:isolate;overflow:hidden}
+.bh>.ph{position:absolute;inset:0;z-index:-2}
+.bh::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(16,36,27,.5),rgba(16,36,27,.15) 40%,#10241b)}
+.hh{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.hh>*{min-width:0}.cd{flex-wrap:wrap}
+.hh .card{background:var(--card);border-radius:30px;padding:clamp(28px,4vw,46px);display:flex;flex-direction:column;justify-content:space-between;gap:20px}
+.cd{display:flex;gap:14px}
+.cd div{background:rgba(244,239,230,.06);border-radius:18px;padding:16px 18px;min-width:90px;text-align:center}
+.cd b{font-family:var(--serif);font-size:50px;font-weight:500;display:block;line-height:1;font-variant-numeric:tabular-nums}
+.cd span{font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.hh .ph{border-radius:30px;min-height:380px}
+.quiz{background:var(--card);border-radius:34px;padding:clamp(28px,4vw,52px)}
+.qs{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:30px}
+.q b{display:block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.q .opts{display:grid;gap:8px}
+.q .opt{text-align:left;padding:16px 18px;border-radius:16px;font-size:16px}
+.q .opt span{float:right;opacity:.6}
+.res{margin-top:34px;padding-top:30px;border-top:1px solid var(--line)}
+.res .items{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+@media(max-width:900px){.hh,.qs{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-page="bar.html" class="night">
+<main>
+  <div class="bh"><div class="ph" data-img="1551024709-8f23befc6f87"></div>
+    <div class="wrap"><div class="kick">Cocktail bar · щодня до 00:00</div><h1 class="h1">Аперитиво <em>о сьомій</em></h1><p class="lead" style="margin-top:18px">Класика італійського бару та авторські коктейлі. Не знаєте, що обрати? Наш підбирач допоможе.</p><div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px"><a href="#quiz" class="btn g" id="toQuiz">Підібрати коктейль</a><a href="menu.html#cocktails" class="btn o" style="box-shadow:inset 0 0 0 1.5px var(--ink)">Уся карта бару</a></div></div>
+  </div>
+
+  <section style="padding-top:40px"><div class="wrap hh">
+    <div class="card rv"><div><div class="kick">Happy hours</div><h2 class="h2" style="font-size:clamp(34px,4vw,56px)" id="hhT">Другий коктейль — <em>за пів ціни</em></h2><p class="lead" style="margin-top:12px">Щодня з 18:00 до 20:00 на всю коктейльну карту.</p></div><div class="cd" id="cd"></div></div>
+    <div class="ph rv" data-img="1654677608880-51f63b5dee97"></div>
+  </div></section>
+
+  <section id="quiz" style="padding-top:0;scroll-margin-top:90px"><div class="wrap"><div class="quiz rv">
+    <div class="kick">Підбирач</div><h2 class="h2" style="font-size:clamp(36px,4.4vw,62px)">Який коктейль — <em>ваш</em>?</h2>
+    <div class="qs">
+      <div class="q"><b>1 · Смак</b><div class="opts" data-q="taste"><button class="opt" data-v="sweet">Солодкий <span>🍓</span></button><button class="opt" data-v="sour">Кислий, освіжаючий <span>🍋</span></button><button class="opt" data-v="bitter">Гіркуватий <span>🍊</span></button></div></div>
+      <div class="q"><b>2 · Настрій</b><div class="opts" data-q="mood"><button class="opt" data-v="light">Легко й весело <span>🥂</span></button><button class="opt" data-v="strong">Повільно й міцно <span>🥃</span></button></div></div>
+      <div class="q"><b>3 · Алкоголь</b><div class="opts" data-q="alc"><button class="opt on" data-v="yes">Так, класика <span>🍸</span></button><button class="opt" data-v="no">Без алкоголю <span>🌿</span></button></div></div>
+    </div>
+    <div class="res" id="res"><p class="lead">Оберіть смак і настрій — і ми покажемо, що замовити.</p></div>
+  </div></div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <div class="shead"><div><div class="kick rv">Карта бару</div><h2 class="h2 rv">Усі <em>коктейлі</em></h2></div></div>
+    <div class="items" id="all"></div>
+  </div></section>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+$('#all').innerHTML=MENU.filter(m=>m.c==='cocktails').map(itemCard).join('');
+const A={taste:null,mood:null,alc:'yes'};
+$$('.q .opts').forEach(g=>g.onclick=e=>{const b=e.target.closest('.opt');if(!b)return;A[g.dataset.q]=b.dataset.v;$$('.opt',g).forEach(x=>x.classList.toggle('on',x===b));pick()});
+function pick(){if(!A.taste||!A.mood){$('#res').innerHTML='<p class="lead">Оберіть смак і настрій — і ми покажемо, що замовити.</p>';return}
+  if(A.alc==='no'){const l=MENU.filter(m=>m.c==='soft');$('#res').innerHTML=`<h3 class="h3" style="margin-bottom:18px">Безалкогольні, які вам сподобаються:</h3><div class="items">${l.map(itemCard).join('')}</div>`;hydrate($('#res'));return}
+  let l=MENU.filter(m=>m.c==='cocktails'&&m.taste===A.taste&&m.mood===A.mood);
+  const near=MENU.filter(m=>m.c==='cocktails'&&!l.includes(m)&&(m.taste===A.taste||m.mood===A.mood)).slice(0,3-Math.min(l.length,3));
+  $('#res').innerHTML=`<h3 class="h3" style="margin-bottom:18px">${l.length?'Ідеальний збіг:':'Точного збігу немає, але спробуйте:'}</h3><div class="items">${[...l,...near].map(itemCard).join('')}</div>`;hydrate($('#res'))}
+/* таймер happy hours */
+function cd(){const n=new Date(),s=new Date(n),e=new Date(n);s.setHours(18,0,0,0);e.setHours(20,0,0,0);let target,label;
+  if(n<s){target=s;label='До happy hours'}else if(n<e){target=e;label='Happy hours закінчаться через'}else{target=new Date(s.getTime()+864e5);label='До наступних happy hours'}
+  const d=Math.max(0,target-n),h=Math.floor(d/36e5),m=Math.floor(d%36e5/6e4),sc=Math.floor(d%6e4/1e3);
+  $('#cd').innerHTML=`<div style="min-width:auto;text-align:left;background:none;padding:0 6px 0 0;align-self:center"><span>${label}</span></div>`+[[h,'год'],[m,'хв'],[sc,'сек']].map(([v,t])=>`<div><b>${String(v).padStart(2,'0')}</b><span>${t}</span></div>`).join('')}
+cd();setInterval(cd,1000);
+$('#toQuiz').onclick=e=>{e.preventDefault();scrollToEl($('#quiz'),-90)};
+boot();
+</script>
+</body>
+</html>

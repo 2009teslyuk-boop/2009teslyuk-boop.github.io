@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Статус замовлення — Luce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.os{padding-top:140px;display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.box{background:var(--card);border-radius:30px;padding:clamp(26px,4vw,48px)}
+.eta{display:flex;align-items:baseline;gap:14px;margin:18px 0 30px;flex-wrap:wrap}
+.eta b{font-family:var(--serif);font-size:clamp(64px,8vw,110px);font-weight:500;line-height:.9;color:var(--terra);font-variant-numeric:tabular-nums}
+.track{display:grid;gap:0;position:relative}
+.track::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:var(--line)}
+.track .fill{position:absolute;left:21px;top:22px;width:2px;background:var(--green);transition:height 1s var(--ease)}
+.ts{display:flex;gap:18px;align-items:center;padding:12px 0;position:relative;opacity:.45;transition:opacity .5s}
+.ts.done,.ts.now{opacity:1}
+.ts i{width:44px;height:44px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font-style:normal;font-size:20px;flex:none;z-index:1;transition:all .4s}
+.ts.done i{background:var(--green);color:var(--paper)}
+.ts.now i{background:var(--terra);color:#fff;box-shadow:0 0 0 8px rgba(200,85,61,.18);animation:pp 1.6s infinite}
+@keyframes pp{50%{box-shadow:0 0 0 14px rgba(200,85,61,.06)}}
+.ts b{display:block;font-size:17px}
+.ts span{color:var(--muted);font-size:14px}
+.li{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.li .ph{width:52px;height:52px;border-radius:50%;flex:none}
+.li .t{flex:1;font-size:14px}.li .t b{font-family:var(--serif);font-size:17px;font-weight:500}
+.kv{display:grid;gap:10px;margin-top:20px;font-size:15px}
+.kv div{display:flex;justify-content:space-between;gap:12px}
+.kv span{color:var(--muted)}
+@media(max-width:900px){.os{grid-template-columns:1fr;padding-top:110px}}
+</style>
+</head>
+<body data-page="order.html">
+<main><div class="wrap" id="root"></div></main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const o=store.get('luce-last',null);
+if(!o){$('#root').innerHTML=`<div style="padding:180px 0 80px;text-align:center"><h1 class="h2">Активних замовлень <em>немає</em></h1><p class="lead" style="margin:16px auto 28px">Оформіть замовлення, і тут з'явиться його статус у реальному часі.</p><a href="menu.html" class="btn g">До меню</a></div>`}
+else{
+  const S=o.mode==='del'?[['🧾','Прийнято','Кухня отримала замовлення'],['👨‍🍳','Готуємо','Шеф уже розкатує тісто'],['🔥','У печі','450°, 90 секунд'],['🛵','В дорозі','Курʼєр поспішає до вас'],['🍝','Смачного!','Buon appetito']]:o.mode==='pick'?[['🧾','Прийнято','Кухня отримала замовлення'],['👨‍🍳','Готуємо','Шеф уже розкатує тісто'],['🔥','У печі','450°, 90 секунд'],['🥡','Готово до видачі','Чекаємо вас на касі'],['🍝','Смачного!','Buon appetito']]:[['🧾','Прийнято','Кухня отримала замовлення'],['👨‍🍳','Готуємо','Шеф уже розкатує тісто'],['🔥','У печі','450°, 90 секунд'],['🍽','Несемо до столика',`Столик №${o.table||'—'}`],['🍝','Смачного!','Buon appetito']];
+  const total=o.mode==='del'?45:o.mode==='pick'?20:15; /* хвилин */
+  $('#root').innerHTML=`<div class="os">
+    <div class="box"><div class="kick">Замовлення №${o.n}</div><h1 class="h2">Grazie, <em>${o.name||'друже'}</em>!</h1>
+      <div class="eta"><b id="eta">${total}</b><span class="lead" id="etaL">хвилин до ${o.mode==='del'?'доставки':o.mode==='pick'?'видачі':'подачі'}</span></div>
+      <div class="track" id="track"><span class="fill" id="fill"></span>${S.map((s,i)=>`<div class="ts" data-i="${i}"><i>${s[0]}</i><div><b>${s[1]}</b><span>${s[2]}</span></div></div>`).join('')}</div>
+      <p style="font-size:13px;color:var(--muted);margin-top:20px">Демо: статус оновлюється автоматично кожні ~20 секунд.</p></div>
+    <div class="box"><h2 class="h3" style="margin-bottom:10px">Що замовили</h2>${o.items.map(x=>{const m=byId(x.id);return `<div class="li">${ph(m.img)}<div class="t"><b>${x.q} × ${m.n}</b><br><span style="color:var(--muted);font-size:12px">${x.label||''}</span></div><b>${fmt(x.price*x.q)}</b></div>`}).join('')}
+      <div class="kv"><div><span>Разом</span><b>${fmt(o.total)}</b></div><div><span>Отримання</span><b>${o.mode==='del'?'Доставка':o.mode==='pick'?'Самовивіз':'До столика'}</b></div>${o.addr?`<div><span>Адреса</span><b>${o.addr}</b></div>`:''}<div><span>Коли</span><b>${o.when}</b></div></div>
+      <a href="menu.html" class="btn o" style="width:100%;margin-top:24px">Замовити ще</a></div></div>`;
+  function tick(){const el=(Date.now()-o.created)/1000,step=Math.min(S.length-1,Math.floor(el/20));
+    $$('.ts').forEach((t,i)=>{t.classList.toggle('done',i<step);t.classList.toggle('now',i===step&&step<S.length-1);if(step===S.length-1&&i===step)t.classList.add('done')});
+    const items=$$('.ts'),last=items[step],first=items[0];$('#fill').style.height=(last.offsetTop-first.offsetTop)+'px';
+    const left=Math.max(0,Math.round(total*(1-step/(S.length-1))));$('#eta').textContent=left;if(!left)$('#etaL').textContent='— смачного!'}
+  tick();setInterval(tick,1000);
+}
+boot();
+</script>
+</body>
+</html>

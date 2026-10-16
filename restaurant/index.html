@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Luce — тратторія та коктейль-бар</title>
+<meta name="description" content="Піца з дров'яної печі, свіжа паста, десерти й коктейлі. Замовлення онлайн і бронювання столів.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center;min-height:100vh;padding:120px 0 60px}
+.hero .h1 em{display:block}
+.hero .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.hero .meta{display:flex;gap:30px;margin-top:46px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap}
+.hero .meta b{font-family:var(--serif);font-size:34px;font-weight:500;display:block}
+.hero .meta span{font-size:13px;color:var(--muted)}
+.coll{position:relative;aspect-ratio:.95;width:100%}
+.coll .ph{position:absolute;box-shadow:0 30px 60px -20px rgba(27,23,18,.35)}
+.coll .a{left:12%;top:0;width:62%;height:72%;border-radius:300px 300px 24px 24px}
+.coll .b{right:0;bottom:4%;width:42%;aspect-ratio:1;border-radius:50%;border:8px solid var(--paper)}
+.coll .c{left:0;bottom:0;width:36%;aspect-ratio:.8;border-radius:22px;border:8px solid var(--paper)}
+.seal{position:absolute;right:6%;top:4%;width:130px;height:130px;animation:spin 22s linear infinite;z-index:2}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cats{display:grid;grid-template-columns:repeat(8,1fr);gap:16px}
+.cat{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform .4s var(--ease)}
+.cat .ph{width:100%;aspect-ratio:1;border-radius:50%;transition:transform .5s var(--ease)}
+.cat:hover .ph{transform:scale(1.06) rotate(-4deg)}
+.cat b{font-family:var(--serif);font-size:20px;font-weight:500;font-style:italic}
+.sig{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.sg{position:relative;cursor:pointer}
+.sg .ph{aspect-ratio:.8;border-radius:200px 200px 22px 22px}
+.sg:hover img{transform:scale(1.05)}
+.sg .no{font-family:var(--serif);font-style:italic;color:var(--terra);font-size:20px;margin-top:18px;display:block}
+.sg h3{font-family:var(--serif);font-size:34px;font-weight:500;line-height:1.05;margin:4px 0 8px}
+.sg .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.chef{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.chef .pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chef .pair .ph{aspect-ratio:.75;border-radius:22px}
+.chef .pair .ph:last-child{transform:translateY(60px)}
+.chef q{font-family:var(--serif);font-style:italic;font-size:clamp(26px,2.8vw,38px);line-height:1.25;quotes:none;display:block;margin:24px 0}
+.bar{background:var(--green);color:var(--paper);border-radius:40px;margin:0 12px;padding:clamp(40px,7vw,100px) 0;overflow:hidden;position:relative}
+.bar .lead{color:rgba(244,239,230,.75)}
+.bar .kick{color:var(--gold)}
+.bar .h2 em{color:var(--gold)}
+.bar .row{display:flex;gap:18px;overflow-x:auto;scrollbar-width:none;padding:40px max(20px,calc((100vw - 1300px)/2 + 20px)) 6px}
+.bar .row::-webkit-scrollbar{display:none}
+.ck{flex:0 0 min(280px,72vw);cursor:pointer}
+.ck .ph{aspect-ratio:.72;border-radius:160px 160px 20px 20px}
+.ck:hover img{transform:scale(1.06)}
+.ck h3{font-family:var(--serif);font-size:28px;font-weight:500;margin-top:16px}
+.ck span{color:rgba(244,239,230,.7);font-size:14px}
+.book{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.book .ph{border-radius:30px;min-height:560px}
+.bf{background:var(--card);border-radius:30px;padding:clamp(28px,4vw,48px);display:flex;flex-direction:column;gap:12px}
+.bf .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bf label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;display:grid;gap:6px}
+.ok{display:none;text-align:center;padding:30px 10px}
+.ok.show{display:block}
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.rev{border-top:1px solid var(--ink);padding-top:24px}
+.rev q{font-family:var(--serif);font-size:24px;line-height:1.35;quotes:none;display:block;font-style:italic}
+.rev span{display:block;margin-top:16px;color:var(--muted);font-size:14px}
+@media(max-width:1000px){.hero,.chef,.book{grid-template-columns:1fr}.hero{min-height:auto;padding-top:110px}.coll{max-width:520px;margin:0 auto}.cats{grid-template-columns:repeat(4,1fr)}.sig{grid-template-columns:1fr 1fr}.book .ph{min-height:300px}.revs{grid-template-columns:1fr}.chef .pair .ph:last-child{transform:translateY(30px)}}
+@media(max-width:600px){.sig{grid-template-columns:1fr}.cat b{font-size:15px}.cats{gap:10px}.bf .two{grid-template-columns:1fr}.seal{width:96px;height:96px}}
+</style>
+</head>
+<body data-page="index.html">
+<main>
+  <div class="wrap hero">
+    <div>
+      <div class="kick rv">Trattoria · Cocktail bar · Київ</div>
+      <h1 class="h1 rv">Ла дольче віта <em>щодня</em></h1>
+      <p class="lead rv" style="margin-top:22px">Піца з дров'яної печі при 450°, паста, яку ми катаємо вранці, тірамісу за бабусиним рецептом і коктейлі до пізньої ночі. Замовляйте додому або приходьте в гості.</p>
+      <div class="row rv"><a href="menu.html" class="btn g">Відкрити меню</a><a href="#book" class="btn o">Забронювати стіл</a></div>
+      <div class="meta rv"><div><b>450°</b><span>у дров'яній печі</span></div><div><b>90 сек</b><span>печеться піца</span></div><div><b>40 хв</b><span>доставка по центру</span></div></div>
+    </div>
+    <div class="coll rv">
+      <div class="ph a" data-img="1574071318508-1cdbab80d002"></div>
+      <div class="ph c" data-img="1556761223-4c4282c73f77"></div>
+      <div class="ph b" data-img="1500217052183-bc01eee1a74e"></div>
+      <svg class="seal" viewBox="0 0 130 130" aria-hidden="true"><defs><path id="cc" d="M65,65 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs><circle cx="65" cy="65" r="64" fill="#c8553d"/><text font-size="10.5" letter-spacing="3.6" fill="#f4efe6" font-family="Inter Tight" font-weight="600"><textPath href="#cc">FORNO A LEGNA · ДРОВ'ЯНА ПІЧ · 450° ·</textPath></text><text x="65" y="74" text-anchor="middle" font-family="Playfair Display" font-style="italic" font-size="26" fill="#f4efe6">L</text></svg>
+    </div>
+  </div>
+
+  <section style="padding-top:20px"><div class="wrap">
+    <div class="shead"><div><div class="kick rv">Меню</div><h2 class="h2 rv">Чого <em>хочеться</em> сьогодні?</h2></div><a href="menu.html" class="btn o rv">Усе меню →</a></div>
+    <div class="cats rv" id="cats"></div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <div class="shead"><div><div class="kick rv">Шеф радить</div><h2 class="h2 rv">Три страви, заради яких <em>повертаються</em></h2></div></div>
+    <div class="sig" id="sig"></div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap chef">
+    <div class="pair rv"><div class="ph" data-img="1577219491135-ce391730fb2c"></div><div class="ph" data-img="1572715376701-98568319fd0b"></div></div>
+    <div>
+      <div class="kick rv">Кухня</div>
+      <h2 class="h2 rv">Прості продукти. <em>Багато любові.</em></h2>
+      <q class="rv">Хороша італійська кухня — це три інгредієнти, але найкращі. Решту робить вогонь і терпіння.</q>
+      <p class="lead rv">— Марко Россі, шеф Luce. Борошно з Неаполя, томати Сан-Марцано, моцарела, яку роблять за 20 км від Києва.</p>
+    </div>
+  </div></section>
+
+  <section style="padding:0"><div class="bar">
+    <div class="wrap shead" style="margin-bottom:0"><div><div class="kick rv">Коктейль-бар</div><h2 class="h2 rv">Після заходу сонця — <em>аперитиво</em></h2></div><div style="display:flex;gap:10px;flex-wrap:wrap"><p class="lead rv" style="max-width:360px">Щодня з 18:00 до 20:00 — другий коктейль за пів ціни.</p><a href="bar.html" class="btn t rv">Підібрати коктейль</a></div></div>
+    <div class="row" id="cks"></div>
+  </div></section>
+
+  <section id="book" style="scroll-margin-top:80px"><div class="wrap book">
+    <div class="ph rv" data-img="1517248135467-4c7edcad34c4"></div>
+    <div class="bf rv">
+      <div class="kick">Бронювання</div>
+      <h2 class="h2" style="font-size:clamp(36px,4vw,58px)">Ваш <em>столик</em> чекає</h2>
+      <form id="bform" style="display:grid;gap:12px;margin-top:10px">
+        <div class="two"><label>Дата<input class="inp" type="date" id="bDate" required></label><label>Час<select class="inp" id="bTime"><option>13:00</option><option>15:00</option><option>18:00</option><option selected>19:30</option><option>21:00</option><option>22:00</option></select></label></div>
+        <div class="two"><label>Гостей<select class="inp" id="bGuests"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7–10</option><option>Банкет 10+</option></select></label><label>Зона<select class="inp" id="bZone"><option>Зал з піччю</option><option>Тераса</option><option>Барна стійка</option></select></label></div>
+        <div class="two"><label>Ім'я<input class="inp" id="bName" required placeholder="Ваше ім'я"></label><label>Телефон<input class="inp" id="bPhone" required type="tel" placeholder="+380 __ ___ __ __"></label></div>
+        <button class="btn g" style="margin-top:8px">Забронювати</button>
+      </form>
+      <div class="ok" id="bok"><div style="font-family:var(--serif);font-style:italic;font-size:54px;color:var(--terra)">Grazie!</div><p class="lead" style="margin:10px auto 0" id="bokT"></p></div>
+    </div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <div class="shead"><div><div class="kick rv">Гості пишуть</div><h2 class="h2 rv">Як у <em>Неаполі</em></h2></div></div>
+    <div class="revs">
+      <div class="rev rv"><q>Найкраща маргарита в місті — тонка, з підпаленими бортиками, як в Італії.</q><span>Ірина · Google Maps · ★★★★★</span></div>
+      <div class="rev rv"><q>Замовляли додому: піца приїхала гарячою, а тірамісу — це окрема любов.</q><span>Денис · ★★★★★</span></div>
+      <div class="rev rv"><q>Negroni і Espresso Martini на рівні найкращих барів Києва.</q><span>Аліна · Instagram · ★★★★★</span></div>
+    </div>
+  </div></section>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const CIMG={pizza:'1613564834361-9436948817d1',pasta:'1611270629569-8b357cb88da9',mains:'1476124369491-e7addf5db371',desserts:'1571877227200-a0d98ea607e9',cocktails:'1626688445658-c948f32d68ba',soft:'1623084921164-4a8c5c37a912',wine:'1510812431401-41d2bd2722f3',coffee:'1485808191679-5f86510681a2'};
+$('#cats').innerHTML=CATS.map(([k,v])=>`<a class="cat" href="menu.html#${k}">${ph(CIMG[k],v)}<b>${v.replace(' й салати','')}</b></a>`).join('');
+$('#sig').innerHTML=['truffle','carbonara','tiramisu'].map((id,i)=>{const m=byId(id);return `<div class="sg rv" data-open="${id}">${ph(m.img,m.n)}<span class="no">№ ${i+1}</span><h3>${m.n}</h3><div class="row"><p class="lead" style="font-size:15px">${m.d}</p><span class="price">${m.p}<small>₴</small></span></div></div>`}).join('');
+$('#cks').innerHTML=MENU.filter(m=>m.c==='cocktails').map(m=>`<div class="ck" data-open="${m.id}">${ph(m.img,m.n)}<h3>${m.n}</h3><span>${m.d} · ${m.p} ₴</span></div>`).join('');
+$('#bDate').min=$('#bDate').value=new Date().toISOString().slice(0,10);
+$('#bform').onsubmit=e=>{e.preventDefault();$('#bokT').textContent=`Чекаємо вас ${new Date($('#bDate').value).toLocaleDateString('uk-UA',{day:'numeric',month:'long'})} о ${$('#bTime').value}, ${$('#bZone').value.toLowerCase()}. Підтвердимо дзвінком.`;e.target.style.display='none';$('#bok').classList.add('show')};
+boot();
+if(location.hash==='#book')setTimeout(()=>scrollToEl($('#book'),-80),150);
+</script>
+</body>
+</html>
