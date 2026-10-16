@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Майстри — Бритва</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.mh{padding:160px 0 30px}
+.prof{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center;padding:70px 0;border-bottom:1px solid var(--line);scroll-margin-top:90px}
+.prof:nth-child(even){grid-template-columns:1.1fr .9fr}
+.prof:nth-child(even) .pp{order:2}
+.pp{position:relative}
+.pp .ph{aspect-ratio:.85;border-radius:var(--r)}
+.pp .no{position:absolute;right:-14px;bottom:-24px;font-family:var(--disp);font-size:clamp(90px,11vw,160px);line-height:.8;color:transparent;-webkit-text-stroke:1px var(--brass)}
+.lvl{display:inline-block;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#111;background:var(--brass);padding:7px 12px;border-radius:var(--r);margin-bottom:16px}
+.prof h2{font-family:var(--disp);font-size:clamp(56px,7vw,110px);text-transform:uppercase;line-height:.9;font-weight:400}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid var(--line);margin:28px 0}
+.facts div{padding:18px 0}
+.facts b{font-family:var(--disp);font-size:34px;color:var(--brass);display:block;line-height:1}
+.facts span{font-size:13px;color:var(--muted)}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0}
+.mini .ph{aspect-ratio:1;border-radius:var(--r)}
+@media(max-width:900px){.prof,.prof:nth-child(even){grid-template-columns:1fr;gap:40px}.prof:nth-child(even) .pp{order:0}.mh{padding-top:130px}.pp .no{right:8px}}
+</style>
+</head>
+<body data-page="masters.html">
+<main>
+  <div class="wrap mh"><div class="kick">Команда</div><h1 class="h1">Майстри</h1><p class="lead" style="margin-top:20px">Кожен проходить внутрішню школу «Бритви» й щороку навчається на чемпіонатах і майстер-класах у Європі.</p></div>
+  <div class="wrap" id="list"></div>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const BIO={artem:'Засновник «Бритви». Навчався в Лондоні та Амстердамі, судить барберські чемпіонати. Найкраще почувається з класичними стрижками й небезпечною бритвою.',denys:'Майстер чистих переходів. Fade у Дениса — як за лінійкою, а текстурні стрижки тримають форму тижнями.',ihor:'Знає все про бороди: форма під тип обличчя, догляд, гоління. Окремо любить працювати з кучерявим волоссям.',max:'Наймолодший у команді, але вже з армією постійних клієнтів. Сучасні стрижки, дизайни й візерунки машинкою.'};
+const GEN={artem:'Артема',denys:'Дениса',ihor:'Ігоря',max:'Макса'};
+const STAT={artem:['4,98','3 400'],denys:['4,95','2 100'],ihor:['4,93','1 800'],max:['4,9','900']};
+$('#list').innerHTML=MASTERS.map((m,i)=>{const w=WORKS.slice((i*2)%6,(i*2)%6+3);return `<article class="prof" id="${m[0]}">
+  <div class="pp rv">${ph(m[5],m[1],'bw')}<span class="no">0${i+1}</span></div>
+  <div class="rv"><span class="lvl">${m[2]}</span><h2>${m[1]}</h2><p class="lead" style="margin-top:20px">${BIO[m[0]]}</p>
+    <div class="facts"><div><b>${m[4]}</b><span>досвіду</span></div><div><b>${STAT[m[0]][0]}</b><span>рейтинг</span></div><div><b>${STAT[m[0]][1]}</b><span>стрижок</span></div></div>
+    <div style="font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--brass)">Спеціалізація: ${m[6]}</div>
+    <div class="mini">${w.map(id=>ph(id,'Робота '+m[1],'bw')).join('')}</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center"><a href="booking.html?m=${m[0]}" class="btn b">Записатися до ${GEN[m[0]]}</a><span class="lead" style="font-size:14px">Стрижка від ${priceFor(svc('cut'),m)} ₴</span></div>
+  </div></article>`}).join('');
+boot();
+if(location.hash){const t=$(location.hash);if(t)setTimeout(()=>scrollToEl(t,-90),150)}
+</script>
+</body>
+</html>

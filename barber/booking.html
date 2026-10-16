@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Онлайн-запис — Бритва</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Forum&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.bk{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;padding-top:140px;align-items:start}
+.bk>*{min-width:0}
+.steps{display:flex;gap:0;margin-bottom:34px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.steps button{flex:1;padding:14px 8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--muted);border-right:1px solid var(--line);text-align:left;display:flex;gap:10px;align-items:center}
+.steps button:last-child{border:0}
+.steps button i{font-style:normal;font-family:var(--disp);font-size:22px;letter-spacing:0}
+.steps button.on{background:var(--brass);color:#111}
+.steps button.done{color:var(--bone)}
+.st{display:none}
+.st.on{display:block;animation:fin .5s var(--ease)}
+@keyframes fin{from{opacity:0;transform:translateX(24px)}}
+.st h2{font-family:var(--disp);font-size:clamp(36px,4vw,56px);text-transform:uppercase;font-weight:400;margin-bottom:24px}
+.sl{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.si{display:flex;gap:14px;align-items:center;text-align:left;border:1px solid var(--line);border-radius:var(--r);padding:12px;transition:all .25s}
+.si .ph{width:70px;height:70px;border-radius:var(--r);flex:none}
+.si b{display:block;font-weight:500;font-size:16px}
+.si span{font-size:13px;color:var(--muted)}
+.si.on{border-color:var(--brass);background:rgba(201,162,107,.08)}
+.si:hover{border-color:rgba(201,162,107,.5)}
+.ml{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.mi{text-align:left;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:all .25s}
+.mi .ph{aspect-ratio:.9}
+.mi div{padding:12px}
+.mi b{display:block;font-family:var(--disp);font-size:24px;text-transform:uppercase;font-weight:400}
+.mi span{font-size:12px;color:var(--muted)}
+.mi.on{border-color:var(--brass)}
+.mi.any .ph{display:grid;place-items:center;font-family:var(--disp);font-size:56px;color:var(--brass);background:var(--card)}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.dy{flex:none;width:74px;padding:14px 0;border:1px solid var(--line);border-radius:var(--r);text-align:center;transition:all .25s}
+.dy small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.dy b{font-family:var(--disp);font-size:30px;font-weight:400}
+.dy.on{background:var(--brass);color:#111;border-color:var(--brass)}.dy.on small{color:#111}
+.slots{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:20px}
+.sl2{padding:13px 0;border:1px solid var(--line);border-radius:var(--r);font-weight:600;font-size:14px;transition:all .2s}
+.sl2.on{background:var(--bone);color:#111;border-color:var(--bone)}
+.sl2:disabled{opacity:.25;text-decoration:line-through;cursor:not-allowed}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nav2{display:flex;justify-content:space-between;margin-top:34px;gap:10px}
+.side{position:sticky;top:110px;border:1px solid var(--line);border-radius:var(--r);padding:30px;background:var(--bg2)}
+.side h3{font-family:var(--disp);text-transform:uppercase;font-size:30px;font-weight:400;margin-bottom:14px}
+.side .r{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.side .r span{color:var(--muted)}
+.side .tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px}
+.side .tot b{font-family:var(--disp);font-size:46px;color:var(--brass);font-weight:400}
+.ok{text-align:center;padding:30px 0}
+.ok .big{font-family:var(--disp);font-size:clamp(70px,9vw,120px);line-height:.85;text-transform:uppercase;color:var(--brass)}
+@media(max-width:1000px){.bk{grid-template-columns:1fr;padding-top:120px}.side{position:static}.ml{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.sl,.two{grid-template-columns:1fr}.ml{grid-template-columns:1fr 1fr}.slots{grid-template-columns:repeat(4,1fr)}.steps button span{display:none}}
+</style>
+</head>
+<body data-page="booking.html">
+<main><div class="wrap bk">
+  <div>
+    <div class="kick">Онлайн-запис</div>
+    <div class="steps" id="steps"><button data-s="0" class="on"><i>1</i><span>Послуга</span></button><button data-s="1"><i>2</i><span>Майстер</span></button><button data-s="2"><i>3</i><span>Час</span></button><button data-s="3"><i>4</i><span>Контакти</span></button></div>
+    <div class="st on" data-s="0"><h2>Що робимо?</h2><div class="sl" id="sList"></div></div>
+    <div class="st" data-s="1"><h2>До кого?</h2><div class="ml" id="mList"></div></div>
+    <div class="st" data-s="2"><h2>Коли зручно?</h2><div class="days" id="days"></div><div class="slots" id="slots"></div><p class="lead" style="font-size:14px;margin-top:14px" id="slotNote"></p></div>
+    <div class="st" data-s="3"><h2>Як з вами зв'язатися?</h2>
+      <form id="cf" style="display:grid;gap:10px"><div class="two"><input class="inp" id="cName" required placeholder="Ім'я" aria-label="Ім'я"><input class="inp" id="cPhone" required type="tel" placeholder="+380 __ ___ __ __" aria-label="Телефон"></div>
+        <div class="two"><input class="inp" id="promo" placeholder="Промокод (FIRSTCUT −20%)" aria-label="Промокод"><select class="inp" id="drink" aria-label="Напій"><option>Кава</option><option>Чай</option><option>Віскі</option><option>Нічого, дякую</option></select></div>
+        <textarea class="inp" id="cNote" rows="2" placeholder="Побажання майстру (необов'язково)" aria-label="Побажання"></textarea></form>
+    </div>
+    <div class="st" data-s="4"><div class="ok"><div class="kick" style="justify-content:center">Підтверджено</div><div class="big">До зустрічі</div><p class="lead" style="margin:20px auto" id="okT"></p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><a class="btn b" id="ics" download="britva.ics">Додати в календар</a><a href="index.html" class="btn o">На головну</a></div></div></div>
+    <div class="nav2" id="nav2"><button class="btn o" id="back">← Назад</button><button class="btn b" id="next">Далі →</button></div>
+  </div>
+  <aside class="side" id="side"><h3>Ваш запис</h3><div id="sum"></div><div class="tot"><span style="color:var(--muted)">До сплати</span><b id="tot">—</b></div><p style="font-size:13px;color:var(--muted);margin-top:14px">Оплата в барбершопі після стрижки. Безкоштовне скасування за 3 години.</p></aside>
+</div></main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const p=new URLSearchParams(location.search);
+const st={s:svc(p.get('s'))?p.get('s'):null,m:mst(p.get('m'))?p.get('m'):null,d:0,t:null,step:0,promo:0};
+const DN=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],MN=['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
+const days=[...Array(14)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()+i);return d});
+$('#sList').innerHTML=SERVICES.map(s=>`<button class="si" data-id="${s[0]}">${ph(s[5],s[1])}<div><b>${s[1]}</b><span>${s[3]} хв · від ${s[4]} ₴</span></div></button>`).join('');
+$('#mList').innerHTML=`<button class="mi any" data-id="any"><div class="ph">?</div><div><b>Будь-хто</b><span>найближчий час</span></div></button>`+MASTERS.map(m=>`<button class="mi" data-id="${m[0]}">${ph(m[5],m[1],'bw')}<div><b>${m[1]}</b><span>${m[2]}</span></div></button>`).join('');
+$('#days').innerHTML=days.map((d,i)=>`<button class="dy ${i?'':'on'}" data-i="${i}"><small>${i?DN[d.getDay()]:'Сьог.'}</small><b>${d.getDate()}</b><small>${MN[d.getMonth()]}</small></button>`).join('');
+const mObj=()=>st.m&&st.m!=='any'?mst(st.m):null;
+function slots(){const s=svc(st.s),dur=s?s[3]:60,now=new Date();const out=[];
+  for(let h=9;h<21;h++)for(const mm of[0,30]){const end=h*60+mm+dur;if(end>21*60)continue;const t=`${String(h).padStart(2,'0')}:${mm?'30':'00'}`;const past=st.d===0&&h*60+mm<=now.getHours()*60+now.getMinutes()+30;const seed=(h*7+mm+st.d*5+(st.m||'x').length*3)%5;out.push([t,past||seed===0])}
+  $('#slots').innerHTML=out.map(([t,b])=>`<button class="sl2 ${st.t===t?'on':''}" data-t="${t}" ${b?'disabled':''}>${t}</button>`).join('');
+  const free=out.filter(x=>!x[1]).length;$('#slotNote').textContent=free?`Вільно ${free} слотів. Тривалість: ${dur} хв.`:'На цей день вільних місць немає — оберіть інший.'}
+function sum(){const s=svc(st.s),m=mObj(),d=days[st.d];
+  $('#sum').innerHTML=[['Послуга',s?s[1]:'—'],['Майстер',st.m==='any'?'Будь-хто':m?m[1]:'—'],['Дата',st.t?`${d.getDate()} ${MN[d.getMonth()]}, ${st.t}`:'—'],['Тривалість',s?s[3]+' хв':'—']].map(r=>`<div class="r"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')+(st.promo?`<div class="r"><span>Промокод</span><b style="color:var(--brass)">−20%</b></div>`:'');
+  $('#tot').textContent=s?Math.round(priceFor(s,m)*(1-st.promo)/10)*10+' ₴':'—';
+  $$('.si').forEach(b=>b.classList.toggle('on',b.dataset.id===st.s));$$('.mi').forEach(b=>b.classList.toggle('on',b.dataset.id===st.m))}
+function go(n){st.step=n;$$('.st').forEach(x=>x.classList.toggle('on',+x.dataset.s===n));$$('#steps button').forEach((b,i)=>{b.classList.toggle('on',i===n);b.classList.toggle('done',i<n)});
+  $('#nav2').style.display=n===4?'none':'flex';$('#back').style.visibility=n?'visible':'hidden';$('#next').textContent=n===3?'Підтвердити запис':'Далі →';if(n===2)slots();if(n===4){$('#side').style.display='none';$('#steps').style.display='none'}scrollToEl($('main'),-200)}
+$('#sList').onclick=e=>{const b=e.target.closest('.si');if(!b)return;st.s=b.dataset.id;st.t=null;sum();setTimeout(()=>go(1),250)};
+$('#mList').onclick=e=>{const b=e.target.closest('.mi');if(!b)return;st.m=b.dataset.id;st.t=null;sum();setTimeout(()=>go(2),250)};
+$('#days').onclick=e=>{const b=e.target.closest('.dy');if(!b)return;st.d=+b.dataset.i;st.t=null;$$('.dy').forEach(x=>x.classList.toggle('on',x===b));slots();sum()};
+$('#slots').onclick=e=>{const b=e.target.closest('.sl2');if(!b||b.disabled)return;st.t=b.dataset.t;$$('.sl2').forEach(x=>x.classList.toggle('on',x===b));sum()};
+$('#steps').onclick=e=>{const b=e.target.closest('button');if(!b)return;const n=+b.dataset.s;if(n<=st.step||(n===1&&st.s)||(n===2&&st.s&&st.m)||(n===3&&st.s&&st.m&&st.t))go(n)};
+$('#promo').oninput=e=>{st.promo=e.target.value.trim().toUpperCase()==='FIRSTCUT'?.2:0;sum()};
+$('#back').onclick=()=>go(Math.max(0,st.step-1));
+$('#next').onclick=()=>{const need=[!st.s&&'Оберіть послугу',!st.m&&'Оберіть майстра',!st.t&&'Оберіть час'][st.step];
+  if(st.step<3){if(need)return toast(need);return go(st.step+1)}
+  const f=$('#cf');if(!f.reportValidity())return;
+  const s=svc(st.s),m=mObj()||MASTERS[1],d=new Date(days[st.d]);const [h,mi]=st.t.split(':');d.setHours(+h,+mi,0,0);const e=new Date(d.getTime()+s[3]*6e4);
+  const GEN={artem:'Артема',denys:'Дениса',ihor:'Ігоря',max:'Макса'};const who=st.m==='any'?'вільного майстра':GEN[st.m];
+  $('#okT').innerHTML=`${s[1]} у <b style="color:var(--bone)">${who}</b>, ${days[st.d].getDate()} ${MN[days[st.d].getMonth()]} о ${st.t}.<br>${SHOP.address}. Нагадаємо SMS за 2 години.`;
+  const z=x=>x.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Britva//UA','BEGIN:VEVENT',`UID:${Date.now()}@britva`,`DTSTAMP:${z(new Date())}`,`DTSTART:${z(d)}`,`DTEND:${z(e)}`,`SUMMARY:Бритва — ${s[1]}`,`LOCATION:${SHOP.address}`,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  $('#ics').href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));
+  f.reset();go(4)};
+boot();sum();slots();if(st.s&&st.m)go(2);else if(st.s)go(1);
+</script>
+</body>
+</html>
