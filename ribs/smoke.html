@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Як ми коптимо — ДИМ Smokehouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Golos+Text:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.shero{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:end;padding:150px 0 60px}
+.shero .ph{border-radius:30px;aspect-ratio:.9}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stats div{border-top:2px solid var(--ember);padding-top:18px}
+.stats b{font-family:var(--disp);font-size:clamp(50px,6vw,84px);line-height:1;display:block}
+.stats span{color:var(--muted);font-size:14px}
+.tl{position:relative;display:grid;gap:0;margin-top:30px}
+.tl::before{content:"";position:absolute;left:118px;top:0;bottom:0;width:2px;background:linear-gradient(var(--ember),var(--mustard),transparent)}
+.st{display:grid;grid-template-columns:100px 40px 1fr 300px;gap:20px;align-items:center;padding:26px 0}
+.st time{font-family:var(--disp);font-size:34px;color:var(--mustard);text-align:right}
+.st .dot{width:20px;height:20px;border-radius:50%;background:var(--coal);border:3px solid var(--ember);justify-self:center;position:relative;z-index:1;box-shadow:0 0 0 6px rgba(255,90,31,.15)}
+.st h3{font-family:var(--disp);text-transform:uppercase;font-size:30px;line-height:1}
+.st p{color:var(--muted);margin-top:8px;line-height:1.6;max-width:520px}
+.st .ph{aspect-ratio:1.5;border-radius:18px}
+.woods{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.wood{background:var(--coal2);border:1px solid var(--line);border-radius:26px;overflow:hidden}
+.wood .ph{aspect-ratio:1.4}
+.wood .bd{padding:24px}
+.wood h3{font-family:var(--disp);text-transform:uppercase;font-size:34px}
+.wood p{color:var(--muted);line-height:1.6;margin:8px 0 16px}
+.meter{display:grid;gap:8px;font-size:13px;color:var(--muted)}
+.meter div{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center}
+.meter i{height:6px;border-radius:6px;background:rgba(243,233,220,.08);position:relative;overflow:hidden}
+.meter i::after{content:"";position:absolute;inset:0;width:var(--w);background:linear-gradient(90deg,var(--mustard),var(--ember));border-radius:6px}
+@media(max-width:900px){.shero{grid-template-columns:1fr;padding-top:120px}.stats{grid-template-columns:1fr 1fr;gap:26px}.st{grid-template-columns:70px 30px 1fr}.st .ph{grid-column:3}.tl::before{left:84px}.st time{font-size:26px}.woods{grid-template-columns:1fr}}
+</style>
+</head>
+<body data-page="smoke.html">
+<main>
+  <div class="wrap shero">
+    <div><div class="kick rv">Як ми коптимо</div><h1 class="h1 rv" style="font-size:clamp(60px,9vw,140px)">Повільно. <span class="hot">Дуже.</span></h1><p class="lead rv" style="margin-top:22px">Справжній барбекю — це не гриль. Це низька температура, години терпіння і правильні дрова. Ось як виглядає один день нашої коптильні.</p></div>
+    <div class="ph rv" data-img="1605494708467-59cc8ebbe337"></div>
+  </div>
+  <div class="wrap"><div class="stats">
+    <div class="rv"><b>110°</b><span>температура в коптильні</span></div>
+    <div class="rv"><b class="hot">12</b><span>годин коптиться брискет</span></div>
+    <div class="rv"><b>3 т</b><span>дров на місяць</span></div>
+    <div class="rv"><b class="mus">0</b><span>рідкого диму та ароматизаторів</span></div>
+  </div></div>
+
+  <section><div class="wrap">
+    <div class="kick rv">Один день коптильні</div><h2 class="h2 rv">Від світанку <span class="hot">до вечері</span></h2>
+    <div class="tl" id="tl"></div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <div class="shead"><div><div class="kick rv">Дрова</div><h2 class="h2 rv">Кожне м'ясо — <span class="hot">своє дерево</span></h2></div></div>
+    <div class="woods">
+      <div class="wood rv"><div class="ph" data-img="1526213174737-acd9757c6bf3"></div><div class="bd"><h3>Вишня</h3><p>Солодкуватий фруктовий дим і красивий червоний колір. Для ребер і курки.</p><div class="meter"><div>Інтенсивність<i style="--w:45%"></i></div><div>Солодкість<i style="--w:85%"></i></div></div></div></div>
+      <div class="wood rv"><div class="ph" data-img="1543005472-1b1d37fa4eae"></div><div class="bd"><h3>Дуб</h3><p>Класика Техасу. Рівний, глибокий дим для брискету та яловичих ребер.</p><div class="meter"><div>Інтенсивність<i style="--w:75%"></i></div><div>Солодкість<i style="--w:35%"></i></div></div></div></div>
+      <div class="wood rv"><div class="ph" data-img="1517594422361-5eeb8ae275a9"></div><div class="bd"><h3>Бук</h3><p>М'який і делікатний. Для домашніх ковбасок, сиру та риби.</p><div class="meter"><div>Інтенсивність<i style="--w:35%"></i></div><div>Солодкість<i style="--w:55%"></i></div></div></div></div>
+    </div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap" style="text-align:center">
+    <span class="hand" style="font-size:44px">Досить читати —</span>
+    <h2 class="h2 rv" style="margin:10px 0 30px">час <span class="hot">їсти</span></h2>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a href="menu.html" class="btn fire">До меню</a><a href="booking.html" class="btn line">Забронювати стіл</a></div>
+  </div></section>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const T=[
+ ['06:00','Розпалюємо','Запалюємо дубові поліна та чекаємо, поки дим стане тонким і блакитним. Білий густий дим — гіркий, ми такий не використовуємо.','1505405241694-58823de133e1'],
+ ['06:30','Брискет у камері','Яловичу грудинку натираємо сіллю й чорним перцем 50/50 і кладемо на 12 годин при 110°.','1529692236671-f1f6cf9683ba'],
+ ['09:00','Ребра на вишні','Свинячі ребра після ночі в маринаді йдуть у коптильню. Кожну годину — спрей з яблучного оцту.','1529193591184-b1d58069ecdd'],
+ ['12:00','Перша партія','Знімаємо ребра, глазуруємо соусом і даємо 10 хвилин на відкритому вогні для кірочки.','1544025162-d76694265947'],
+ ['15:00','Техаська «милиця»','Брискет загортаємо в крафт-папір, щоб зберегти сік і пройти «плато» температури.','1614231555937-aaf95bb2a383'],
+ ['18:30','Брискет готовий','Відпочиває годину, потім ріжемо поперек волокон. Рожеве кільце диму — знак якості.','1697384874178-3f2afa6bed7b'],
+];
+$('#tl').innerHTML=T.map(t=>`<div class="st rv"><time>${t[0]}</time><span class="dot"></span><div><h3>${t[1]}</h3><p>${t[2]}</p></div>${ph(t[3],t[1])}</div>`).join('');
+boot();
+</script>
+</body>
+</html>

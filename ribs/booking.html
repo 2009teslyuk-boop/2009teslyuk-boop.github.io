@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Бронювання — ДИМ Smokehouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Golos+Text:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.bk{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;padding-top:140px;align-items:start}
+.bk>*,.panel{min-width:0}
+.panel{background:var(--coal2);border:1px solid var(--line);border-radius:30px;padding:clamp(24px,3.6vw,44px)}
+.lbl{font-family:var(--disp);text-transform:uppercase;letter-spacing:.1em;font-size:15px;color:var(--muted);margin:26px 0 12px;display:flex;justify-content:space-between}
+.lbl:first-of-type{margin-top:0}
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.zone{border-radius:18px;overflow:hidden;border:2px solid transparent;transition:border .25s;text-align:left;background:rgba(243,233,220,.04)}
+.zone .ph{aspect-ratio:1.2}
+.zone b{display:block;padding:10px 12px 2px;font-family:var(--disp);text-transform:uppercase;font-size:17px}
+.zone span{display:block;padding:0 12px 12px;font-size:12px;color:var(--muted)}
+.zone.on{border-color:var(--ember)}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day{flex:none;width:72px;padding:12px 0;border-radius:16px;background:rgba(243,233,220,.05);text-align:center;transition:all .25s}
+.day small{display:block;font-size:12px;color:var(--muted)}
+.day b{font-family:var(--disp);font-size:26px}
+.day.on{background:var(--ember);color:var(--coal)}.day.on small{color:var(--coal)}
+.times{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.tm{padding:12px 0;border-radius:12px;background:rgba(243,233,220,.05);font-weight:600;font-size:14px;transition:all .25s}
+.tm.on{background:var(--cream);color:var(--coal)}
+.tm:disabled{opacity:.3;text-decoration:line-through;cursor:not-allowed}
+.ctr{display:flex;align-items:center;gap:16px}
+.ctr button{width:46px;height:46px;border-radius:50%;background:rgba(243,233,220,.08);font-size:22px}
+.ctr b{font-family:var(--disp);font-size:40px;min-width:50px;text-align:center}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.side{position:sticky;top:100px;display:grid;gap:20px}
+.sum .ph{aspect-ratio:1.6;border-radius:20px;margin-bottom:18px}
+.sum .r{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.sum .r span{color:var(--muted)}
+.info .r{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.info .r:last-child{border:0}
+.info small{display:block;color:var(--muted);font-size:13px}
+.pk{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pkc{background:var(--coal2);border:1px solid var(--line);border-radius:26px;overflow:hidden;display:flex;flex-direction:column}
+.pkc .ph{aspect-ratio:1.5}
+.pkc .bd{padding:24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pkc h3{font-family:var(--disp);text-transform:uppercase;font-size:32px;line-height:1}
+.pkc ul{list-style:none;color:var(--muted);display:grid;gap:6px;font-size:15px}
+.pkc li::before{content:"🔥 "}
+.pkc .ft{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:14px;gap:10px}
+.pkc.best{border-color:var(--ember);box-shadow:0 0 0 1px var(--ember)}
+@media(max-width:900px){.bk{grid-template-columns:1fr;padding-top:110px}.side{position:static}.zones{grid-template-columns:1fr 1fr}.times{grid-template-columns:repeat(4,1fr)}.pk{grid-template-columns:1fr}}
+@media(max-width:500px){.two{grid-template-columns:1fr}.times{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body data-page="booking.html">
+<main>
+  <div class="wrap bk">
+    <div class="panel rv">
+      <div class="kick">Бронювання</div>
+      <h1 class="h2" style="margin-bottom:30px">Займіть <span class="hot">стіл</span></h1>
+      <form id="bf">
+        <div class="lbl">Де сидітимете</div>
+        <div class="zones" id="zones"></div>
+        <div class="lbl">День</div>
+        <div class="days" id="days"></div>
+        <div class="lbl">Час</div>
+        <div class="times" id="times"></div>
+        <div class="lbl">Гостей</div>
+        <div class="ctr"><button type="button" id="gm" aria-label="Менше">−</button><b id="gn">2</b><button type="button" id="gp" aria-label="Більше">+</button><span class="note" id="gnote"></span></div>
+        <div class="lbl">Контакти</div>
+        <div class="two"><input class="inp" id="bName" required placeholder="Ваше ім'я" aria-label="Ім'я"><input class="inp" id="bPhone" required type="tel" placeholder="+380 __ ___ __ __" aria-label="Телефон"></div>
+        <textarea class="inp" id="bWish" rows="2" style="margin-top:10px" placeholder="Побажання: день народження, дитячий стілець…" aria-label="Побажання"></textarea>
+        <button class="btn fire" style="margin-top:20px;width:100%">Забронювати</button>
+      </form>
+    </div>
+    <div class="side">
+      <div class="panel sum rv"><div class="ph" id="zph"></div><div id="sum"></div></div>
+      <div class="panel info rv">
+        <div class="r"><span>📍</span><div><small>Адреса</small><b id="iA"></b></div></div>
+        <div class="r"><span>📞</span><div><small>Телефон</small><b id="iP" style="user-select:all"></b></div></div>
+        <div class="r"><span>🕛</span><div><small>Графік</small><b id="iH"></b></div></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="party" style="scroll-margin-top:90px"><div class="wrap">
+    <div class="shead"><div><div class="kick rv">Банкети</div><h2 class="h2 rv">Свято з <span class="hot">димком</span></h2></div><p class="lead rv">Дні народження, корпоративи, «просто п'ятниця». Закриваємо зал до 60 гостей.</p></div>
+    <div class="pk">
+      <div class="pkc rv"><div class="ph" data-img="1761712826031-6456b87bd811"></div><div class="bd"><h3>Компанія</h3><ul><li>Асорті ребер і брискету</li><li>Закуски та соуси</li><li>Від 8 гостей</li></ul><div class="ft"><span class="price">650<small>₴/ос.</small></span><a href="#bf" class="btn line sm pick" data-p="Компанія">Обрати</a></div></div></div>
+      <div class="pkc best rv"><div class="ph" data-img="1595507238835-bff863eb6edb"></div><div class="bd"><h3>Техас</h3><ul><li>Все з «Компанії»</li><li>Яловичі ребра та стейки</li><li>Пиво без обмежень 3 години</li></ul><div class="ft"><span class="price">1 150<small>₴/ос.</small></span><a href="#bf" class="btn fire sm pick" data-p="Техас">Обрати</a></div></div></div>
+      <div class="pkc rv"><div class="ph" data-img="1708388464878-5df2d66b758e"></div><div class="bd"><h3>Весь зал</h3><ul><li>Закриваємо заклад</li><li>Шоу-нарізка брискету</li><li>До 60 гостей</li></ul><div class="ft"><span class="price">від 45k<small>₴</small></span><a href="#bf" class="btn line sm pick" data-p="Весь зал">Обрати</a></div></div></div>
+    </div>
+  </div></section>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const Z=[['fire','Біля вогню','вид на коптильню','1708388464878-5df2d66b758e'],['hall','Зал','лофт, цегла, дерево','1595507238835-bff863eb6edb'],['bar','Барна стійка','крафт з крану','1567696911980-2eed69a46042'],['terrace','Тераса','з травня по жовтень','1505405241694-58823de133e1']];
+const st={z:0,d:0,t:null,g:2,pkg:null};
+$('#zones').innerHTML=Z.map((z,i)=>`<button type="button" class="zone ${i?'':'on'}" data-i="${i}">${ph(z[3],z[1])}<b>${z[1]}</b><span>${z[2]}</span></button>`).join('');
+const DN=['Нд','Пн','Вт','Ср','Чт','Пт','Сб'],MN=['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
+const days=[...Array(14)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()+i);return d});
+$('#days').innerHTML=days.map((d,i)=>`<button type="button" class="day ${i?'':'on'}" data-i="${i}"><small>${i?DN[d.getDay()]:'Сьогодні'}</small><b>${d.getDate()}</b><small>${MN[d.getMonth()]}</small></button>`).join('');
+const TIMES=['12:00','13:30','15:00','17:00','18:00','18:30','19:00','19:30','20:00','20:30','21:00','22:00'];
+function drawTimes(){const now=new Date();$('#times').innerHTML=TIMES.map((t,i)=>{const [h,m]=t.split(':');const past=st.d===0&&(+h*60+ +m)<=now.getHours()*60+now.getMinutes();const busy=(i*5+st.d*3+st.z)%7===0;return `<button type="button" class="tm ${st.t===t?'on':''}" data-t="${t}" ${past||busy?'disabled':''}>${t}</button>`}).join('')}
+function sum(){const d=days[st.d],z=Z[st.z];$('#zph').innerHTML=`<img src="${U(z[3])}" alt="" style="width:100%;height:100%;object-fit:cover" class="ld">`;
+  $('#sum').innerHTML=`<h3 class="disp" style="font-size:30px;margin-bottom:10px">Ваше бронювання</h3>`+[['Зона',z[1]],['Дата',`${d.getDate()} ${MN[d.getMonth()]}, ${st.d?DN[d.getDay()]:'сьогодні'}`],['Час',st.t||'оберіть'],['Гостей',st.g],...(st.pkg?[['Банкет',st.pkg]]:[])].map(r=>`<div class="r"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('');
+  $('#gn').textContent=st.g;$('#gnote').textContent=st.g>=8?'Для 8+ гостей радимо банкетне меню ↓':''}
+$('#zones').onclick=e=>{const b=e.target.closest('.zone');if(!b)return;st.z=+b.dataset.i;$$('.zone').forEach(x=>x.classList.toggle('on',x===b));drawTimes();sum()};
+$('#days').onclick=e=>{const b=e.target.closest('.day');if(!b)return;st.d=+b.dataset.i;st.t=null;$$('.day').forEach(x=>x.classList.toggle('on',x===b));drawTimes();sum()};
+$('#times').onclick=e=>{const b=e.target.closest('.tm');if(!b||b.disabled)return;st.t=b.dataset.t;$$('.tm').forEach(x=>x.classList.toggle('on',x===b));sum()};
+$('#gm').onclick=()=>{st.g=Math.max(1,st.g-1);sum()};$('#gp').onclick=()=>{st.g=Math.min(60,st.g+1);sum()};
+$$('.pick').forEach(a=>a.onclick=e=>{e.preventDefault();st.pkg=a.dataset.p;if(st.g<8)st.g=8;sum();toast(`Пакет «${st.pkg}» додано до бронювання`);const f=$('#bf');window.lenis?window.lenis.scrollTo(f,{offset:-120}):f.scrollIntoView({behavior:'smooth'})});
+$('#bf').onsubmit=e=>{e.preventDefault();if(!st.t)return toast('Оберіть, будь ласка, час');const d=days[st.d];$('#done h3').innerHTML=`Стіл ваш · <span class="hot">${st.t}</span>`;$('#ordTxt').textContent=`${d.getDate()} ${MN[d.getMonth()]}, ${Z[st.z][1].toLowerCase()}, ${st.g} гост. Підтвердимо дзвінком протягом 15 хвилин.`;e.target.reset();$('#done').classList.add('show')};
+$('#iA').textContent=SHOP.address;$('#iP').textContent=SHOP.phone;$('#iH').textContent=SHOP.hours;
+boot();drawTimes();sum();
+if(location.hash==='#party')setTimeout(()=>{const t=$('#party');window.lenis?window.lenis.scrollTo(t,{immediate:true}):t.scrollIntoView()},100);
+</script>
+</body>
+</html>

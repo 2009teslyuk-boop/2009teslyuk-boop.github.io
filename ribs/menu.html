@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Меню — ДИМ Smokehouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Golos+Text:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.mhero{position:relative;padding:170px 0 70px;overflow:hidden;isolation:isolate}
+.mhero .ph{position:absolute;inset:0;z-index:-2}
+.mhero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,11,9,.7),var(--coal))}
+.cats{position:sticky;top:78px;z-index:40;background:rgba(14,11,9,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.cats .wrap{display:flex;gap:8px;overflow-x:auto;padding-block:14px;scrollbar-width:none;align-items:center}
+.cats .wrap::-webkit-scrollbar{display:none}
+.cats a{flex:none;font-family:var(--disp);text-transform:uppercase;letter-spacing:.06em;font-size:16px;padding:10px 18px;border-radius:999px;background:rgba(243,233,220,.06);transition:all .25s}
+.cats a.on{background:var(--ember);color:var(--coal)}
+.cats .sp2{flex:1;min-width:10px}
+.flt{flex:none;display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);cursor:pointer;user-select:none}
+.flt input{accent-color:var(--ember);width:18px;height:18px}
+.msec{padding:70px 0 10px;scroll-margin-top:150px}
+.msec .h2{font-size:clamp(40px,5vw,72px);margin-bottom:26px;display:flex;align-items:baseline;gap:16px}
+.msec .h2 small{font-family:var(--hand);font-size:.45em;color:var(--mustard);text-transform:none}
+.sauces{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+.sauce{border:1px dashed rgba(243,233,220,.25);border-radius:18px;padding:18px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sauce b{font-family:var(--disp);text-transform:uppercase;font-size:18px;display:block}
+.sauce span{color:var(--muted);font-size:13px}
+.mbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:50;display:none;align-items:center;justify-content:space-between;gap:12px;background:var(--ember);color:var(--coal);border-radius:20px;padding:14px 18px;font-family:var(--disp);text-transform:uppercase;font-size:18px;box-shadow:0 14px 40px rgba(255,90,31,.4)}
+.mbar.show{display:flex}
+@media(max-width:900px){.sauces{grid-template-columns:1fr 1fr}.cats{top:70px}}
+</style>
+</head>
+<body data-page="menu.html">
+<main>
+  <div class="mhero"><div class="ph" data-img="1558030154-d3605e91d892"></div>
+    <div class="wrap"><div class="kick">Меню</div><h1 class="h1" style="font-size:clamp(64px,10vw,150px)">Голодний? <span class="hot">Правильно.</span></h1><p class="lead" style="margin-top:18px">Усе коптимо самі. Доставка гарячим за 45 хвилин, безкоштовно від 900 ₴.</p></div>
+  </div>
+  <nav class="cats" aria-label="Категорії меню"><div class="wrap" id="cats"></div></nav>
+  <div class="wrap" id="sections"></div>
+  <div class="wrap" style="padding-top:60px">
+    <div class="msec" style="padding-top:20px"><h2 class="h2">Соуси <small>+ 39 ₴ до будь-якої страви</small></h2>
+      <div class="sauces">
+        <div class="sauce"><div><b>Класичний BBQ</b><span>томат, патока, дим</span></div><span class="chil">—</span></div>
+        <div class="sauce"><div><b>Carolina Gold</b><span>гірчиця, мед, оцет</span></div><span class="chil">🌶</span></div>
+        <div class="sauce"><div><b>Чипотле</b><span>копчений перець</span></div><span class="chil">🌶🌶</span></div>
+        <div class="sauce"><div><b>Хабанеро</b><span>манго і вогонь</span></div><span class="chil">🌶🌶🌶</span></div>
+      </div>
+    </div>
+  </div>
+  <button class="mbar" id="mbar"><span id="mbN">0 позицій</span><span id="mbS">0 ₴ →</span></button>
+</main>
+
+<script src="assets/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+const SUB={ribs:'6 годин на вишні',smoke:'низька температура, довгий дим',burgers:'котлети з брискету',snacks:'до пива',drinks:'холодне'};
+$('#cats').innerHTML=CATS.map(([k,v])=>`<a href="#${k}" data-k="${k}">${v}</a>`).join('')+`<span class="sp2"></span><label class="flt"><input type="checkbox" id="spicy">Тільки гостре 🌶</label>`;
+function render(){const sp=$('#spicy').checked;
+  $('#sections').innerHTML=CATS.map(([k,v])=>{const l=MENU.filter(m=>m.c===k&&(!sp||m.hot));if(!l.length)return'';return `<section class="msec" id="${k}"><h2 class="h2">${v} <small>${SUB[k]}</small></h2><div class="dishes">${l.map(dishCard).join('')}</div></section>`}).join('')||`<div class="empty" style="padding:80px 0">Гострого в цій категорії немає.</div>`;
+  hydrate($('#sections'));secObs()}
+$('#spicy').onchange=render;
+let so;function secObs(){so&&so.disconnect();so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)$$('#cats a').forEach(a=>a.classList.toggle('on',a.dataset.k===e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});$$('.msec[id]').forEach(s=>so.observe(s))}
+$('#cats').addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();const t=$('#'+a.dataset.k);if(!t)return;window.lenis?window.lenis.scrollTo(t,{offset:-150}):t.scrollIntoView({behavior:'smooth'})});
+/* нижня плашка з сумою (на телефоні) */
+const upd=()=>{const n=cart.reduce((s,x)=>s+x.q,0),s=cart.reduce((a,x)=>a+byId(x.id).p*x.q,0);$('#mbN').textContent=`${n} у кошику`;$('#mbS').textContent=`${s} ₴ →`;$('#mbar').classList.toggle('show',n>0&&innerWidth<900)};
+$('#mbar').onclick=()=>openCart(true);
+document.addEventListener('click',()=>setTimeout(upd,50));
+boot();render();upd();
+if(location.hash){const t=$(location.hash);if(t)setTimeout(()=>window.lenis?window.lenis.scrollTo(t,{offset:-150,immediate:true}):t.scrollIntoView(),100)}
+</script>
+</body>
+</html>
